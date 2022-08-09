@@ -1,31 +1,36 @@
-import React from "react"
+import { useState } from "react"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import burgerIngredientsStyles from './BurgerIngredients.module.css'
 import data from "../../utils/data";
 import CardIngredient from "../CardIngredient/CardIngredient";
 
-class BurgerIngredients extends React.Component {
-    constructor(props = '') {
-        super(props);
-        this.state = {
-            one: 'one'
+const BurgerIngredients = props => {
 
+
+    const [oneTab, setOneTab] = useState(true)
+    const [twoTab, setTwoTab] = useState(false)
+    const [threeTab, setThreeTab] = useState(false)
+
+    const changeItem = (e) => {
+        if (e === "one") {
+            setOneTab(true)
+            setTwoTab(false)
+            setThreeTab(false)
         }
+        if (e === "two") {
+            setOneTab(false)
+            setTwoTab(true)
+            setThreeTab(false)
+        }
+        if (e === "three") {
+            setOneTab(false)
+            setTwoTab(false)
+            setThreeTab(true)
+        }
+
     }
 
 
-    changeItem = () => {
-        this.setState({
-    
-        })
-    }
-
-
-
-
-
-
-    render() {
 
         const newData = data.map(i => <CardIngredient key={i._id} {...i} />)
 
@@ -38,9 +43,9 @@ class BurgerIngredients extends React.Component {
                 <section className={burgerIngredientsStyles.container}>
                     <h1 className={`text text_type_main-large ${burgerIngredientsStyles.title}`}>Соберите бургер</h1>
                     <nav className={burgerIngredientsStyles.nav__container}>
-                        <a href="#bun"><Tab value="one" active={true} onClick={this.changeItem}>Булки</Tab></a>
-                        <a href="#sauce"><Tab value="two" active={false} onClick={() => {}}>Соусы</Tab></a>
-                        <a href="#main"><Tab value="three" active={false} onClick={() => {}}>Начинки</Tab></a>
+                        <a href="#bun"><Tab value="one" active={oneTab} onClick={changeItem}>Булки</Tab></a>
+                        <a href="#sauce"><Tab value="two" active={twoTab} onClick={changeItem}>Соусы</Tab></a>
+                        <a href="#main"><Tab value="three" active={threeTab} onClick={changeItem}>Начинки</Tab></a>
                     </nav>
                     <div className={burgerIngredientsStyles.ingredients}>
                         <h2 id="bun" className={`${burgerIngredientsStyles.ingredients__title} text text_type_main-medium mt-5`}>Булки</h2>
@@ -59,7 +64,6 @@ class BurgerIngredients extends React.Component {
                 </section>
             </>
         )
-    }
 }
 
 export default BurgerIngredients

@@ -1,11 +1,7 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ReactNode } from "react";
 import cardIngredientStyles from './CardIngredient.module.css'
 
-const CardIngredient = (props: {
-    price: ReactNode;
-    name: ReactNode; image: string | undefined; 
-}) => {
+const CardIngredient = (props) => {
 
     return (
         <article className={`${cardIngredientStyles.product__container}`}>

@@ -24,36 +24,23 @@
     position: relative;
 }
 
-/* .ingredients::-webkit-scrollbar-thumb {
-    width: 10px;
-    background-color: #8585AD;
-}
-
-.ingredients::-webkit-scrollbar-track {
-    background-color: #2F2F37;
-} */
-
 .ingredients {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     justify-content: space-between;
-    /* scrollbar-width: thin;
-    scrollbar-color: #2F2F37 #8585AD; */
 }
 
 .ingredients::-webkit-scrollbar {
     width: 7px;
-    /* background-color: blue; */
 }
+
 .ingredients::-webkit-scrollbar-thumb {
     background-color: #8585AD;
-
 }
 
 .ingredients::-webkit-scrollbar-track {
     background-color: #2F2F37;
-    /* background-color: red; */
 }
 
 .ingredient {

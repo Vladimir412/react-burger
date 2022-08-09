@@ -1,15 +1,14 @@
 import React from 'react';
-import logo from '../../logo.svg';
-import './App.css';
+import appStyles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader'
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients'
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
 
 function App() {
   return (
-    <div className="App">
+    <div className={appStyles.app}>
         <AppHeader />
-        <main className="main">
+        <main className={appStyles.main}>
           <BurgerIngredients />
           <BurgerConstructor />
         </main>
