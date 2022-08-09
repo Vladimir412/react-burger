@@ -1,0 +1,43 @@
+.container {
+    width: 100%;
+    height: 88px;
+    background-color: #1C1C21;
+}
+
+.navigation {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    margin: auto;
+    max-width: 1280px;
+}
+
+.list {
+    align-content: flex-start;
+    display: flex;
+    flex-flow: row nowrap;
+    list-style-type: none;
+    margin-top: 32px;
+    margin-left: 27px;
+    margin-right: 106px;
+    padding: 0;
+}
+
+.item {
+    display: flex;
+    flex-flow: row nowrap; 
+    justify-content: start;
+    width: 185px;
+}
+
+
+
+.logo__container {
+    margin-top: 20px;
+}
+
+.profile__container {
+    display: flex;
+    flex-direction: row;
+    margin-left: 308px;
+}
