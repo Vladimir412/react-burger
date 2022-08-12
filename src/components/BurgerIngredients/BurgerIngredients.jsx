@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import burgerIngredientsStyles from './BurgerIngredients.module.css'
 import CardIngredient from "../CardIngredient/CardIngredient";
-import PropTypes from 'prop-types';
+import PropTypes, { arrayOf } from 'prop-types';
 
 
 
@@ -71,10 +71,9 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-    ingredients : PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object,
-    ])
+    ingredients : PropTypes.shape({
+        data: PropTypes.arrayOf(Object),
+    })
 }
 
 export default BurgerIngredients

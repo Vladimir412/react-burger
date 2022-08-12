@@ -43,10 +43,9 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-    ingredients : PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object,
-    ])
+    ingredients : PropTypes.shape({
+        data: PropTypes.arrayOf(Object)
+    })
 }
 
 export default BurgerConstructor

@@ -7,6 +7,7 @@
     height: 208px;
     margin-left: 33px;
     transition: .3s;
+    border-radius: 5px;
 }
 
 .product__container:hover {

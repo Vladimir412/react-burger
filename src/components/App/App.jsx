@@ -14,12 +14,13 @@ const buttonEscape = 'Escape';
 
 function App() {
 
-  const [dataIngredients, setDataIngredients] = useState([])
+  const [dataIngredients, setDataIngredients] = useState({})
   const [stateModalIngredient, setStateModalIngredient] = useState(false);
   const [stateModalOrder, setStateModalOrder] = useState(false);
   const [typeModal, setTypeModal] = useState('')
   const [infoAboutCard, setInfoAboutCard] = useState(null)
 
+//получаем данные ингридиентов
   useEffect(() => {
     fetch(`${urlIngredients}`)
     .then(res => res.ok ? res.json() : Promise.reject(console.log(res)))
@@ -27,6 +28,7 @@ function App() {
     .catch(err => console.log(err))
   }, [])
 
+//закрытие попапа на кнопку Esc
   useEffect(() => {
     const closeOnEscape = (e) => {
       if (e.key === buttonEscape) {
@@ -40,19 +42,20 @@ function App() {
     }
   }, [])
 
-
+//открыитие попапа ингридиента и получение данных
   const openModalIngredient = (info) => {
     setStateModalIngredient(true)
     setInfoAboutCard(info);
     setTypeModal('ingredient')
   }
 
+//открыитие попапа c заказом
   const openModalOrder = () => {
     setStateModalOrder(true)
     setTypeModal('order')
   }
 
-
+//закрытие попапа
   const closeAllModal = () => {
     setStateModalIngredient(false)
     setStateModalOrder(false)
