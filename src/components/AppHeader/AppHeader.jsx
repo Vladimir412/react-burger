@@ -1,12 +1,10 @@
-import React from "react"
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import headerStyles from './AppHeader.module.css'
 
 
-class AppHeader extends React.Component {
+const AppHeader = () => {
 
 
-    render() {
         return (
             <header className={headerStyles.container}>
                 <nav className={headerStyles.navigation}>
@@ -30,7 +28,6 @@ class AppHeader extends React.Component {
                 </nav>
             </header>
         )
-    }
 }
 
 export default AppHeader

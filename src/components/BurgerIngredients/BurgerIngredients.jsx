@@ -1,14 +1,15 @@
 import { useState } from "react"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import burgerIngredientsStyles from './BurgerIngredients.module.css'
-import data from "../../utils/data";
 import CardIngredient from "../CardIngredient/CardIngredient";
+import PropTypes from 'prop-types';
+
+
 
 const BurgerIngredients = (props) => {
 
     const ingredients = props.ingredients.data
 
-    console.log(props);
 
     const [bunTab, setBunTab] = useState(true)
     const [sauceTab, setSauceTab] = useState(false)
@@ -35,11 +36,11 @@ const BurgerIngredients = (props) => {
 
 
 
-        const newData = ingredients ? ingredients.map(i => <CardIngredient key={i._id} id={i._id} {...i} />) : null
+        const newData = ingredients ? ingredients.map(i => <CardIngredient key={i._id} id={i._id} {...i} openModalIngredient={props.openModalIngredient} />) : null
 
-        const bun =  newData !== null && newData.filter(i => i.props.type === "bun" ? i : null)
-        const sauce = newData !== null &&  newData.filter(i => i.props.type === "sauce" ? i : null)
-        const main = newData !== null &&  newData.filter(i => i.props.type === "main" ? i : null)
+        const bun =  newData !== null && newData.filter(i => i.props.type === "bun")
+        const sauce = newData !== null &&  newData.filter(i => i.props.type === "sauce")
+        const main = newData !== null &&  newData.filter(i => i.props.type === "main")
         
         return (
             <>
@@ -55,11 +56,11 @@ const BurgerIngredients = (props) => {
                        <div className={burgerIngredientsStyles.ingredient}>
                         {bun}
                        </div>
-                       <h2 id="sauce" className="text text_type_main-medium mt-5">Соусы</h2>
+                       <h2 id="sauce" className={`${burgerIngredientsStyles.ingredients__title_type_exactFirst} text text_type_main-medium mt-5`}>Соусы</h2>
                        <div className={burgerIngredientsStyles.ingredient}>
                         {sauce}
                        </div>
-                       <h2 id="main" className="text text_type_main-medium mt-5">Начинки</h2>
+                       <h2 id="main" className={`${burgerIngredientsStyles.ingredients__title_type_exactFirst} text text_type_main-medium mt-5`}>Начинки</h2>
                        <div className={burgerIngredientsStyles.ingredient}>
                         {main}
                        </div>
@@ -69,8 +70,11 @@ const BurgerIngredients = (props) => {
         )
 }
 
-export default BurgerIngredients
-
-function handleItem() {
-    throw new Error("Function not implemented.");
+BurgerIngredients.propTypes = {
+    ingredients : PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ])
 }
+
+export default BurgerIngredients

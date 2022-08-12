@@ -18,6 +18,7 @@
     flex-direction: row;
     justify-content: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .product__container {
@@ -49,6 +50,6 @@
     margin-top: 22px;
 }
 
-.ingredients__title {
+.ingredients__title_type_exactFirst {
     margin-top: 40px;
 }

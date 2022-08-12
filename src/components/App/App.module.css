@@ -1,5 +1,6 @@
 .app {
   display: flex;
+  position: relative;
   flex-direction: column;
   background-color: #131316;
   overflow: hidden;
