@@ -3,13 +3,14 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import burgerIngredientsStyles from './BurgerIngredients.module.css'
 import CardIngredient from "../CardIngredient/CardIngredient";
 import PropTypes, { arrayOf } from 'prop-types';
+import { typesOfIngredients, typesOfOpenModalIngredient } from '../../utils/types'
+
 
 
 
 const BurgerIngredients = (props) => {
 
-    const ingredients = props.ingredients.data
-
+    const ingredients = props.ingredients
 
     const [bunTab, setBunTab] = useState(true)
     const [sauceTab, setSauceTab] = useState(false)
@@ -71,9 +72,8 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-    ingredients : PropTypes.shape({
-        data: PropTypes.arrayOf(Object),
-    })
+    ingredients : PropTypes.arrayOf(PropTypes.shape(typesOfIngredients)),
+    openModalIngredient: typesOfOpenModalIngredient
 }
 
 export default BurgerIngredients

@@ -6,15 +6,16 @@ import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import getData from '../../utils/dataApi';
 
-const urlIngredients = 'https://norma.nomoreparties.space/api/ingredients';
-const buttonEscape = 'Escape';
+const ingredient = 'ingredient';
+const order = 'order'
 
 
 
 function App() {
 
-  const [dataIngredients, setDataIngredients] = useState({})
+  const [dataIngredients, setDataIngredients] = useState([])
   const [stateModalIngredient, setStateModalIngredient] = useState(false);
   const [stateModalOrder, setStateModalOrder] = useState(false);
   const [typeModal, setTypeModal] = useState('')
@@ -22,37 +23,23 @@ function App() {
 
 //получаем данные ингридиентов
   useEffect(() => {
-    fetch(`${urlIngredients}`)
-    .then(res => res.ok ? res.json() : Promise.reject(console.log(res)))
+    getData()
     .then(data => setDataIngredients(data))
     .catch(err => console.log(err))
   }, [])
 
-//закрытие попапа на кнопку Esc
-  useEffect(() => {
-    const closeOnEscape = (e) => {
-      if (e.key === buttonEscape) {
-        closeAllModal(false)
-      }
-    }
-    document.addEventListener('keydown', closeOnEscape)
-
-    return () => {
-      document.removeEventListener('keydown', closeOnEscape)
-    }
-  }, [])
 
 //открыитие попапа ингридиента и получение данных
   const openModalIngredient = (info) => {
     setStateModalIngredient(true)
     setInfoAboutCard(info);
-    setTypeModal('ingredient')
+    setTypeModal(ingredient)
   }
 
 //открыитие попапа c заказом
   const openModalOrder = () => {
     setStateModalOrder(true)
-    setTypeModal('order')
+    setTypeModal(order)
   }
 
 //закрытие попапа

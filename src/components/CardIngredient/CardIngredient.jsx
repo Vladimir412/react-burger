@@ -3,6 +3,7 @@ import cardIngredientStyles from './CardIngredient.module.css'
 import PropTypes from 'prop-types';
 
 
+
 const CardIngredient = (props) => {
     
     const onHandleClick = () => {
@@ -26,10 +27,18 @@ const CardIngredient = (props) => {
 }
 
 CardIngredient.propTypes = {
-    name: PropTypes.string,
+    calories: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    fat: PropTypes.number,
+    price: PropTypes.number,
+    proteins: PropTypes.number,
     image: PropTypes.string,
-    openModalIngredient: PropTypes.func,
-    price: PropTypes.number
+    image_large: PropTypes.string,
+    image_mobile: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    _id: PropTypes.string,
+    openModalIngredient: PropTypes.func
 }
 
 export default CardIngredient

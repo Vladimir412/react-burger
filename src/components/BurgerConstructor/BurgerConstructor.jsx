@@ -3,12 +3,14 @@ import burgerConstructor from './BurgerConstructor.module.css';
 import data from "../../utils/data";
 import PropTypes from 'prop-types';
 import ItemBurgerConstructor from "../ItemBurgerConstructor/ItemBurgerConstructor";
+import { typesOfIngredients, typesOfOpenModalIngredient } from '../../utils/types'
 
 
 
 
 const BurgerConstructor = (props) => {
-    const array = props.ingredients.data
+
+    const array = props.ingredients
 
     const arrayItem = array ? array.map(i => {
         return (
@@ -43,9 +45,8 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-    ingredients : PropTypes.shape({
-        data: PropTypes.arrayOf(Object)
-    })
+    ingredients : PropTypes.arrayOf(PropTypes.shape(typesOfIngredients)),
+    openModalIngredient: typesOfOpenModalIngredient
 }
 
 export default BurgerConstructor
