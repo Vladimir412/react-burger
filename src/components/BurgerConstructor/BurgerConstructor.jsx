@@ -19,17 +19,18 @@ const BurgerConstructor = (props) => {
         )
     }) : null
 
+
    return (
     <section>
         <ul className={burgerConstructor.container}>
             <li className={`${burgerConstructor.element, burgerConstructor.element_type_blocked} mb-4`}>
-                    <ConstructorElement type="top" isLocked={true} text={"Краторная булка N-200i"} price={20} thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"} />
+                    <ConstructorElement type="top" isLocked={true} text={arrayItem[0] && arrayItem[0].props.children.props.name} price={20} thumbnail={arrayItem[0] && arrayItem[0].props.children.props.image} />
             </li>
             <div className={`${burgerConstructor.containerInside} mb-5`}>
                 {arrayItem}
                 </div>
             <li className={`${burgerConstructor.element, burgerConstructor.element_type_blocked} mb-4 mr-5`}>
-                <ConstructorElement type="bottom" isLocked={true} text={"Краторная булка N-200i"} price={200} thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"} />
+            <ConstructorElement type="bottom" isLocked={true} text={arrayItem[0] && arrayItem[0].props.children.props.name} price={20} thumbnail={arrayItem[0] && arrayItem[0].props.children.props.image} />
             </li>
         </ul>
         <div className={burgerConstructor.totalPrice}>
