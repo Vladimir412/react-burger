@@ -1,6 +1,7 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardIngredientStyles from './CardIngredient.module.css'
 import PropTypes from 'prop-types';
+import { typesOfIngredients } from '../../utils/types'
 
 
 
@@ -26,19 +27,6 @@ const CardIngredient = (props) => {
         
 }
 
-CardIngredient.propTypes = {
-    calories: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    fat: PropTypes.number,
-    price: PropTypes.number,
-    proteins: PropTypes.number,
-    image: PropTypes.string,
-    image_large: PropTypes.string,
-    image_mobile: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    _id: PropTypes.string,
-    openModalIngredient: PropTypes.func
-}
+CardIngredient.propTypes = typesOfIngredients
 
 export default CardIngredient

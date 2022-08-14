@@ -1,6 +1,7 @@
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
 import itemBurgerConstructorStyles from './ItemBurgerConstructor.module.css'
-import PropTypes from 'prop-types';
+import { typesOfIngredients } from '../../utils/types'
+
 
 
 const ItemBurgerConstructor = (props) => {
@@ -16,18 +17,6 @@ return (
 
 }
 
-ItemBurgerConstructor.propTypes = {
-    calories: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    fat: PropTypes.number,
-    price: PropTypes.number,
-    proteins: PropTypes.number,
-    image: PropTypes.string,
-    image_large: PropTypes.string,
-    image_mobile: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    _id: PropTypes.string,
-}
+ItemBurgerConstructor.propTypes = typesOfIngredients
 
 export default ItemBurgerConstructor

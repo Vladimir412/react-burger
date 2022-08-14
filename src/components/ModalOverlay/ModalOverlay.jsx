@@ -1,5 +1,6 @@
 import modalOverlayStyles from './ModalOverlay.module.css'
 import PropTypes from 'prop-types';
+import { typesOfOpenModalIngredient } from '../../utils/types';
 
 
 
@@ -12,7 +13,7 @@ const ModalOverlay = (props) => {
 }
 
 ModalOverlay.propTypes = {
-    closeModal: PropTypes.func
+    closeModal: typesOfOpenModalIngredient
 }
 
 export default ModalOverlay
