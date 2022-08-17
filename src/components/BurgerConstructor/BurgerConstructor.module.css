@@ -50,6 +50,7 @@
 }
 
 .element_type_blocked {
+    width: 500px;
     margin-right: 20px;
 }
 
@@ -63,7 +64,7 @@
 }
 
 .totalPrice__price {
-    width: 119px;
+    width: fit-content;
     height: 64;
     display: flex;
     flex-flow: row nowrap;

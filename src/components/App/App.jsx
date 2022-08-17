@@ -6,7 +6,8 @@ import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import getData from '../../utils/dataApi';
+import {getData} from '../../utils/dataApi';
+import { ingredientsContext } from '../../utils/ingredientsContext';
 
 const ingredient = 'ingredient';
 const order = 'order'
@@ -18,13 +19,16 @@ function App() {
   const [dataIngredients, setDataIngredients] = useState([])
   const [stateModalIngredient, setStateModalIngredient] = useState(false);
   const [stateModalOrder, setStateModalOrder] = useState(false);
+  const [dataOrderModal, setDataOrderModal] = useState(null)
   const [typeModal, setTypeModal] = useState('')
   const [infoAboutCard, setInfoAboutCard] = useState(null)
 
 //получаем данные ингридиентов
   useEffect(() => {
     getData()
-    .then(data => setDataIngredients(data))
+    .then(data => {
+      setDataIngredients(data);
+    })
     .catch(err => console.log(err))
   }, [])
 
@@ -52,17 +56,17 @@ function App() {
 
   return (
     <>
+    <ingredientsContext.Provider value={{dataIngredients}}>
     <div className={appStyles.app}>
         <AppHeader />
-        <main className={appStyles.main}>
-          <BurgerIngredients 
+        <main className={appStyles.main}>          <BurgerIngredients 
             ingredients={dataIngredients}
             openModalIngredient={openModalIngredient}
           />
-          <BurgerConstructor 
-            ingredients={dataIngredients}
-            openModalOrder={openModalOrder}
-          />
+            <BurgerConstructor
+              openModalOrder={openModalOrder}
+              setDataOrderModal={setDataOrderModal}
+            />
         </main>
     </div>
     {
@@ -76,9 +80,10 @@ function App() {
     {
       stateModalOrder &&
       <Modal closeModal={closeAllModal} typeModal={typeModal}>
-        <OrderDetails />
+        <OrderDetails dataOrderModal={dataOrderModal} closeModal={closeAllModal} />
       </Modal>
     }
+    </ingredientsContext.Provider>
     </>
   );
 }

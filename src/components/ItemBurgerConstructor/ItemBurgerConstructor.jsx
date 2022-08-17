@@ -10,7 +10,7 @@ return (
     <>
         <DragIcon type="primary" />
         <div className={itemBurgerConstructorStyles.element__info}>
-            <ConstructorElement type={undefined} isLocked={false} text={props.name} price={30} thumbnail={props.image}/>
+            <ConstructorElement type={undefined} isLocked={false} text={props.name} price={props.price} thumbnail={props.image}/>
         </div>
     </>
 )

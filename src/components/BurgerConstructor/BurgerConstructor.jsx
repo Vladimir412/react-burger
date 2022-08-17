@@ -1,44 +1,83 @@
+import { useContext, useEffect, useState } from "react";
 import { ConstructorElement, CurrencyIcon, Button  } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructor from './BurgerConstructor.module.css';
 import PropTypes from 'prop-types';
 import ItemBurgerConstructor from "../ItemBurgerConstructor/ItemBurgerConstructor";
 import { typesOfIngredients, typesOfOpenModalIngredient } from '../../utils/types'
+import { ingredientsContext } from "../../utils/ingredientsContext";
+import { sentDataIngredients } from '../../utils/dataApi'
 
 
 
 
 const BurgerConstructor = (props) => {
 
-    const array = props.ingredients
+    const { dataIngredients } = useContext(ingredientsContext)
+    const [totalPrice, setTotalPrice] = useState(0)
 
-    const arrayItem = array ? array.map(i => {
+    const itemBun = dataIngredients.filter(i => i.type === "bun")
+    const itemBunTop = itemBun.map(i => {
+        if (i.type === "bun") {
+            return (
+                <li key={i._id} id={i._id} className={`${burgerConstructor.element, burgerConstructor.element_type_blocked} mb-4`}>
+                    <ConstructorElement type="top" isLocked={true} text={i.name} price={20} thumbnail={i.image}/>
+                </li>
+            )
+        }
+    })
+
+    const itemBunBottom = itemBun.map((i, index) => {
+        if (i.type === "bun") {
+            return (
+                <li key={index} id={i._id} className={`${burgerConstructor.element, burgerConstructor.element_type_blocked} mb-4`}>
+                    <ConstructorElement type="bottom" isLocked={true} text={i.name} price={20} thumbnail={i.image}/>
+                </li>
+            )
+        }
+    })
+
+    const arrayItem = dataIngredients.filter(i => i.type !== "bun")
+    const newArrayItem = arrayItem.map(i => {
         return (
-            <li key={i._id} id={i._id} className={`${burgerConstructor.element} mb-4`}>
-                <ItemBurgerConstructor {...i}/>
-            </li>
-        )
-    }) : null
+                        <li key={i._id} id={i._id} className={`${burgerConstructor.element} mb-4`}>
+                            <ItemBurgerConstructor {...i}/>
+                        </li>
+                    )
+    })
+
+    const handleSentData = () => {
+        const data = arrayItem.map(i => i._id)
+        data.push(itemBun[0]._id)
+        data.push(itemBun[0]._id)
+        sentDataIngredients(data)
+        .then(res => props.setDataOrderModal(res))
+        .then(() => props.openModalOrder())
+        .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        let total = 0
+        newArrayItem.forEach(i => total += i.props.children.props.price)
+        itemBun.length > 0 && (total = total + (itemBunTop[0].props.children.props.price * 2))
+        setTotalPrice(total)
+    }, [dataIngredients])
 
 
    return (
     <section>
         <ul className={burgerConstructor.container}>
-            <li className={`${burgerConstructor.element, burgerConstructor.element_type_blocked} mb-4`}>
-                    <ConstructorElement type="top" isLocked={true} text={arrayItem[0] && arrayItem[0].props.children.props.name} price={20} thumbnail={arrayItem[0] && arrayItem[0].props.children.props.image} />
-            </li>
+            {itemBunTop[0]}
             <div className={`${burgerConstructor.containerInside} mb-5`}>
-                {arrayItem}
-                </div>
-            <li className={`${burgerConstructor.element, burgerConstructor.element_type_blocked} mb-4 mr-5`}>
-            <ConstructorElement type="bottom" isLocked={true} text={arrayItem[0] && arrayItem[0].props.children.props.name} price={20} thumbnail={arrayItem[0] && arrayItem[0].props.children.props.image} />
-            </li>
+            {newArrayItem}
+            </div>
+            {itemBunBottom[0]}
         </ul>
         <div className={burgerConstructor.totalPrice}>
             <div className={`${burgerConstructor.totalPrice__price}`}>
-                <p className="text text_type_digits-medium mr-3" >610</p>
+                <p className="text text_type_digits-medium mr-3" >{totalPrice}</p>
                 <CurrencyIcon type="primary"/>
             </div>
-            <Button type="primary" size="large" onClick={props.openModalOrder}>Оформить заказ</Button>
+            <Button type="primary" size="large" onClick={handleSentData}>Оформить заказ</Button>
         </div>
     </section>
    ) 

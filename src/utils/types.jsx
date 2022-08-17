@@ -16,3 +16,5 @@ export const typesOfIngredients = {
 };
 
 export const typesOfOpenModalIngredient = PropTypes.func;
+
+export const typesOfClosedModal = PropTypes.func

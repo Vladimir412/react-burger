@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import burgerIngredientsStyles from './BurgerIngredients.module.css'
 import CardIngredient from "../CardIngredient/CardIngredient";
-import PropTypes, { arrayOf } from 'prop-types';
+import PropTypes from 'prop-types';
 import { typesOfIngredients, typesOfOpenModalIngredient } from '../../utils/types'
 
 
