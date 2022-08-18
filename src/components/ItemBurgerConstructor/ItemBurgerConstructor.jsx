@@ -1,22 +1,27 @@
-import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
-import itemBurgerConstructorStyles from './ItemBurgerConstructor.module.css'
-import { typesOfIngredients } from '../../utils/types'
-
-
+import {
+  DragIcon,
+  ConstructorElement,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import itemBurgerConstructorStyles from "./ItemBurgerConstructor.module.css";
+import { typesOfIngredients } from "../../utils/types";
 
 const ItemBurgerConstructor = (props) => {
-
-return (
+  return (
     <>
-        <DragIcon type="primary" />
-        <div className={itemBurgerConstructorStyles.element__info}>
-            <ConstructorElement type={undefined} isLocked={false} text={props.name} price={props.price} thumbnail={props.image}/>
-        </div>
+      <DragIcon type="primary" />
+      <div className={itemBurgerConstructorStyles.element__info}>
+        <ConstructorElement
+          type={undefined}
+          isLocked={false}
+          text={props.name}
+          price={props.price}
+          thumbnail={props.image}
+        />
+      </div>
     </>
-)
+  );
+};
 
-}
+ItemBurgerConstructor.propTypes = typesOfIngredients;
 
-ItemBurgerConstructor.propTypes = typesOfIngredients
-
-export default ItemBurgerConstructor
+export default ItemBurgerConstructor;

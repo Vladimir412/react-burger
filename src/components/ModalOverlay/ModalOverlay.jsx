@@ -1,19 +1,17 @@
-import modalOverlayStyles from './ModalOverlay.module.css'
-import PropTypes from 'prop-types';
-import { typesOfOpenModalIngredient } from '../../utils/types';
-
-
+import modalOverlayStyles from "./ModalOverlay.module.css";
+import { typesOfOpenModalIngredient } from "../../utils/types";
 
 const ModalOverlay = (props) => {
-
-    return (
-        <div className={modalOverlayStyles.container} onClick={props.closeModal}>
-        </div>
-    )
-}
+  return (
+    <div
+      className={modalOverlayStyles.container}
+      onClick={props.closeModal}
+    ></div>
+  );
+};
 
 ModalOverlay.propTypes = {
-    closeModal: typesOfOpenModalIngredient
-}
+  closeModal: typesOfOpenModalIngredient,
+};
 
-export default ModalOverlay
+export default ModalOverlay;

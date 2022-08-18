@@ -1,27 +1,23 @@
-const urlIngredients = 'https://norma.nomoreparties.space/api/ingredients';
-const urlSentData = 'https://norma.nomoreparties.space/api/orders'
-
+const baseUrl = "https://norma.nomoreparties.space/api";
 
 export const getData = () => {
-    return fetch(`${urlIngredients}`)
+  return fetch(`${baseUrl}/ingredients`)
     .then(checkResponse)
-    .then(res => res.data)
-}
+    .then((res) => res.data);
+};
 
 export const sentDataIngredients = (arr) => {
-    return fetch(`${urlSentData}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            ingredients: arr
-        })
-    })
-    .then(checkResponse)
-}
+  return fetch(`${baseUrl}/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ingredients: arr,
+    }),
+  }).then(checkResponse);
+};
 
 const checkResponse = (res) => {
-    return res.ok ? res.json() : res.json().then(err => Promise.reject(err))
-}
-
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+};
