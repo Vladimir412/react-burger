@@ -1,22 +1,52 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructor from "./BurgerConstructor.module.css";
-import ItemBurgerConstructor from "../ItemBurgerConstructor/ItemBurgerConstructor";
 import { typesOfOpenModalIngredient } from "../../utils/types";
-import { IngredientContext } from "../../utils/IngredientContext";
 import { sentDataIngredients } from "../../utils/dataApi";
+import { useSelector, useDispatch } from "react-redux";
+import { getAndUpdateNumberOreder } from "../../services/actions/actions";
+import { useDrop } from "react-dnd";
+import { addIngredientInConstructor } from "../../services/actions/actions";
+import { v4 as uuidv4 } from "uuid";
+import ListItemBurgerConstructor from "../ListItemBurgerConstructor/ListItemBurgerConstructor";
 
 const BurgerConstructor = (props) => {
-  const { dataIngredients } = useContext(IngredientContext);
+  const { ingredientsInConstructor } = useSelector(
+    (state) => state.ingredientReducers
+  );
+  const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const itemBun = dataIngredients.filter((i) => i.type === "bun");
-  const itemBunTop = itemBun.map((i) => {
-    if (i.type === "bun") {
+  const [, dropBunRef] = useDrop({
+    accept: "bun",
+    drop(data) {
+      handleDrop(data);
+    },
+  });
+
+  const handleDrop = (data) => {
+    if (ingredientsInConstructor && ingredientsInConstructor.length > 0) {
+      dispatch(
+        addIngredientInConstructor([
+          ...ingredientsInConstructor,
+          { ...data, dragId: uuidv4() },
+        ])
+      );
+    } else {
+      dispatch(addIngredientInConstructor([{ ...data, dragId: uuidv4() }]));
+    }
+  };
+
+  const itemBun =
+    ingredientsInConstructor &&
+    ingredientsInConstructor.filter((i) => i.type === "bun");
+  const itemBunTop =
+    itemBun &&
+    itemBun.map((i) => {
       return (
         <li
           key={i._id}
@@ -29,19 +59,19 @@ const BurgerConstructor = (props) => {
             type="top"
             isLocked={true}
             text={`${i.name} (верх)`}
-            price={20}
+            price={i.price}
             thumbnail={i.image}
           />
         </li>
       );
-    }
-  });
+    });
 
-  const itemBunBottom = itemBun.map((i, index) => {
-    if (i.type === "bun") {
+  const itemBunBottom =
+    itemBun &&
+    itemBun.map((i) => {
       return (
         <li
-          key={index}
+          key={i.dragId}
           id={i._id}
           className={`${
             (burgerConstructor.element, burgerConstructor.element_type_blocked)
@@ -51,60 +81,68 @@ const BurgerConstructor = (props) => {
             type="bottom"
             isLocked={true}
             text={`${i.name} (низ)`}
-            price={20}
+            price={i.price}
             thumbnail={i.image}
           />
         </li>
       );
-    }
-  });
-
-  const arrayItem = dataIngredients.filter((i) => i.type !== "bun");
-  const newArrayItem = arrayItem.map((i) => {
-    return (
-      <li
-        key={i._id}
-        id={i._id}
-        className={`${burgerConstructor.element} mb-4`}
-      >
-        <ItemBurgerConstructor {...i} />
-      </li>
-    );
-  });
-
-  const handleSentData = () => {
-    const data = arrayItem.map((i) => i._id);
-    data.push(itemBun[0]._id);
-    data.push(itemBun[0]._id);
-    sentDataIngredients(data)
-      .then((res) => props.setDataOrderModal(res))
-      .then(() => props.openModalOrder())
-      .catch((err) => console.log(err));
-  };
+    });
 
   useEffect(() => {
     let total = 0;
-    newArrayItem.forEach((i) => (total += i.props.children.props.price));
-    itemBun.length > 0 &&
-      (total = total + itemBunTop[0].props.children.props.price * 2);
+    ingredientsInConstructor &&
+      ingredientsInConstructor.forEach((item) => {
+        total += item.price;
+      });
+    if (itemBun && itemBun.length > 0) total += itemBun[0].price;
     setTotalPrice(total);
-  }, [dataIngredients]);
+  }, [ingredientsInConstructor]);
+
+  useEffect(() => {
+    if (itemBun.length > 1) {
+      const lastBun = itemBun[itemBun.length - 1];
+      const arrIngr = ingredientsInConstructor.filter((i) => i.type !== "bun");
+      dispatch(addIngredientInConstructor([...arrIngr, lastBun]));
+    }
+  }, [itemBun]);
+
+  const handleSentData = () => {
+    const data = ingredientsInConstructor.map((i) => i._id);
+    data.push(itemBun[0]._id);
+    sentDataIngredients(data)
+      .then((res) => dispatch(getAndUpdateNumberOreder(res)))
+      .then(() => props.openModalOrder())
+      .then(() => dispatch(addIngredientInConstructor([])))
+      .catch((err) => console.log(err));
+  };
+
+  const findItemBun = ingredientsInConstructor.some((i) => i.type === "bun");
+
+  const stateButton =
+    ingredientsInConstructor.length >= 2 && findItemBun === true ? false : true;
 
   return (
     <section>
       <ul className={burgerConstructor.container}>
-        {itemBunTop[0]}
-        <div className={`${burgerConstructor.containerInside} mb-5`}>
-          {newArrayItem}
+        <div className={burgerConstructor.containerOutside} ref={dropBunRef}>
+          {itemBunTop}
         </div>
-        {itemBunBottom[0]}
+        <ListItemBurgerConstructor />
+        <div className={`${burgerConstructor.containerOutside} mt-3`}>
+          {itemBunBottom}
+        </div>
       </ul>
       <div className={burgerConstructor.totalPrice}>
         <div className={`${burgerConstructor.totalPrice__price}`}>
           <p className="text text_type_digits-medium mr-3">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleSentData}>
+        <Button
+          type="primary"
+          size="large"
+          onClick={handleSentData}
+          disabled={stateButton}
+        >
           Оформить заказ
         </Button>
       </div>

@@ -1,12 +1,14 @@
 import orderDetailsStyles from "./OrderDetails.module.css";
 import { typesOfClosedModal } from "../../utils/types";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 const OrderDetails = (props) => {
+  const { order } = useSelector(state => state.ingredientReducers)
   return (
     <div className={orderDetailsStyles.container}>
       <p className="text text_type_digits-large">
-        {props.dataOrderModal.order.number}
+        {order.order.number}
       </p>
       <p
         className={`${orderDetailsStyles.identity} text text_type_main-medium`}
@@ -29,12 +31,6 @@ const OrderDetails = (props) => {
 
 OrderDetails.propTypes = {
   closeModal: typesOfClosedModal,
-  dataOrderModal: PropTypes.shape({
-    name: PropTypes.string,
-    order: PropTypes.shape({
-      number: PropTypes.number,
-    }).isRequired,
-  }).isRequired,
 };
 
 export default OrderDetails;

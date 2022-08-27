@@ -1,37 +1,47 @@
-import { useContext, useState } from "react";
+import { useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import CardIngredient from "../CardIngredient/CardIngredient";
 import { typesOfOpenModalIngredient } from "../../utils/types";
-import { IngredientContext } from "../../utils/IngredientContext";
+import { useSelector } from "react-redux";
 
 const BurgerIngredients = (props) => {
-  const { dataIngredients } = useContext(IngredientContext);
+  const { ingredients } = useSelector((state) => state.ingredientReducers);
 
   const [bunTab, setBunTab] = useState(true);
   const [sauceTab, setSauceTab] = useState(false);
   const [mainTab, setMainTab] = useState(false);
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
+
+  const scrollIngredients = (value) => {
+    value.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   const changeItem = (e) => {
     if (e === "bun") {
       setBunTab(true);
       setSauceTab(false);
       setMainTab(false);
+      scrollIngredients(bunRef);
     }
     if (e === "sauce") {
       setBunTab(false);
       setSauceTab(true);
       setMainTab(false);
+      scrollIngredients(sauceRef);
     }
     if (e === "main") {
       setBunTab(false);
       setSauceTab(false);
       setMainTab(true);
+      scrollIngredients(mainRef);
     }
   };
 
-  const newData = dataIngredients
-    ? dataIngredients.map((i) => (
+  const newData = ingredients
+    ? ingredients.map((i) => (
         <CardIngredient
           key={i._id}
           id={i._id}
@@ -55,17 +65,17 @@ const BurgerIngredients = (props) => {
         Соберите бургер
       </h1>
       <nav className={burgerIngredientsStyles.nav__container}>
-        <a href="#bun">
+        <a>
           <Tab value="bun" active={bunTab} onClick={changeItem}>
             Булки
           </Tab>
         </a>
-        <a href="#sauce">
+        <a>
           <Tab value="sauce" active={sauceTab} onClick={changeItem}>
             Соусы
           </Tab>
         </a>
-        <a href="#main">
+        <a>
           <Tab value="main" active={mainTab} onClick={changeItem}>
             Начинки
           </Tab>
@@ -75,6 +85,7 @@ const BurgerIngredients = (props) => {
         <h2
           id="bun"
           className={`${burgerIngredientsStyles.ingredients__title} text text_type_main-medium mt-5`}
+          ref={bunRef}
         >
           Булки
         </h2>
@@ -82,6 +93,7 @@ const BurgerIngredients = (props) => {
         <h2
           id="sauce"
           className={`${burgerIngredientsStyles.ingredients__title_type_exactFirst} text text_type_main-medium mt-5`}
+          ref={sauceRef}
         >
           Соусы
         </h2>
@@ -89,6 +101,7 @@ const BurgerIngredients = (props) => {
         <h2
           id="main"
           className={`${burgerIngredientsStyles.ingredients__title_type_exactFirst} text text_type_main-medium mt-5`}
+          ref={mainRef}
         >
           Начинки
         </h2>

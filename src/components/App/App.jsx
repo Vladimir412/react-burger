@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import appStyles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
@@ -7,32 +10,30 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { getData } from "../../utils/dataApi";
-import { IngredientContext } from "../../utils/IngredientContext";
+import { getIngredients } from "../../services/actions/actions";
+import { removeDataModalIngredient } from "../../services/actions/actions";
 
 const ingredient = "ingredient";
 const order = "order";
 
 function App() {
-  const [dataIngredients, setDataIngredients] = useState([]);
+  const dispatch = useDispatch();
   const [stateModalIngredient, setStateModalIngredient] = useState(false);
   const [stateModalOrder, setStateModalOrder] = useState(false);
-  const [dataOrderModal, setDataOrderModal] = useState(null);
   const [typeModal, setTypeModal] = useState("");
-  const [infoAboutCard, setInfoAboutCard] = useState(null);
 
   //получаем данные ингридиентов
   useEffect(() => {
     getData()
       .then((data) => {
-        setDataIngredients(data);
+        dispatch(getIngredients(data));
       })
       .catch((err) => console.log(err));
   }, []);
 
   //открыитие попапа ингридиента и получение данных
-  const openModalIngredient = (info) => {
+  const openModalIngredient = () => {
     setStateModalIngredient(true);
-    setInfoAboutCard(info);
     setTypeModal(ingredient);
   };
 
@@ -46,23 +47,19 @@ function App() {
   const closeAllModal = () => {
     setStateModalIngredient(false);
     setStateModalOrder(false);
-    setInfoAboutCard(null);
+    dispatch(removeDataModalIngredient({}));
     setTypeModal("");
   };
 
   return (
-    <IngredientContext.Provider value={{ dataIngredients }}>
+    <>
       <div className={appStyles.app}>
         <AppHeader />
         <main className={appStyles.main}>
-          {" "}
-          <BurgerIngredients
-            openModalIngredient={openModalIngredient}
-          />
-          <BurgerConstructor
-            openModalOrder={openModalOrder}
-            setDataOrderModal={setDataOrderModal}
-          />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients openModalIngredient={openModalIngredient} />
+            <BurgerConstructor openModalOrder={openModalOrder} />
+          </DndProvider>
         </main>
       </div>
       {stateModalIngredient && (
@@ -71,18 +68,15 @@ function App() {
           closeModal={closeAllModal}
           typeModal={typeModal}
         >
-          <IngredientDetails ingredientsInfo={infoAboutCard} />
+          <IngredientDetails />
         </Modal>
       )}
       {stateModalOrder && (
         <Modal closeModal={closeAllModal} typeModal={typeModal}>
-          <OrderDetails
-            dataOrderModal={dataOrderModal}
-            closeModal={closeAllModal}
-          />
+          <OrderDetails closeModal={closeAllModal} />
         </Modal>
       )}
-    </IngredientContext.Provider>
+    </>
   );
 }
 
