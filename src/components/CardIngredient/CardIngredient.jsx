@@ -3,9 +3,9 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardIngredientStyles from "./CardIngredient.module.css";
-import { typesOfIngredients } from "../../utils/types";
+import { typesOfIngredients, typesOfOpenModalIngredient } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import { addDataModalIngredient } from "../../services/actions/actions";
+import { addDataModalIngredient, modalIngredientItemOpen } from "../../services/actions/actions";
 import { useDrag } from "react-dnd";
 import { useEffect, useState } from "react";
 
@@ -26,7 +26,9 @@ const CardIngredient = (props) => {
     ingredientsInConstructor &&
       ingredientsInConstructor.forEach((i) => {
         if (i._id === props._id) total += 1;
+        if (i._id === props._id && i.type === "bun") total += 1;
       });
+
     setQuantity(total);
   };
   useEffect(() => {
@@ -36,6 +38,7 @@ const CardIngredient = (props) => {
   const onHandleClick = () => {
     dispatch(addDataModalIngredient(props));
     props.openModalIngredient();
+    dispatch(modalIngredientItemOpen(true))
   };
 
   return (
@@ -63,6 +66,8 @@ const CardIngredient = (props) => {
   );
 };
 
-CardIngredient.propTypes = typesOfIngredients;
+CardIngredient.propTypes = {
+  openModalIngredient: typesOfOpenModalIngredient
+};
 
 export default CardIngredient;

@@ -15,6 +15,7 @@ export const typesOfIngredients = {
     _id: PropTypes.string.isRequired,
 }.isRequired;
 
-export const typesOfOpenModalIngredient = PropTypes.func;
+export const typesOfOpenModalIngredient = PropTypes.func.isRequired;
+export const typesOfOpenModalOrder = PropTypes.func.isRequired;
 
 export const typesOfClosedModal = PropTypes.func

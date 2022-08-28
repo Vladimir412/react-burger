@@ -1,14 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {  useEffect, useState } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructor from "./BurgerConstructor.module.css";
-import { typesOfOpenModalIngredient } from "../../utils/types";
-import { sentDataIngredients } from "../../utils/dataApi";
+import { typesOfOpenModalOrder } from "../../utils/types";
 import { useSelector, useDispatch } from "react-redux";
-import { getAndUpdateNumberOreder } from "../../services/actions/actions";
+import { sentDataOrder } from "../../services/actions/actions";
 import { useDrop } from "react-dnd";
 import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
@@ -107,13 +106,10 @@ const BurgerConstructor = (props) => {
   }, [itemBun]);
 
   const handleSentData = () => {
+    props.openModalOrder()
     const data = ingredientsInConstructor.map((i) => i._id);
     data.push(itemBun[0]._id);
-    sentDataIngredients(data)
-      .then((res) => dispatch(getAndUpdateNumberOreder(res)))
-      .then(() => props.openModalOrder())
-      .then(() => dispatch(addIngredientInConstructor([])))
-      .catch((err) => console.log(err));
+      dispatch(sentDataOrder(data))
   };
 
   const findItemBun = ingredientsInConstructor.some((i) => i.type === "bun");
@@ -151,7 +147,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-  openModalIngredient: typesOfOpenModalIngredient,
+  openModalOrder: typesOfOpenModalOrder,
 };
 
 export default BurgerConstructor;

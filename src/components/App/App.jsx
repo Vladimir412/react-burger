@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import appStyles from "./App.module.css";
@@ -9,8 +9,12 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { getData } from "../../utils/dataApi";
-import { getIngredients } from "../../services/actions/actions";
+// import { getData } from "../../utils/dataApi";
+// import { getIngredients } from "../../services/actions/actions";
+import {
+  getDataIngredients,
+  modalOrderItemClosed,
+} from "../../services/actions/actions";
 import { removeDataModalIngredient } from "../../services/actions/actions";
 
 const ingredient = "ingredient";
@@ -18,35 +22,30 @@ const order = "order";
 
 function App() {
   const dispatch = useDispatch();
-  const [stateModalIngredient, setStateModalIngredient] = useState(false);
-  const [stateModalOrder, setStateModalOrder] = useState(false);
+
   const [typeModal, setTypeModal] = useState("");
+  const { isModalOrder, isModalIngredient } = useSelector(
+    (state) => state.ingredientReducers
+  );
 
   //получаем данные ингридиентов
   useEffect(() => {
-    getData()
-      .then((data) => {
-        dispatch(getIngredients(data));
-      })
-      .catch((err) => console.log(err));
+    dispatch(getDataIngredients());
   }, []);
 
   //открыитие попапа ингридиента и получение данных
   const openModalIngredient = () => {
-    setStateModalIngredient(true);
     setTypeModal(ingredient);
   };
 
   //открыитие попапа c заказом
   const openModalOrder = () => {
-    setStateModalOrder(true);
     setTypeModal(order);
   };
 
   //закрытие попапа
   const closeAllModal = () => {
-    setStateModalIngredient(false);
-    setStateModalOrder(false);
+    // dispatch(modalOrderItemClosed)
     dispatch(removeDataModalIngredient({}));
     setTypeModal("");
   };
@@ -62,7 +61,7 @@ function App() {
           </DndProvider>
         </main>
       </div>
-      {stateModalIngredient && (
+      {isModalIngredient && (
         <Modal
           title="Детали ингредиента"
           closeModal={closeAllModal}
@@ -71,9 +70,9 @@ function App() {
           <IngredientDetails />
         </Modal>
       )}
-      {stateModalOrder && (
-        <Modal closeModal={closeAllModal} typeModal={typeModal}>
-          <OrderDetails closeModal={closeAllModal} />
+      {isModalOrder && (
+        <Modal closeModal={closeAllModal} title="" typeModal={typeModal}>
+          <OrderDetails />
         </Modal>
       )}
     </>

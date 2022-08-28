@@ -1,17 +1,23 @@
 import modalOverlayStyles from "./ModalOverlay.module.css";
-import { typesOfOpenModalIngredient } from "../../utils/types";
+import { useDispatch } from "react-redux";
+import { modalOrderItemClosed, modalIngredientItemClosed } from '../../services/actions/actions'
 
-const ModalOverlay = (props) => {
+const ModalOverlay = () => {
+
+  const dispatch = useDispatch()
+
+  const closeModal = () => {
+    dispatch(modalOrderItemClosed(false))
+    dispatch(modalIngredientItemClosed(false))
+  }
+
   return (
     <div
       className={modalOverlayStyles.container}
-      onClick={props.closeModal}
+      onClick={closeModal}
     ></div>
   );
 };
 
-ModalOverlay.propTypes = {
-  closeModal: typesOfOpenModalIngredient,
-};
 
 export default ModalOverlay;

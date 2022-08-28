@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import CardIngredient from "../CardIngredient/CardIngredient";
 import { typesOfOpenModalIngredient } from "../../utils/types";
 import { useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = (props) => {
   const { ingredients } = useSelector((state) => state.ingredientReducers);
@@ -14,6 +15,15 @@ const BurgerIngredients = (props) => {
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
+  const navRef = useRef(null);
+
+  const [bunViewRef, bunViewInView] = useInView({
+    initialInView: true,
+  });
+  const [sauceViewRef, sauceViewInView] = useInView({
+  });
+  const [mainViewRef, mainViewInView] = useInView({
+  });
 
   const scrollIngredients = (value) => {
     value.current.scrollIntoView({ behavior: "smooth" });
@@ -64,19 +74,23 @@ const BurgerIngredients = (props) => {
       >
         Соберите бургер
       </h1>
-      <nav className={burgerIngredientsStyles.nav__container}>
+      <nav className={burgerIngredientsStyles.nav__container} ref={navRef}>
         <a>
-          <Tab value="bun" active={bunTab} onClick={changeItem}>
+          <Tab value="bun" active={bunViewInView} onClick={changeItem}>
             Булки
           </Tab>
         </a>
         <a>
-          <Tab value="sauce" active={sauceTab} onClick={changeItem}>
+          <Tab
+            value="sauce"
+            active={!bunViewInView && sauceViewInView}
+            onClick={changeItem}
+          >
             Соусы
           </Tab>
         </a>
         <a>
-          <Tab value="main" active={mainTab} onClick={changeItem}>
+          <Tab value="main" active={!bunViewInView && !sauceViewInView && mainViewInView} onClick={changeItem}>
             Начинки
           </Tab>
         </a>
@@ -89,7 +103,9 @@ const BurgerIngredients = (props) => {
         >
           Булки
         </h2>
-        <div className={burgerIngredientsStyles.ingredient}>{bun}</div>
+        <div ref={bunViewRef} className={burgerIngredientsStyles.ingredient}>
+          {bun}
+        </div>
         <h2
           id="sauce"
           className={`${burgerIngredientsStyles.ingredients__title_type_exactFirst} text text_type_main-medium mt-5`}
@@ -97,7 +113,9 @@ const BurgerIngredients = (props) => {
         >
           Соусы
         </h2>
-        <div className={burgerIngredientsStyles.ingredient}>{sauce}</div>
+        <div ref={sauceViewRef} className={burgerIngredientsStyles.ingredient}>
+          {sauce}
+        </div>
         <h2
           id="main"
           className={`${burgerIngredientsStyles.ingredients__title_type_exactFirst} text text_type_main-medium mt-5`}
@@ -105,7 +123,9 @@ const BurgerIngredients = (props) => {
         >
           Начинки
         </h2>
-        <div className={burgerIngredientsStyles.ingredient}>{main}</div>
+        <div ref={mainViewRef} className={burgerIngredientsStyles.ingredient}>
+          {main}
+        </div>
       </div>
     </section>
   );
