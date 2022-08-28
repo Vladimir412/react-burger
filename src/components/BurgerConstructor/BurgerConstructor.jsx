@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -106,10 +106,10 @@ const BurgerConstructor = (props) => {
   }, [itemBun]);
 
   const handleSentData = () => {
-    props.openModalOrder()
+    props.openModalOrder();
     const data = ingredientsInConstructor.map((i) => i._id);
     data.push(itemBun[0]._id);
-      dispatch(sentDataOrder(data))
+    dispatch(sentDataOrder(data));
   };
 
   const findItemBun = ingredientsInConstructor.some((i) => i.type === "bun");

@@ -15,7 +15,7 @@ import {
   modalOrderItemOpen,
   modalOrderItemClosed,
   modalIngredientItemOpen,
-  modalIngredientItemClosed
+  modalIngredientItemClosed,
 } from "../actions/actions";
 
 const initialState = {
@@ -26,7 +26,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   isModalOrder: false,
-  v: false
+  v: false,
 };
 
 export default createReducer(initialState, {
@@ -50,70 +50,70 @@ export default createReducer(initialState, {
   },
   [getIngredientsItemRequest]: (state) => {
     return {
-    ...state,
-    isLoading: true,
-    isError: false
-    }
+      ...state,
+      isLoading: true,
+      isError: false,
+    };
   },
   [getIngredientsItemSuccess]: (state, action) => {
     return {
       ...state,
-      sLoading: false,
-      ingredients: action.payload
-    }
+      isLoading: false,
+      ingredients: action.payload,
+    };
   },
-  [getIngredientsItemError]: state => {
+  [getIngredientsItemError]: (state) => {
     return {
       ...state,
       isLoading: false,
-      isError: true
-    }
+      isError: true,
+    };
   },
   [getAndUpdateNumberOrderItemRequest]: (state) => {
     return {
       ...state,
       isLoading: true,
-      isError: false
-    }
+      isError: false,
+    };
   },
   [getAndUpdateNumberOrderItemSuccess]: (state, action) => {
     return {
       ...state,
       sLoading: false,
       order: action.payload,
-      isModalOrder: true
-    }
+      isModalOrder: true,
+    };
   },
   [getAndUpdateNumberOrderItemError]: (state) => {
     return {
       ...state,
       isLoading: false,
-      isError: true
-    }
+      isError: true,
+    };
   },
   [modalOrderItemOpen]: (state, action) => {
     return {
       ...state,
-      isModalOrder: action.payload
-    }
+      isModalOrder: action.payload,
+    };
   },
   [modalOrderItemClosed]: (state, action) => {
     return {
       ...state,
-      isModalOrder: action.payload
-    }
+      isModalOrder: action.payload,
+    };
   },
   [modalIngredientItemOpen]: (state, action) => {
     return {
       ...state,
-      isModalIngredient: action.payload
-    }
+      isModalIngredient: action.payload,
+    };
   },
   [modalIngredientItemClosed]: (state, action) => {
     return {
       ...state,
-      isModalIngredient: action.payload
-    }
+      isModalIngredient: action.payload,
+    };
   },
-  default: state => state
+  default: (state) => state,
 });

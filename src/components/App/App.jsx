@@ -9,12 +9,7 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
-// import { getData } from "../../utils/dataApi";
-// import { getIngredients } from "../../services/actions/actions";
-import {
-  getDataIngredients,
-  modalOrderItemClosed,
-} from "../../services/actions/actions";
+import { getDataIngredients } from "../../services/actions/actions";
 import { removeDataModalIngredient } from "../../services/actions/actions";
 
 const ingredient = "ingredient";
