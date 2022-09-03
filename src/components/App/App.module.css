@@ -1,0 +1,15 @@
+.app {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  background-color: #131316;
+  overflow: hidden;
+}
+
+.main {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: auto;
+  margin-top: 22px;
+}
+
