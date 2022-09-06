@@ -1,0 +1,65 @@
+.container {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 1280px;
+    margin: auto;
+    margin-top: 120px;
+    justify-content: flex-start;
+}
+
+.listItem {
+    list-style: none;
+}
+
+.listItem__item {
+    width: 320px;
+    height: 64px;
+}
+
+.item {
+    text-decoration: none;
+    color: #8585AD;
+}
+
+.item_type_active {
+    color: #F2F2F3;
+}
+
+.inputsContainer {
+    margin-left: 60px;
+}
+
+.input {
+    margin-top: 24px;
+}
+
+.buttonExit {
+    color: #8585AD;
+    background-color: #131316;
+}
+
+.buttonExit:hover {
+    cursor: pointer;
+    
+}
+
+.buttonsForm {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 24px;
+    margin-bottom: 30px;
+    justify-content: flex-end;
+}
+
+.buttonsForm__cancel {
+    background-color: #131316;
+    color: #F2F2F3;
+    border: none;
+    margin-right: 20px;
+    transition: linear .3s;
+}
+
+.buttonsForm__cancel:hover {
+    cursor: pointer;
+    opacity: .7;
+}

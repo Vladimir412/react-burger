@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Route, Switch } from "react-router-dom";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import appStyles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
@@ -10,7 +12,13 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { getDataIngredients } from "../../services/actions/actions";
+import { getInfoAboutUser } from "../../services/actions/userInfo";
 import { removeDataModalIngredient } from "../../services/actions/actions";
+import Login from "../Login/Login";
+import Register from "../Register/Register";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
+import ResetPassword from "../ResetPassword/ResetPassword";
+import Profile from "../Profile/Profile";
 
 const ingredient = "ingredient";
 const order = "order";
@@ -22,11 +30,16 @@ function App() {
   const { isModalOrder, isModalIngredient } = useSelector(
     (state) => state.ingredientReducers
   );
+  const { isLogged, accessToken } = useSelector(state => state.authReducer)
+  const refreshToken = localStorage.getItem('refreshToken')
 
   //получаем данные ингридиентов
   useEffect(() => {
+    if (isLogged) {
     dispatch(getDataIngredients());
-  }, []);
+    dispatch(getInfoAboutUser(accessToken))
+    }
+  }, [isLogged]);
 
   //открыитие попапа ингридиента и получение данных
   const openModalIngredient = () => {
@@ -49,12 +62,31 @@ function App() {
     <>
       <div className={appStyles.app}>
         <AppHeader />
-        <main className={appStyles.main}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients openModalIngredient={openModalIngredient} />
-            <BurgerConstructor openModalOrder={openModalOrder} />
-          </DndProvider>
-        </main>
+        <Switch>
+          <ProtectedRoute path="/" exact>
+            <main className={appStyles.main}>
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients openModalIngredient={openModalIngredient} />
+                <BurgerConstructor openModalOrder={openModalOrder} />
+              </DndProvider>
+            </main>
+          </ProtectedRoute>
+          <Route path="/login" >
+            <Login />
+          </Route>
+          <Route path="/register" >
+            <Register />
+          </Route>
+          <Route path="/forgot-password" >
+            <ForgotPassword />
+          </Route>
+          <Route path="/reset-password" >
+            <ResetPassword />
+          </Route>
+          <ProtectedRoute path="/profile" exact>
+            <Profile />
+          </ProtectedRoute>
+        </Switch>
       </div>
       {isModalIngredient && (
         <Modal

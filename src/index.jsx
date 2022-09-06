@@ -2,6 +2,7 @@ import React from "react";
 import { compose, createStore, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
@@ -18,17 +19,19 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-          serializableCheck: false,
-        }),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   enhancer,
 });
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

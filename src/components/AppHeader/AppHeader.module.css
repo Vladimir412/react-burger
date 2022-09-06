@@ -41,3 +41,15 @@
     flex-direction: row;
     margin-left: 308px;
 }
+
+.navLink {
+    text-decoration: none;
+    display: flex;
+    flex-flow: row nowrap; 
+    justify-content: start;
+    width: 185px;
+}
+
+.navLink_type_active {
+    color: #F2F2F3;
+}
