@@ -60,10 +60,6 @@ export const getInfoUser = (accessToken) => {
 };
 
 export const updateInfoUser = ({ name, email, password, accessToken }) => {
-  console.log(name);
-  console.log(email);
-  console.log(password);
-  console.log(accessToken);
   return fetch(`${baseUrl}/auth/user`, {
     method: "PATCH",
     headers: {
@@ -80,7 +76,7 @@ export const updateToken = () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(localStorage.getItem('refreshToken')),
+    body: JSON.stringify({token: localStorage.getItem('refreshToken')}),
   }).then(checkResponse);
 };
 

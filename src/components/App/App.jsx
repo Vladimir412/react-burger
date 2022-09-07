@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import appStyles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
@@ -33,13 +33,17 @@ function App() {
   const { isLogged, accessToken } = useSelector(state => state.authReducer)
   const refreshToken = localStorage.getItem('refreshToken')
 
-  //получаем данные ингридиентов
   useEffect(() => {
     if (isLogged) {
-    dispatch(getDataIngredients());
-    dispatch(getInfoAboutUser(accessToken))
+      dispatch(getInfoAboutUser(accessToken))
     }
   }, [isLogged]);
+
+  //получаем данные ингридиентов
+  useEffect(() => {
+    dispatch(getDataIngredients());
+  }, []);
+
 
   //открыитие попапа ингридиента и получение данных
   const openModalIngredient = () => {
@@ -104,6 +108,7 @@ function App() {
       )}
     </>
   );
+
 }
 
 export default App;

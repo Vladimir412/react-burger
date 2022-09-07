@@ -57,7 +57,6 @@ export const updateInfoAboutUser = (dataObject) => {
       .catch((err) => {
         if (err.message === "jwt expired") {
           updateToken().then((info) => {
-            console.log(info);
             localStorage.setItem("refreshToken", info.refreshToken);
             const newDataObject = {
               name,
@@ -65,7 +64,6 @@ export const updateInfoAboutUser = (dataObject) => {
               password,
               accessToken: info.accessToken,
             };
-            console.log(newDataObject);
             updateInfoUser(newDataObject).then((data) =>
               data && data.success
                 ? dispatch(userInfoUpdateItemSuccess(data))

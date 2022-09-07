@@ -12,17 +12,16 @@ const AppHeader = () => {
     <header className={headerStyles.container}>
       <nav className={headerStyles.navigation}>
         <ul className={`${headerStyles.list}`}>
-        <NavLink
-                to='/'
-                exact
-              className={`${headerStyles.navLink} text text_color_inactive`}
-              activeClassName={`${headerStyles.navLink_type_active}`}
-            >
-          <li className={headerStyles.item}>
-
-               <BurgerIcon type="primary" />
+          <NavLink
+            to='/'
+            exact
+            className={`${headerStyles.navLink} text text_color_inactive`}
+            activeClassName={`${headerStyles.navLink_type_active}`}
+          >
+            <li className={headerStyles.item}>
+              <BurgerIcon type="primary" />
               <p className="text text_type_main-default ml-2">Конструктор</p>
-          </li>
+            </li>
           </NavLink>
           <li className={`${headerStyles.item}`}>
             <ListIcon type="primary" />

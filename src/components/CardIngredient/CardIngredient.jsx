@@ -3,6 +3,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardIngredientStyles from "./CardIngredient.module.css";
+import { useLocation, Link } from 'react-router-dom'
 import { typesOfIngredients, typesOfOpenModalIngredient } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { addDataModalIngredient, modalIngredientItemOpen } from "../../services/actions/actions";
@@ -11,10 +12,12 @@ import { useEffect, useState } from "react";
 
 const CardIngredient = (props) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { ingredientsInConstructor } = useSelector(
     (state) => state.ingredientReducers
   );
   const [quntity, setQuantity] = useState(0);
+  const ingredientId = props.id;
 
   const [, dragRef] = useDrag({
     type: props.type === "bun" ? "bun" : "ingredient",
@@ -42,27 +45,29 @@ const CardIngredient = (props) => {
   };
 
   return (
-    <article
-      className={`${cardIngredientStyles.product__container}`}
-      onClick={onHandleClick}
-      ref={dragRef}
-    >
-      {quntity > 0 && <Counter count={quntity} size="default" />}
-      <img
-        className={cardIngredientStyles.image}
-        src={props.image}
-        alt="Продукт"
-      />
-      <div className={cardIngredientStyles.price}>
-        <p className="mr-2">{props.price}</p>
-        <CurrencyIcon type="primary" />
-      </div>
-      <h2
-        className={`${cardIngredientStyles.title} text text_type_main-default`}
+    <Link to={{ pathname: `/ingredients/${ingredientId}`, state: { background: location } }}>
+      <article
+        className={`${cardIngredientStyles.product__container}`}
+        onClick={onHandleClick}
+        ref={dragRef}
       >
-        {props.name}
-      </h2>
-    </article>
+        {quntity > 0 && <Counter count={quntity} size="default" />}
+        <img
+          className={cardIngredientStyles.image}
+          src={props.image}
+          alt="Продукт"
+        />
+        <div className={cardIngredientStyles.price}>
+          <p className="mr-2">{props.price}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <h2
+          className={`${cardIngredientStyles.title} text text_type_main-default`}
+        >
+          {props.name}
+        </h2>
+      </article>
+    </Link>
   );
 };
 

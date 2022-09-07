@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import loginStyles from "./Login.module.css";
 import {
   Button,
@@ -22,7 +22,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isLogged) {
-    history.push('/')
+      history.push('/')
     }
   }, [isLogged])
 

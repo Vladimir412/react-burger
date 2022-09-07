@@ -24,7 +24,6 @@ export default createReducer(userInitialState, {
     };
   },
   [userInfoItemSuccess]: (state, action) => {
-    console.log(action);
     return {
       ...state,
       isLoading: false,
