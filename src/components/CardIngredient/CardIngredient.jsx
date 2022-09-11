@@ -3,10 +3,12 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardIngredientStyles from "./CardIngredient.module.css";
-import { useLocation, Link } from 'react-router-dom'
-import { typesOfIngredients, typesOfOpenModalIngredient } from "../../utils/types";
+import { useLocation, Link } from "react-router-dom";
+import {
+  typesOfIngredients,
+  typesOfOpenModalIngredient,
+} from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import { addDataModalIngredient, modalIngredientItemOpen } from "../../services/actions/actions";
 import { useDrag } from "react-dnd";
 import { useEffect, useState } from "react";
 
@@ -38,17 +40,17 @@ const CardIngredient = (props) => {
     countQuantity();
   }, [ingredientsInConstructor]);
 
-  const onHandleClick = () => {
-    dispatch(addDataModalIngredient(props));
-    props.openModalIngredient();
-    dispatch(modalIngredientItemOpen(true))
-  };
-
   return (
-    <Link to={{ pathname: `/ingredients/${ingredientId}`, state: { background: location } }}>
+    <Link
+      key={ingredientId}
+      to={{
+        pathname: `/ingredients/${ingredientId}`,
+        state: { background: location },
+      }}
+      style={{ textDecoration: "none", color: "#F2F2F3" }}
+    >
       <article
         className={`${cardIngredientStyles.product__container}`}
-        onClick={onHandleClick}
         ref={dragRef}
       >
         {quntity > 0 && <Counter count={quntity} size="default" />}
@@ -72,7 +74,7 @@ const CardIngredient = (props) => {
 };
 
 CardIngredient.propTypes = {
-  openModalIngredient: typesOfOpenModalIngredient
+  openModalIngredient: typesOfOpenModalIngredient,
 };
 
 export default CardIngredient;

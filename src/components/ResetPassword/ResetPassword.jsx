@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import { resetPasswordUser } from "../../services/actions/auth";
 import resetPasswordStyles from "./ResetPassword.module.css";
 import {
@@ -11,6 +11,7 @@ import {
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState({ password: "", token: "" });
+  const { isLogged } = useSelector((state) => state.authReducer);
 
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -19,12 +20,21 @@ const ResetPassword = () => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     dispatch(resetPasswordUser(inputs.password, inputs.token));
-    setInputs({ password: "", token: "" })
+    setInputs({ password: "", token: "" });
   };
+
+  const disabledButton =
+    inputs.password.length >= 8 && inputs.token.length >= 36 ? false : true;
+
+  if (isLogged) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={resetPasswordStyles.container}>
-      <h1 className={resetPasswordStyles.title}>Восстановление пароля</h1>
+      <h1 className={`${resetPasswordStyles.title} text text_type_main-medium`}>
+        Восстановление пароля
+      </h1>
       <form className={resetPasswordStyles.form}>
         <div className={resetPasswordStyles.formInput}>
           <Input
@@ -48,14 +58,25 @@ const ResetPassword = () => {
           />
         </div>
         <div className={resetPasswordStyles.buttonSubmit}>
-          <Button size="large" onClick={onHandleSubmit}>
+          <Button
+            size="medium"
+            onClick={onHandleSubmit}
+            disabled={disabledButton}
+          >
             Сохранить
           </Button>
         </div>
       </form>
       <div className={resetPasswordStyles.blockHelp}>
-        <p className={resetPasswordStyles.blockHelp__text}>Вспомнили пароль?</p>
-        <Link to="/login" className={resetPasswordStyles.blockHelp__link}>
+        <p
+          className={`${resetPasswordStyles.blockHelp__text} text text_type_main-default`}
+        >
+          Вспомнили пароль?
+        </p>
+        <Link
+          to="/login"
+          className={`${resetPasswordStyles.blockHelp__link} text text_type_main-default`}
+        >
           Войти
         </Link>
       </div>

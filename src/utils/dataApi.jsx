@@ -6,11 +6,12 @@ export const getData = () => {
     .then((res) => res.data);
 };
 
-export const sentDataIngredients = (arr) => {
+export const sentDataIngredients = (arr, accessToken) => {
   return fetch(`${baseUrl}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: accessToken,
     },
     body: JSON.stringify({
       ingredients: arr,

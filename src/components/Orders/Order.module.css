@@ -29,7 +29,7 @@
 }
 
 .inputsContainer {
-    margin-left: 85px;
+    margin-left: 60px;
 }
 
 .input {
@@ -45,29 +45,4 @@
 .buttonExit:hover {
     cursor: pointer;
     
-}
-
-.buttonsForm {
-    display: flex;
-    flex-flow: row nowrap;
-    margin-top: 24px;
-    margin-bottom: 30px;
-    justify-content: flex-end;
-}
-
-.buttonsForm__cancel {
-    background-color: #131316;
-    color: #F2F2F3;
-    border: none;
-    margin-right: 20px;
-    transition: linear .3s;
-}
-
-.buttonsForm__cancel_type_hidden {
-    display: none;
-}
-
-.buttonsForm__cancel:hover {
-    cursor: pointer;
-    opacity: .7;
 }

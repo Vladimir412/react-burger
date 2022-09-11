@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+  useHistory,
+} from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import appStyles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
@@ -13,37 +19,40 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { getDataIngredients } from "../../services/actions/actions";
 import { getInfoAboutUser } from "../../services/actions/userInfo";
-import { removeDataModalIngredient } from "../../services/actions/actions";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
+import Orders from "../Orders/Oreders";
 
 const ingredient = "ingredient";
 const order = "order";
+const withoutModal = "withoutModal";
 
 function App() {
   const dispatch = useDispatch();
-
-  const [typeModal, setTypeModal] = useState("");
-  const { isModalOrder, isModalIngredient } = useSelector(
-    (state) => state.ingredientReducers
-  );
-  const { isLogged, accessToken } = useSelector(state => state.authReducer)
-  const refreshToken = localStorage.getItem('refreshToken')
-
-  useEffect(() => {
-    if (isLogged) {
-      dispatch(getInfoAboutUser(accessToken))
-    }
-  }, [isLogged]);
+  const history = useHistory();
+  const location = useLocation();
+  let background = location.state && location.state.background;
 
   //получаем данные ингридиентов
   useEffect(() => {
     dispatch(getDataIngredients());
   }, []);
 
+  const [typeModal, setTypeModal] = useState("");
+  const { isModalOrder, isModalIngredient, ingredients } = useSelector(
+    (state) => state.ingredientReducers
+  );
+  const { isLogged, accessToken } = useSelector((state) => state.authReducer);
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  useEffect(() => {
+    if (isLogged) {
+      dispatch(getInfoAboutUser(accessToken));
+    }
+  }, [isLogged]);
 
   //открыитие попапа ингридиента и получение данных
   const openModalIngredient = () => {
@@ -57,49 +66,62 @@ function App() {
 
   //закрытие попапа
   const closeAllModal = () => {
-    // dispatch(modalOrderItemClosed)
-    dispatch(removeDataModalIngredient({}));
-    setTypeModal("");
+    history.goBack();
   };
 
   return (
     <>
       <div className={appStyles.app}>
         <AppHeader />
-        <Switch>
-          <ProtectedRoute path="/" exact>
+        <Switch location={background || location}>
+          <Route path="/" exact>
             <main className={appStyles.main}>
               <DndProvider backend={HTML5Backend}>
                 <BurgerIngredients openModalIngredient={openModalIngredient} />
                 <BurgerConstructor openModalOrder={openModalOrder} />
               </DndProvider>
             </main>
-          </ProtectedRoute>
-          <Route path="/login" >
+          </Route>
+          <Route path="/login">
             <Login />
           </Route>
-          <Route path="/register" >
+          <Route path="/register">
             <Register />
           </Route>
-          <Route path="/forgot-password" >
+          <Route path="/forgot-password">
             <ForgotPassword />
           </Route>
-          <Route path="/reset-password" >
+          <Route path="/reset-password">
             <ResetPassword />
           </Route>
           <ProtectedRoute path="/profile" exact>
             <Profile />
           </ProtectedRoute>
+          <ProtectedRoute path="/profile/orders" exact>
+            <Orders />
+          </ProtectedRoute>
+          {location && (
+            <Route
+              path="/ingredients/:ingredientId"
+              exact
+              children={<IngredientDetails withoutModal={withoutModal} />}
+            />
+          )}
         </Switch>
       </div>
-      {isModalIngredient && (
-        <Modal
-          title="Детали ингредиента"
-          closeModal={closeAllModal}
-          typeModal={typeModal}
-        >
-          <IngredientDetails />
-        </Modal>
+      {background && (
+        <Route
+          path="/ingredients/:ingredientId"
+          children={
+            <Modal
+              title="Детали ингредиента"
+              closeModal={closeAllModal}
+              typeModal={ingredient}
+            >
+              <IngredientDetails />
+            </Modal>
+          }
+        />
       )}
       {isModalOrder && (
         <Modal closeModal={closeAllModal} title="" typeModal={typeModal}>
@@ -108,7 +130,6 @@ function App() {
       )}
     </>
   );
-
 }
 
 export default App;

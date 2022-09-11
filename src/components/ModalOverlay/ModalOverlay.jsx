@@ -1,23 +1,16 @@
 import modalOverlayStyles from "./ModalOverlay.module.css";
-import { useDispatch } from "react-redux";
-import { modalOrderItemClosed, modalIngredientItemClosed } from '../../services/actions/actions'
+import { useHistory } from "react-router-dom";
 
 const ModalOverlay = () => {
-
-  const dispatch = useDispatch()
+  const history = useHistory();
 
   const closeModal = () => {
-    dispatch(modalOrderItemClosed(false))
-    dispatch(modalIngredientItemClosed(false))
-  }
+    history.goBack();
+  };
 
   return (
-    <div
-      className={modalOverlayStyles.container}
-      onClick={closeModal}
-    ></div>
+    <div className={modalOverlayStyles.container} onClick={closeModal}></div>
   );
 };
-
 
 export default ModalOverlay;

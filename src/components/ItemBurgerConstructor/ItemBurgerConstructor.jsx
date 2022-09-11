@@ -3,13 +3,11 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import itemBurgerConstructorStyles from "./ItemBurgerConstructor.module.css";
-import { typesOfIngredients } from "../../utils/types";
 import { useSelector, useDispatch } from "react-redux";
 import { removeIngredientInConstructor } from "../../services/actions/actions";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
-import PropTypes from 'prop-types';
-
+import PropTypes from "prop-types";
 
 const ItemBurgerConstructor = (props) => {
   const { dragId, moveItem, index } = props;
@@ -90,7 +88,7 @@ const ItemBurgerConstructor = (props) => {
 ItemBurgerConstructor.propTypes = {
   index: PropTypes.number.isRequired,
   moveItem: PropTypes.func.isRequired,
-  dragId: PropTypes.string.isRequired
+  dragId: PropTypes.string.isRequired,
 };
 
 export default ItemBurgerConstructor;

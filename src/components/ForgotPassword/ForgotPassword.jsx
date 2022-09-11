@@ -1,8 +1,8 @@
 import forgotPasswordStyles from "./ForgotPassword.module.css";
 import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import { recoveryPasswordUser } from "../../services/actions/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Input,
@@ -11,6 +11,9 @@ import {
 const ForgotPassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/
+  const  { isLogged } = useSelector(state => state.authReducer)
+
   const [email, setEmail] = useState("");
 
   const onChangeEmail = (e) => {
@@ -24,9 +27,17 @@ const ForgotPassword = () => {
     history.push("/reset-password");
   };
 
+  const disabledButton = email.match(regEmail) === null ? true : false
+  console.log(disabledButton);
+
+
+  if (isLogged) {
+    return <Redirect to='/' />
+  }
+
   return (
     <div className={forgotPasswordStyles.container}>
-      <h1 className={forgotPasswordStyles.title}>Восстановление пароля</h1>
+      <h1 className={`${forgotPasswordStyles.title} text text_type_main-medium`}>Восстановление пароля</h1>
       <form className={forgotPasswordStyles.form}>
         <div className={forgotPasswordStyles.formInput}>
           <Input
@@ -39,16 +50,16 @@ const ForgotPassword = () => {
           />
         </div>
         <div className={forgotPasswordStyles.buttonSubmit}>
-          <Button size="large" onClick={onHandleSubmit}>
+          <Button size="medium" onClick={onHandleSubmit} disabled={disabledButton}>
             Восстановить
           </Button>
         </div>
       </form>
       <div className={forgotPasswordStyles.blockHelp}>
-        <p className={forgotPasswordStyles.blockHelp__text}>
+        <p className={`${forgotPasswordStyles.blockHelp__text} text text_type_main-default`}>
           Вспомнили пароль?
         </p>
-        <Link to="/login" className={forgotPasswordStyles.blockHelp__link}>
+        <Link to="/login" className={`${forgotPasswordStyles.blockHelp__link} text text_type_main-default`}>
           Войти
         </Link>
       </div>

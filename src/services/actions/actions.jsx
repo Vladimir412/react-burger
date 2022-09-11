@@ -64,10 +64,10 @@ export const getDataIngredients = () => {
   };
 };
 
-export const sentDataOrder = (order) => {
+export const sentDataOrder = (order, accessToken) => {
   return function (dispatch) {
     dispatch(getAndUpdateNumberOrderItemRequest());
-    sentDataIngredients(order)
+    sentDataIngredients(order, accessToken)
       .then((data) => {
         if (data) {
           dispatch(getAndUpdateNumberOrderItemSuccess(data));

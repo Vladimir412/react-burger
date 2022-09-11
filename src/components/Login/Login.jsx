@@ -1,4 +1,4 @@
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import loginStyles from "./Login.module.css";
 import {
   Button,
@@ -8,13 +8,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { signInUser } from "../../services/actions/auth";
-import { loginUserItemRedirect } from "../../services/actions/auth";
 
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isLogged } = useSelector((state) => state.authReducer);
   const [inputs, setInputs] = useState({ email: "", password: "" });
+  const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -22,19 +22,26 @@ const Login = () => {
 
   useEffect(() => {
     if (isLogged) {
-      history.push('/')
+      history.push("/");
     }
-  }, [isLogged])
+  }, [isLogged]);
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
     dispatch(signInUser(inputs.email, inputs.password));
-    setInputs({ email: "", password: "" })
+    setInputs({ email: "", password: "" });
   };
+
+  const disabledButton =
+    inputs.email.match(regEmail) !== null && inputs.password.length >= 8
+      ? false
+      : true;
 
   return (
     <div className={loginStyles.container}>
-      <h1 className={loginStyles.title}>Вход</h1>
+      <h1 className={`${loginStyles.title} text text_type_main-medium`}>
+        Вход
+      </h1>
       <form className={loginStyles.form}>
         <div className={loginStyles.formInput}>
           <Input
@@ -57,20 +64,40 @@ const Login = () => {
           />
         </div>
         <div className={loginStyles.buttonSubmit}>
-          <Button size="large" onClick={onHandleSubmit}>
+          <Button
+            size="large"
+            onClick={onHandleSubmit}
+            disabled={disabledButton}
+          >
             Войти
           </Button>
         </div>
       </form>
       <div className={loginStyles.blockHelp}>
-        <p className={loginStyles.blockHelp__text}>Вы — новый пользователь?</p>
-        <Link to="/register" className={loginStyles.blockHelp__link}>
+        <p
+          className={`${loginStyles.blockHelp__text} text text_type_main-default`}
+        >
+          Вы — новый пользователь?
+        </p>
+        <Link
+          to="/register"
+          className={`${loginStyles.blockHelp__link} text text_type_main-default`}
+        >
           Зарегистрироваться
         </Link>
       </div>
-      <div className={loginStyles.blockHelp}>
-        <p className={loginStyles.blockHelp__text}>Забыли пароль?</p>
-        <Link to="/forgot-password" className={loginStyles.blockHelp__link}>
+      <div
+        className={`${loginStyles.blockHelp} ${loginStyles.blockHelp_type_second}`}
+      >
+        <p
+          className={`${loginStyles.blockHelp__text} text text_type_main-default`}
+        >
+          Забыли пароль?
+        </p>
+        <Link
+          to="/forgot-password"
+          className={`${loginStyles.blockHelp__link} text text_type_main-default`}
+        >
           Восстановить пароль
         </Link>
       </div>

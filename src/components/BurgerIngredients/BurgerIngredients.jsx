@@ -20,10 +20,8 @@ const BurgerIngredients = (props) => {
   const [bunViewRef, bunViewInView] = useInView({
     initialInView: true,
   });
-  const [sauceViewRef, sauceViewInView] = useInView({
-  });
-  const [mainViewRef, mainViewInView] = useInView({
-  });
+  const [sauceViewRef, sauceViewInView] = useInView({});
+  const [mainViewRef, mainViewInView] = useInView({});
 
   const scrollIngredients = (value) => {
     value.current.scrollIntoView({ behavior: "smooth" });
@@ -90,7 +88,11 @@ const BurgerIngredients = (props) => {
           </Tab>
         </a>
         <a>
-          <Tab value="main" active={!bunViewInView && !sauceViewInView && mainViewInView} onClick={changeItem}>
+          <Tab
+            value="main"
+            active={!bunViewInView && !sauceViewInView && mainViewInView}
+            onClick={changeItem}
+          >
             Начинки
           </Tab>
         </a>

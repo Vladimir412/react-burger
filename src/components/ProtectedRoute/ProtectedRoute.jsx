@@ -1,13 +1,15 @@
-import { Route, Redirect } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { Route, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const ProtectedRoute = ({children, ...rest}) => {
-    const { isLogged } = useSelector(state => state.authReducer)
-    console.log(isLogged);
+const ProtectedRoute = ({ children, ...rest }) => {
+  const { isLogged } = useSelector((state) => state.authReducer);
 
-    return (
-        <Route {...rest} render={() => isLogged ? (children) : (<Redirect to='/login'/>)} />
-    )
-}
+  return (
+    <Route
+      {...rest}
+      render={() => (isLogged ? children : <Redirect to="/login" />)}
+    />
+  );
+};
 
-export default ProtectedRoute
+export default ProtectedRoute;

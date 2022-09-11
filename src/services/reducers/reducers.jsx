@@ -79,7 +79,7 @@ export default createReducer(initialState, {
   [getAndUpdateNumberOrderItemSuccess]: (state, action) => {
     return {
       ...state,
-      sLoading: false,
+      isLoading: false,
       order: action.payload,
       isModalOrder: true,
     };

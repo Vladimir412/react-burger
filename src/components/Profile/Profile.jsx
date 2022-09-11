@@ -14,14 +14,25 @@ const Profile = () => {
   const { name, email, isLoading } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const history = useHistory();
+  const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
   const refreshToken = localStorage.getItem("refreshToken");
+
   const [initialInputs, setInitialInputs] = useState({
     name: name,
     email: email,
     password: "",
   });
-  const [inputs, setInputs] = useState(initialInputs);
+  const [inputs, setInputs] = useState({ ...initialInputs });
+
+  const valueMatch =
+    initialInputs.name !== inputs.name ||
+    initialInputs.email !== inputs.email ||
+    initialInputs.password !== inputs.password
+      ? true
+      : false;
+  console.log(initialInputs.password);
+  console.log(inputs.password);
 
   useEffect(() => {
     if (!isLogged) {
@@ -48,7 +59,20 @@ const Profile = () => {
     setInputs({ ...initialInputs });
   };
 
-  const disabledButton = (inputs.password.length < 8 ? true : false)
+  const disabledButton =
+    inputs.password.length >= 8 &&
+    inputs.email.match(regEmail) !== null &&
+    valueMatch &&
+    inputs.name.length > 0
+      ? false
+      : true;
+
+  const stateButtonCancel =
+    inputs.password !== initialInputs.password ||
+    inputs.email !== initialInputs.email ||
+    inputs.name !== initialInputs.name
+      ? true
+      : false;
 
   return (
     <section className={profileStyles.container}>
@@ -115,7 +139,11 @@ const Profile = () => {
         <div className={profileStyles.buttonsForm}>
           <button
             type="button"
-            className={profileStyles.buttonsForm__cancel}
+            className={
+              stateButtonCancel
+                ? profileStyles.buttonsForm__cancel
+                : profileStyles.buttonsForm__cancel_type_hidden
+            }
             onClick={handleReset}
           >
             Отмена

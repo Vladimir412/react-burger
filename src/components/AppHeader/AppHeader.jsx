@@ -13,7 +13,7 @@ const AppHeader = () => {
       <nav className={headerStyles.navigation}>
         <ul className={`${headerStyles.list}`}>
           <NavLink
-            to='/'
+            to="/"
             exact
             className={`${headerStyles.navLink} text text_color_inactive`}
             activeClassName={`${headerStyles.navLink_type_active}`}
