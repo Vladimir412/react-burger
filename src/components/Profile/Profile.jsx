@@ -2,7 +2,7 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import profileStyles from "./Profile.module.css";
 import { logOutUser } from "../../services/actions/auth";
@@ -14,7 +14,12 @@ const Profile = () => {
   const { name, email, isLoading } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation()
   const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+  useEffect(() => {
+    location.state = '/profile'
+  }, [])
 
   const refreshToken = localStorage.getItem("refreshToken");
 
@@ -31,8 +36,6 @@ const Profile = () => {
     initialInputs.password !== inputs.password
       ? true
       : false;
-  console.log(initialInputs.password);
-  console.log(inputs.password);
 
   useEffect(() => {
     if (!isLogged) {
@@ -106,7 +109,10 @@ const Profile = () => {
           </li>
         </ul>
       </div>
-      <form className={profileStyles.inputsContainer}>
+      <form
+        className={profileStyles.inputsContainer}
+        onSubmit={handleUpdateDataUser}
+      >
         <Input
           value={inputs.name}
           name="name"
@@ -148,12 +154,7 @@ const Profile = () => {
           >
             Отмена
           </button>
-          <Button
-            type="primary"
-            size="small"
-            onClick={handleUpdateDataUser}
-            disabled={disabledButton}
-          >
+          <Button type="primary" size="small" disabled={disabledButton}>
             {isLoading ? "Сохранение..." : "Сохранить"}
           </Button>
         </div>

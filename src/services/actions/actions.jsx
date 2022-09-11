@@ -64,18 +64,21 @@ export const getDataIngredients = () => {
   };
 };
 
-export const sentDataOrder = (order, accessToken) => {
+export const sentDataOrder = (order, accessToken, openModalOrder) => {
   return function (dispatch) {
     dispatch(getAndUpdateNumberOrderItemRequest());
     sentDataIngredients(order, accessToken)
       .then((data) => {
+        console.log(data);
         if (data) {
           dispatch(getAndUpdateNumberOrderItemSuccess(data));
+          console.log(data);
+          openModalOrder(data.order.number)
         } else {
           dispatch(getAndUpdateNumberOrderItemError());
         }
       })
-      .then(() => dispatch(modalOrderItemOpen(true)))
+      // .then(() => dispatch(modalOrderItemOpen(true)))
       .then(() => dispatch(addIngredientInConstructor([])))
       .catch((err) => dispatch(getAndUpdateNumberOrderItemError()));
   };

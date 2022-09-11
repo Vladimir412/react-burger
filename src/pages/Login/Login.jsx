@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import loginStyles from "./Login.module.css";
 import {
   Button,
@@ -12,6 +12,7 @@ import { signInUser } from "../../services/actions/auth";
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation()
   const { isLogged } = useSelector((state) => state.authReducer);
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
@@ -20,29 +21,33 @@ const Login = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    if (isLogged) {
-      history.push("/");
-    }
-  }, [isLogged]);
+  // useEffect(() => {
+  //   if (isLogged) {
+  //     history.push("/");
+  //   }
+  // }, [isLogged]);
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
     dispatch(signInUser(inputs.email, inputs.password));
     setInputs({ email: "", password: "" });
   };
-
+  
   const disabledButton =
     inputs.email.match(regEmail) !== null && inputs.password.length >= 8
       ? false
       : true;
+
+  if (isLogged) {
+    return <Redirect to={location?.state?.from || '/'} />;
+  }
 
   return (
     <div className={loginStyles.container}>
       <h1 className={`${loginStyles.title} text text_type_main-medium`}>
         Вход
       </h1>
-      <form className={loginStyles.form}>
+      <form className={loginStyles.form} onSubmit={onHandleSubmit}>
         <div className={loginStyles.formInput}>
           <Input
             type="email"
@@ -64,11 +69,7 @@ const Login = () => {
           />
         </div>
         <div className={loginStyles.buttonSubmit}>
-          <Button
-            size="large"
-            onClick={onHandleSubmit}
-            disabled={disabledButton}
-          >
+          <Button size="large" disabled={disabledButton}>
             Войти
           </Button>
         </div>

@@ -133,8 +133,8 @@ const BurgerIngredients = (props) => {
   );
 };
 
-BurgerIngredients.propTypes = {
-  openModalIngredient: typesOfOpenModalIngredient,
-};
+// BurgerIngredients.propTypes = {
+//   openModalIngredient: typesOfOpenModalIngredient,
+// };
 
 export default BurgerIngredients;

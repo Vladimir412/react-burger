@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { modalOrderItemClosed } from '../../services/actions/actions'
 
-const OrderDetails = () => {
+const OrderDetails = (props) => {
   const { order } = useSelector(state => state.ingredientReducers)
   const dispatch = useDispatch()
 
   const closeModal = () => {
-    dispatch(modalOrderItemClosed(false))
+    props.closeModal()
   }
 
   return (
@@ -24,7 +24,6 @@ const OrderDetails = () => {
       </p>
       <button
         className={orderDetailsStyles.buttonImage}
-        onClick={closeModal}
       ></button>
       <p className={`${orderDetailsStyles.status} text text_type_main-default`}>
         Ваш заказ начали готовить

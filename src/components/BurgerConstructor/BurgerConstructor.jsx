@@ -8,7 +8,7 @@ import burgerConstructor from "./BurgerConstructor.module.css";
 import { typesOfOpenModalOrder } from "../../utils/types";
 import { useSelector, useDispatch } from "react-redux";
 import { sentDataOrder } from "../../services/actions/actions";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
@@ -20,6 +20,7 @@ const BurgerConstructor = (props) => {
   );
   const { isLogged, accessToken } = useSelector((state) => state.authReducer);
   const history = useHistory();
+  const location = useLocation()
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -108,14 +109,18 @@ const BurgerConstructor = (props) => {
     }
   }, [itemBun]);
 
+  const openModalOrder = (orderId) => {
+    history.push({pathname: `/orders/${orderId}`, state: { background: location },})
+  }
+
   const handleSentData = () => {
     if (!isLogged) {
       history.push("/login");
     } else {
-      props.openModalOrder();
+      // props.openModalOrder();
       const data = ingredientsInConstructor.map((i) => i._id);
       data.push(itemBun[0]._id);
-      dispatch(sentDataOrder(data, accessToken));
+      dispatch(sentDataOrder(data, accessToken, openModalOrder));
     }
   };
 

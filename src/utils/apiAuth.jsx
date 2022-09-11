@@ -1,4 +1,5 @@
-const baseUrl = "https://norma.nomoreparties.space/api";
+import { baseUrl } from "./constans";
+import { checkResponse } from "./utils";
 
 export const signUp = (email, password, name) => {
   return fetch(`${baseUrl}/auth/register`, {
@@ -78,8 +79,4 @@ export const updateToken = () => {
     },
     body: JSON.stringify({token: localStorage.getItem('refreshToken')}),
   }).then(checkResponse);
-};
-
-const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };

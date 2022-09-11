@@ -13,8 +13,6 @@ const modalRoot = document.getElementById("modals");
 const buttonEscape = "Escape";
 
 const Modal = (props) => {
-  const dispatch = useDispatch();
-
   //закрытие попапа на кнопку Esc
   useEffect(() => {
     const closeOnEscape = (e) => {
@@ -31,16 +29,14 @@ const Modal = (props) => {
 
   const closeModal = () => {
     props.closeModal();
-    dispatch(modalOrderItemClosed(false));
-    dispatch(modalIngredientItemClosed(false));
   };
 
   const typeContainer =
-    props.typeModal === "ingredient"
+    props.title.length > 0
       ? modaleStyles.container
       : modaleStyles.container_type_order;
   const typeHeader =
-    props.typeModal === "ingredient"
+    props.title.length > 0
       ? modaleStyles.header
       : modaleStyles.header_type_order;
 
@@ -66,7 +62,6 @@ const Modal = (props) => {
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired,
-  typeModal: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 

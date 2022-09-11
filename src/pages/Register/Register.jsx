@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +10,7 @@ import { signUpUser } from "../../services/actions/auth";
 
 const Register = () => {
   const dispatch = useDispatch();
+  const { isLogged } = useSelector(state => state.authReducer)
   const [inputs, setInputs] = useState({ name: "", email: "", password: "" });
 
   const onChange = (e) => {
@@ -21,6 +22,10 @@ const Register = () => {
     dispatch(signUpUser(inputs.email, inputs.password, inputs.name));
     setInputs({ name: "", email: "", password: "" });
   };
+
+  if (isLogged) {
+    return <Redirect to='/' />
+  }
 
   return (
     <div className={registerStyles.container}>

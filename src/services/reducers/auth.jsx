@@ -23,10 +23,7 @@ import { updateTokenUser } from '../actions/userInfo'
 const authInitialState = {
   isLoading: false,
   isError: false,
-  name: "",
-  email: "",
   accessToken: "",
-  isRedirected: false,
   isLogged: false,
 };
 
@@ -35,8 +32,6 @@ export default createReducer(authInitialState, {
     return {
       ...state,
       isLoading: false,
-      email: action.payload.user.email,
-      name: action.payload.user.name,
       accessToken: action.payload.accessToken,
     };
   },
@@ -67,8 +62,6 @@ export default createReducer(authInitialState, {
       isLoading: false,
       isLogged: true,
       accessToken: action.payload.accessToken,
-      email: action.payload.user.email,
-      name: action.payload.user.name,
     };
   },
   [loginUserItemFailed]: (state) => {
@@ -76,12 +69,6 @@ export default createReducer(authInitialState, {
       ...state,
       isLoading: false,
       isError: true,
-    };
-  },
-  [loginUserItemRedirect]: (state, action) => {
-    return {
-      ...state,
-      isRedirected: action.payload,
     };
   },
   [resetPasswordUserItemRequest]: (state, action) => {
@@ -122,10 +109,7 @@ export default createReducer(authInitialState, {
       isLoading: false,
       isError: false,
       isLogged: false,
-      name: "",
-      email: "",
       accessToken: "",
-      isRedirected: false,
     };
   },
   [logOutItemFailed]: (state) => {

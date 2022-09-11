@@ -7,9 +7,6 @@ const IngredientDetails = ({ withoutModal }) => {
   const history = useHistory();
   const { ingredients } = useSelector((state) => state.ingredientReducers);
   const path = useParams().ingredientId;
-  const back = () => {
-    history.goBack();
-  };
 
   const stylesConainer = withoutModal
     ? ingredientDetailsStyles.constainer_type_withoutModal
@@ -19,7 +16,7 @@ const IngredientDetails = ({ withoutModal }) => {
     const { calories, carbohydrates, image_large, name, proteins, fat } =
       ingredients.find((i) => i._id === path);
     return (
-      <div className={stylesConainer} onClick={back}>
+      <div className={stylesConainer}>
         {withoutModal && (
           <h1 className={`text text_type_main-large`}>Детали ингредиента</h1>
         )}

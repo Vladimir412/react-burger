@@ -74,7 +74,7 @@ const CardIngredient = (props) => {
 };
 
 CardIngredient.propTypes = {
-  openModalIngredient: typesOfOpenModalIngredient,
+  // openModalIngredient: typesOfOpenModalIngredient,
 };
 
 export default CardIngredient;

@@ -7,6 +7,7 @@ import {
   logOut,
   updateToken,
 } from "../../utils/apiAuth";
+import { getInfoAboutUser } from '../actions/userInfo'
 
 export const registerUserItemRequest = createAction(
   "REGISTER_USER_ITEM_REQUEST"
@@ -19,7 +20,6 @@ export const registerUserItemFailed = createAction("REGISTER_USER_ITEM_FAILED");
 export const loginUserItemRequest = createAction("LOGIN_USER_ITEM_REQUEST");
 export const loginUserItemSuccess = createAction("LOGIN_USER_ITEM_SUCCESS");
 export const loginUserItemFailed = createAction("LOGIN_USER_ITEM_FAILED");
-export const loginUserItemRedirect = createAction("LOGIN_USER_ITEM_REDIRECT");
 
 export const resetPasswordUserItemRequest = createAction(
   "RESET_PASSWORD_USER_ITEM_REQUEST"
@@ -63,7 +63,6 @@ export const signInUser = (email, password) => {
     signIn(email, password)
       .then((data) => {
         if (data && data.success) {
-          dispatch(loginUserItemRedirect(true));
           dispatch(loginUserItemSuccess(data));
           localStorage.setItem("refreshToken", data.refreshToken);
         } else {
@@ -123,10 +122,10 @@ export const logOutUser = (refreshToken) => {
   };
 };
 
-export const updateTokenUser = (accessToken, refreshToken) => {
+export const updateTokenUser = () => {
   return function (dispatch) {
     dispatch(upadateUserItemRequest())
-    updateToken(accessToken, refreshToken).then((data) => {
+    updateToken().then((data) => {
       if (data && data.success) {
         dispatch(upadateUserItemSuccess(data))
       } else {
@@ -135,4 +134,18 @@ export const updateTokenUser = (accessToken, refreshToken) => {
     })
     .catch(err => dispatch(upadateUserItemFailed()))
   };
+};
+
+export const autoLogin = () => (dispatch) => {
+  dispatch(upadateUserItemRequest())
+  updateToken().then(data => {
+    if (data && data.success) {
+      localStorage.setItem('refreshToken', data.refreshToken)
+      dispatch(loginUserItemSuccess(data))
+      dispatch(getInfoAboutUser(data.accessToken))
+    } else {
+      dispatch(upadateUserItemFailed())
+    }
+  })
+  .catch(err => dispatch(upadateUserItemFailed()))
 };
