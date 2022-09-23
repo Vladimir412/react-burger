@@ -26,10 +26,11 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
 import Orders from "../Orders/Oreders";
+import { withoutModal } from '../../utils/constans';
 
 const ingredient = "ingredient";
 const order = "order";
-const withoutModal = "withoutModal";
+// const withoutModal = "withoutModal";
 
 function App() {
   const dispatch = useDispatch();
