@@ -5,19 +5,19 @@ import modaleStyles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { modalOrderItemClosed, modalIngredientItemClosed } from '../../services/actions/actions'
+import {
+  modalOrderItemClosed,
+  modalIngredientItemClosed,
+} from "../../services/actions/actions";
 const modalRoot = document.getElementById("modals");
 const buttonEscape = "Escape";
 
 const Modal = (props) => {
-
-  const dispatch = useDispatch()
-
   //закрытие попапа на кнопку Esc
   useEffect(() => {
     const closeOnEscape = (e) => {
       if (e.key === buttonEscape) {
-        closeModal()
+        closeModal();
       }
     };
     document.addEventListener("keydown", closeOnEscape);
@@ -28,32 +28,27 @@ const Modal = (props) => {
   }, []);
 
   const closeModal = () => {
-    props.closeModal()
-    dispatch(modalOrderItemClosed(false))
-    dispatch(modalIngredientItemClosed(false))
-  }
+    props.closeModal();
+  };
 
   const typeContainer =
-    props.typeModal === "ingredient"
+    props.title.length > 0
       ? modaleStyles.container
       : modaleStyles.container_type_order;
   const typeHeader =
-    props.typeModal === "ingredient"
+    props.title.length > 0
       ? modaleStyles.header
       : modaleStyles.header_type_order;
 
   return createPortal(
     <>
-      <ModalOverlay/>
+      <ModalOverlay />
       <div className={typeContainer}>
         <header className={typeHeader}>
           <h1 className={`text text_type_main-large ${modaleStyles.title}`}>
             {props.title}
           </h1>
-          <button
-            onClick={closeModal}
-            className={modaleStyles.closeButton}
-          >
+          <button onClick={closeModal} className={modaleStyles.closeButton}>
             <CloseIcon />
           </button>
         </header>
@@ -67,8 +62,7 @@ const Modal = (props) => {
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired,
-  typeModal: PropTypes.string.isRequired,
-  closeModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default Modal;

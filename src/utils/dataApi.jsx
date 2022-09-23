@@ -1,4 +1,5 @@
-const baseUrl = "https://norma.nomoreparties.space/api";
+import { baseUrl } from "./constans";
+import { checkResponse } from "./utils";
 
 export const getData = () => {
   return fetch(`${baseUrl}/ingredients`)
@@ -6,11 +7,12 @@ export const getData = () => {
     .then((res) => res.data);
 };
 
-export const sentDataIngredients = (arr) => {
+export const sentDataIngredients = (arr, accessToken) => {
   return fetch(`${baseUrl}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: accessToken,
     },
     body: JSON.stringify({
       ingredients: arr,
@@ -18,6 +20,3 @@ export const sentDataIngredients = (arr) => {
   }).then(checkResponse);
 };
 
-const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};

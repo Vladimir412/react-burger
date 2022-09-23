@@ -26,7 +26,7 @@
 .item {
     display: flex;
     flex-flow: row nowrap; 
-    justify-content: start;
+    justify-content: flex-start;
     width: 185px;
 }
 
@@ -40,4 +40,16 @@
     display: flex;
     flex-direction: row;
     margin-left: 308px;
+}
+
+.navLink {
+    text-decoration: none;
+    display: flex;
+    flex-flow: row nowrap; 
+    justify-content: flex-start;
+    width: 185px;
+}
+
+.navLink_type_active {
+    color: #F2F2F3;
 }

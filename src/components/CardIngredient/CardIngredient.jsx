@@ -3,18 +3,23 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardIngredientStyles from "./CardIngredient.module.css";
-import { typesOfIngredients, typesOfOpenModalIngredient } from "../../utils/types";
+import { useLocation, Link } from "react-router-dom";
+import {
+  typesOfIngredients,
+  typesOfOpenModalIngredient,
+} from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import { addDataModalIngredient, modalIngredientItemOpen } from "../../services/actions/actions";
 import { useDrag } from "react-dnd";
 import { useEffect, useState } from "react";
 
 const CardIngredient = (props) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { ingredientsInConstructor } = useSelector(
     (state) => state.ingredientReducers
   );
   const [quntity, setQuantity] = useState(0);
+  const ingredientId = props.id;
 
   const [, dragRef] = useDrag({
     type: props.type === "bun" ? "bun" : "ingredient",
@@ -35,39 +40,41 @@ const CardIngredient = (props) => {
     countQuantity();
   }, [ingredientsInConstructor]);
 
-  const onHandleClick = () => {
-    dispatch(addDataModalIngredient(props));
-    props.openModalIngredient();
-    dispatch(modalIngredientItemOpen(true))
-  };
-
   return (
-    <article
-      className={`${cardIngredientStyles.product__container}`}
-      onClick={onHandleClick}
-      ref={dragRef}
+    <Link
+      key={ingredientId}
+      to={{
+        pathname: `/ingredients/${ingredientId}`,
+        state: { background: location },
+      }}
+      style={{ textDecoration: "none", color: "#F2F2F3" }}
     >
-      {quntity > 0 && <Counter count={quntity} size="default" />}
-      <img
-        className={cardIngredientStyles.image}
-        src={props.image}
-        alt="Продукт"
-      />
-      <div className={cardIngredientStyles.price}>
-        <p className="mr-2">{props.price}</p>
-        <CurrencyIcon type="primary" />
-      </div>
-      <h2
-        className={`${cardIngredientStyles.title} text text_type_main-default`}
+      <article
+        className={`${cardIngredientStyles.product__container}`}
+        ref={dragRef}
       >
-        {props.name}
-      </h2>
-    </article>
+        {quntity > 0 && <Counter count={quntity} size="default" />}
+        <img
+          className={cardIngredientStyles.image}
+          src={props.image}
+          alt="Продукт"
+        />
+        <div className={cardIngredientStyles.price}>
+          <p className="mr-2">{props.price}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <h2
+          className={`${cardIngredientStyles.title} text text_type_main-default`}
+        >
+          {props.name}
+        </h2>
+      </article>
+    </Link>
   );
 };
 
 CardIngredient.propTypes = {
-  openModalIngredient: typesOfOpenModalIngredient
+  // openModalIngredient: typesOfOpenModalIngredient,
 };
 
 export default CardIngredient;
