@@ -26,7 +26,6 @@ const initialState = {
   isLoading: false,
   isError: false,
   isModalOrder: false,
-  v: false,
 };
 
 export default createReducer(initialState, {

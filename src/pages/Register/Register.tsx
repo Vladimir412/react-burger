@@ -7,24 +7,25 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import registerStyles from "./Register.module.css";
 import { signUpUser } from "../../services/actions/auth";
+import { TRegister } from '../../utils/types'
 
 const Register = () => {
-  const dispatch = useDispatch();
-  const { isLogged } = useSelector(state => state.authReducer)
-  const [inputs, setInputs] = useState({ name: "", email: "", password: "" });
+  const dispatch: any = useDispatch();
+  const { isLogged } = useSelector((state: any) => state.authReducer);
+  const [inputs, setInputs] = useState<TRegister>({ name: "", email: "", password: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: { target: { name: string; value: string } }) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(signUpUser(inputs.email, inputs.password, inputs.name));
     setInputs({ name: "", email: "", password: "" });
   };
 
   if (isLogged) {
-    return <Redirect to='/' />
+    return <Redirect to="/" />;
   }
 
   return (

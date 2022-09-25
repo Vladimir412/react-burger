@@ -5,7 +5,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructor from "./BurgerConstructor.module.css";
-import { typesOfOpenModalOrder } from "../../utils/types";
+import { TIngredientDetails } from "../../utils/types";
 import { useSelector, useDispatch } from "react-redux";
 import { sentDataOrder } from "../../services/actions/actions";
 import { useHistory, useLocation } from "react-router-dom";
@@ -14,42 +14,39 @@ import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
 import ListItemBurgerConstructor from "../ListItemBurgerConstructor/ListItemBurgerConstructor";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
   const { ingredientsInConstructor, isLoading } = useSelector(
-    (state) => state.ingredientReducers
+    (state: any) => state.ingredientReducers
   );
-  const { isLogged, accessToken } = useSelector((state) => state.authReducer);
+  const { isLogged, accessToken } = useSelector((state: any) => state.authReducer);
   const history = useHistory();
   const location = useLocation()
   const dispatch = useDispatch();
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const [, dropBunRef] = useDrop({
     accept: "bun",
-    drop(data) {
+    drop(data: TIngredientDetails) {
       handleDrop(data);
     },
   });
-
-  const handleDrop = (data) => {
+  
+  const handleDrop = (data: TIngredientDetails) => {
     if (ingredientsInConstructor && ingredientsInConstructor.length > 0) {
-      dispatch(
-        addIngredientInConstructor([
-          ...ingredientsInConstructor,
-          { ...data, dragId: uuidv4() },
-        ])
-      );
+      {/* @ts-ignore */}
+      dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },]));
     } else {
+      {/* @ts-ignore */}
       dispatch(addIngredientInConstructor([{ ...data, dragId: uuidv4() }]));
     }
   };
 
   const itemBun =
     ingredientsInConstructor &&
-    ingredientsInConstructor.filter((i) => i.type === "bun");
+    ingredientsInConstructor.filter((i: TIngredientDetails) => i.type === "bun");
   const itemBunTop =
     itemBun &&
-    itemBun.map((i) => {
+    itemBun.map((i: TIngredientDetails) => {
       return (
         <li
           key={i._id}
@@ -71,7 +68,7 @@ const BurgerConstructor = (props) => {
 
   const itemBunBottom =
     itemBun &&
-    itemBun.map((i) => {
+    itemBun.map((i: TIngredientDetails) => {
       return (
         <li
           key={i.dragId}
@@ -94,7 +91,7 @@ const BurgerConstructor = (props) => {
   useEffect(() => {
     let total = 0;
     ingredientsInConstructor &&
-      ingredientsInConstructor.forEach((item) => {
+      ingredientsInConstructor.forEach((item: TIngredientDetails) => {
         total += item.price;
       });
     if (itemBun && itemBun.length > 0) total += itemBun[0].price;
@@ -104,12 +101,13 @@ const BurgerConstructor = (props) => {
   useEffect(() => {
     if (itemBun.length > 1) {
       const lastBun = itemBun[itemBun.length - 1];
-      const arrIngr = ingredientsInConstructor.filter((i) => i.type !== "bun");
+      const arrIngr = ingredientsInConstructor.filter((i: TIngredientDetails) => i.type !== "bun");
+      {/* @ts-ignore */}
       dispatch(addIngredientInConstructor([...arrIngr, lastBun]));
     }
   }, [itemBun]);
 
-  const openModalOrder = (orderId) => {
+  const openModalOrder = (orderId: string) => {
     history.push({pathname: `/orders/${orderId}`, state: { background: location },})
   }
 
@@ -118,13 +116,14 @@ const BurgerConstructor = (props) => {
       history.push("/login");
     } else {
       // props.openModalOrder();
-      const data = ingredientsInConstructor.map((i) => i._id);
+      const data = ingredientsInConstructor.map((i: TIngredientDetails) => i._id);
       data.push(itemBun[0]._id);
+      {/* @ts-ignore */}
       dispatch(sentDataOrder(data, accessToken, openModalOrder));
     }
   };
 
-  const findItemBun = ingredientsInConstructor.some((i) => i.type === "bun");
+  const findItemBun = ingredientsInConstructor.some((i: TIngredientDetails) => i.type === "bun");
 
   const stateButton =
     ingredientsInConstructor.length >= 2 && findItemBun === true ? false : true;
@@ -158,8 +157,8 @@ const BurgerConstructor = (props) => {
   );
 };
 
-BurgerConstructor.propTypes = {
-  openModalOrder: typesOfOpenModalOrder,
-};
+// BurgerConstructor.propTypes = {
+//   openModalOrder: typesOfOpenModalOrder,
+// };
 
 export default BurgerConstructor;

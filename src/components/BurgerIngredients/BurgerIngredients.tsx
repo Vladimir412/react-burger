@@ -1,21 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { MutableRefObject, RefObject, useEffect, useRef, useState, FC } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import CardIngredient from "../CardIngredient/CardIngredient";
-import { typesOfOpenModalIngredient } from "../../utils/types";
+import { TIngredient, TIngredientDetails } from "../../utils/types";
 import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
-const BurgerIngredients = (props) => {
-  const { ingredients } = useSelector((state) => state.ingredientReducers);
+const BurgerIngredients: FC = () => {
+  const { ingredients } = useSelector((state: any) => state.ingredientReducers);
 
-  const [bunTab, setBunTab] = useState(true);
-  const [sauceTab, setSauceTab] = useState(false);
-  const [mainTab, setMainTab] = useState(false);
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
-  const navRef = useRef(null);
+  const [bunTab, setBunTab] = useState<boolean>(true);
+  const [sauceTab, setSauceTab] = useState<boolean>(false);
+  const [mainTab, setMainTab] = useState<boolean>(false);
+  const bunRef = useRef<null | HTMLHeadingElement>(null);
+  const sauceRef = useRef<null | HTMLHeadingElement>(null);
+  const mainRef = useRef<null | HTMLHeadingElement>(null);
+  const navRef = useRef<null | HTMLHeadingElement>(null);
 
   const [bunViewRef, bunViewInView] = useInView({
     initialInView: true,
@@ -27,7 +27,7 @@ const BurgerIngredients = (props) => {
     value.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const changeItem = (e) => {
+  const changeItem = (e: string) => {
     if (e === "bun") {
       setBunTab(true);
       setSauceTab(false);
@@ -49,21 +49,24 @@ const BurgerIngredients = (props) => {
   };
 
   const newData = ingredients
-    ? ingredients.map((i) => (
+    ? ingredients.map((i: TIngredient) => (
         <CardIngredient
           key={i._id}
           id={i._id}
           {...i}
-          openModalIngredient={props.openModalIngredient}
+          // openModalIngredient={props.openModalIngredient}
         />
       ))
     : null;
 
-  const bun = newData !== null && newData.filter((i) => i.props.type === "bun");
+  const bun = newData !== null && newData.filter((i: TIngredientDetails) => i.type === "bun");
+  // const bun = newData !== null && newData.filter((i: TIngredientDetails) => i.props.type === "bun");
   const sauce =
-    newData !== null && newData.filter((i) => i.props.type === "sauce");
+    newData !== null && newData.filter((i: TIngredientDetails) => i.type === "sauce");
+    // newData !== null && newData.filter((i: TIngredientDetails) => i.props.type === "sauce");
   const main =
-    newData !== null && newData.filter((i) => i.props.type === "main");
+    newData !== null && newData.filter((i: TIngredientDetails) => i.type === "main");
+    // newData !== null && newData.filter((i: TIngredientDetails) => i.props.type === "main");
 
   return (
     <section className={burgerIngredientsStyles.container}>

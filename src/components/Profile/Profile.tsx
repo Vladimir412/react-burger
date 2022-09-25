@@ -8,29 +8,34 @@ import profileStyles from "./Profile.module.css";
 import { logOutUser } from "../../services/actions/auth";
 import { updateInfoAboutUser } from "../../services/actions/userInfo";
 import { useDispatch, useSelector } from "react-redux";
+import { TRegister } from "../../utils/types";
 
 const Profile = () => {
-  const { isLogged, accessToken } = useSelector((state) => state.authReducer);
-  const { name, email, isLoading } = useSelector((state) => state.userReducer);
+  const { isLogged, accessToken } = useSelector(
+    (state: any) => state.authReducer
+  );
+  const { name, email, isLoading } = useSelector(
+    (state: any) => state.userReducer
+  );
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation()
-  const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  const location: { state: string } = useLocation();
+  const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
   useEffect(() => {
-    location.state = '/profile'
-  }, [])
+    location.state = "/profile";
+  }, []);
 
-  const refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken: string | null = localStorage.getItem("refreshToken");
 
-  const [initialInputs, setInitialInputs] = useState({
+  const [initialInputs, setInitialInputs] = useState<TRegister>({
     name: name,
     email: email,
     password: "",
   });
-  const [inputs, setInputs] = useState({ ...initialInputs });
+  const [inputs, setInputs] = useState<TRegister>({ ...initialInputs });
 
-  const valueMatch =
+  const valueMatch: boolean =
     initialInputs.name !== inputs.name ||
     initialInputs.email !== inputs.email ||
     initialInputs.password !== inputs.password
@@ -43,18 +48,20 @@ const Profile = () => {
     }
   }, [isLogged]);
 
-  const onChangeInputs = (e) => {
+  const onChangeInputs = (e: { target: { name: string; value: string } }) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const handleLogOut = (e) => {
+  const handleLogOut = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    {/* @ts-ignore */}
     dispatch(logOutUser(refreshToken));
   };
 
-  const handleUpdateDataUser = (e) => {
+  const handleUpdateDataUser = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setInitialInputs({ ...inputs });
+    {/* @ts-ignore */}
     dispatch(updateInfoAboutUser({ ...inputs, accessToken }));
   };
 
@@ -119,7 +126,6 @@ const Profile = () => {
           onChange={onChangeInputs}
           placeholder="Имя"
           icon="EditIcon"
-          required
         />
         <div className={profileStyles.input}>
           <Input
@@ -128,7 +134,6 @@ const Profile = () => {
             onChange={onChangeInputs}
             placeholder="Логин"
             icon="EditIcon"
-            required
           />
         </div>
         <div className={profileStyles.input}>
@@ -139,7 +144,6 @@ const Profile = () => {
             onChange={onChangeInputs}
             placeholder="Пароль"
             icon="EditIcon"
-            required
           />
         </div>
         <div className={profileStyles.buttonsForm}>

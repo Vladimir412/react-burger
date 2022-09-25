@@ -5,33 +5,39 @@ import {
 import cardIngredientStyles from "./CardIngredient.module.css";
 import { useLocation, Link } from "react-router-dom";
 import {
-  typesOfIngredients,
-  typesOfOpenModalIngredient,
+  TCardIngredient,
+  TIngredient,
 } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FunctionComponent } from "react";
 
-const CardIngredient = (props) => {
+    const CardIngredient: FunctionComponent<TCardIngredient> = ({ calories, carbohydrates, fat, price, proteins, image, image_large, name, type, id, _id, key }) => {
+// const CardIngredient: FunctionComponent<TCardIngredient> = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { ingredientsInConstructor } = useSelector(
-    (state) => state.ingredientReducers
+    (state: any) => state.ingredientReducers
   );
   const [quntity, setQuantity] = useState(0);
-  const ingredientId = props.id;
+  const ingredientId = id;
+  // const ingredientId = props.id;
 
   const [, dragRef] = useDrag({
-    type: props.type === "bun" ? "bun" : "ingredient",
-    item: props,
+    type: type === "bun" ? "bun" : "ingredient",
+    // type: props.type === "bun" ? "bun" : "ingredient",
+    item: {calories, carbohydrates, fat, proteins, image, image_large, name, type, id, _id, key}
+    // item: props,
   });
 
   const countQuantity = () => {
     let total = 0;
     ingredientsInConstructor &&
-      ingredientsInConstructor.forEach((i) => {
-        if (i._id === props._id) total += 1;
-        if (i._id === props._id && i.type === "bun") total += 1;
+      ingredientsInConstructor.forEach((i: TCardIngredient) => {
+        if (i._id === _id) total += 1;
+        // if (i._id === props._id) total += 1;
+        if (i._id === _id && i.type === "bun") total += 1;
+        // if (i._id === props._id && i.type === "bun") total += 1;
       });
 
     setQuantity(total);
@@ -56,25 +62,24 @@ const CardIngredient = (props) => {
         {quntity > 0 && <Counter count={quntity} size="default" />}
         <img
           className={cardIngredientStyles.image}
-          src={props.image}
+          src={image}
+          // src={props.image}
           alt="Продукт"
         />
         <div className={cardIngredientStyles.price}>
-          <p className="mr-2">{props.price}</p>
+          <p className="mr-2">{price}</p>
+          {/* <p className="mr-2">{props.price}</p> */}
           <CurrencyIcon type="primary" />
         </div>
         <h2
           className={`${cardIngredientStyles.title} text text_type_main-default`}
         >
-          {props.name}
+          {name}
+          {/* {props.name} */}
         </h2>
       </article>
     </Link>
   );
-};
-
-CardIngredient.propTypes = {
-  // openModalIngredient: typesOfOpenModalIngredient,
 };
 
 export default CardIngredient;

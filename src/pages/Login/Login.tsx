@@ -6,28 +6,23 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FunctionComponent } from "react";
 import { signInUser } from "../../services/actions/auth";
+import { TLogin, TLocation } from '../../utils/types'
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const history = useHistory();
-  const location = useLocation()
-  const { isLogged } = useSelector((state) => state.authReducer);
-  const [inputs, setInputs] = useState({ email: "", password: "" });
-  const regEmail = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  const location: TLocation = useLocation()
+  const { isLogged }: {isLogged: boolean} = useSelector((state: any) => state.authReducer);
+  const [inputs, setInputs] = useState<TLogin>({ email: "", password: "" });
+  const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-  const onChange = (e) => {
+  const onChange = (e: { target: { name: string; value: string; }; }) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  // useEffect(() => {
-  //   if (isLogged) {
-  //     history.push("/");
-  //   }
-  // }, [isLogged]);
-
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(signInUser(inputs.email, inputs.password));
     setInputs({ email: "", password: "" });
@@ -60,9 +55,7 @@ const Login = () => {
         </div>
         <div className={loginStyles.formInput}>
           <PasswordInput
-            type="text"
             name="password"
-            placeholder="Пароль"
             size="default"
             value={inputs.password}
             onChange={onChange}

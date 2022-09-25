@@ -7,19 +7,20 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TLocation } from '../../utils/types'
 
 const ResetPassword = () => {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const location: TLocation = useLocation();
   const [inputs, setInputs] = useState({ password: "", token: "" });
-  const { isLogged } = useSelector((state) => state.authReducer);
+  const { isLogged } = useSelector((state: any) => state.authReducer);
 
-  const onChange = (e) => {
+  const onChange = (e: { target: { name: string; value: string; }; }) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(resetPasswordUser(inputs.password, inputs.token));
     setInputs({ password: "", token: "" });

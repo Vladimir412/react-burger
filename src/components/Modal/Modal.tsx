@@ -1,21 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, FunctionComponent } from "react";
 import { createPortal } from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modaleStyles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
+import { buttonEscape, modalRoot } from '../../utils/constans'
+import { TModal } from '../../utils/types'
 import { useDispatch } from "react-redux";
 import {
   modalOrderItemClosed,
   modalIngredientItemClosed,
 } from "../../services/actions/actions";
-const modalRoot = document.getElementById("modals");
-const buttonEscape = "Escape";
 
-const Modal = (props) => {
+const Modal: FunctionComponent<TModal> = ({ onCloseModal, title, children}) => {
   //закрытие попапа на кнопку Esc
   useEffect(() => {
-    const closeOnEscape = (e) => {
+    const closeOnEscape = (e: { key: string; }) => {
       if (e.key === buttonEscape) {
         closeModal();
       }
@@ -28,15 +28,15 @@ const Modal = (props) => {
   }, []);
 
   const closeModal = () => {
-    props.closeModal();
+    onCloseModal();
   };
 
   const typeContainer =
-    props.title.length > 0
+    title.length > 0
       ? modaleStyles.container
       : modaleStyles.container_type_order;
   const typeHeader =
-    props.title.length > 0
+    title.length > 0
       ? modaleStyles.header
       : modaleStyles.header_type_order;
 
@@ -46,23 +46,17 @@ const Modal = (props) => {
       <div className={typeContainer}>
         <header className={typeHeader}>
           <h1 className={`text text_type_main-large ${modaleStyles.title}`}>
-            {props.title}
+            {title}
           </h1>
           <button onClick={closeModal} className={modaleStyles.closeButton}>
-            <CloseIcon />
+            <CloseIcon type={"secondary"} />
           </button>
         </header>
-        {props.children}
+        {children}
       </div>
     </>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
-  closeModal: PropTypes.func.isRequired,
 };
 
 export default Modal;

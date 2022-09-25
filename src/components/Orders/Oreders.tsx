@@ -6,11 +6,11 @@ import { updateInfoAboutUser } from "../../services/actions/userInfo";
 import { useDispatch, useSelector } from "react-redux";
 
 const Orders = () => {
-  const { isLogged } = useSelector((state) => state.authReducer);
+  const { isLogged } = useSelector((state: any) => state.authReducer);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken: string | null = localStorage.getItem("refreshToken");
 
   useEffect(() => {
     if (!isLogged) {
@@ -19,8 +19,9 @@ const Orders = () => {
   }, [isLogged]);
 
 
-  const handleLogOut = (e) => {
+  const handleLogOut = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    {/* @ts-ignore */}
     dispatch(logOutUser(refreshToken));
   };
 

@@ -25,7 +25,7 @@ import Register from "../../pages/Register/Register";
 import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
-import Orders from "../Orders/Oreders";
+import Orders from "../Orders/Oreders.tsx";
 
 const ingredient = "ingredient";
 const order = "order";
@@ -81,7 +81,9 @@ function App() {
             <main className={appStyles.main}>
               <DndProvider backend={HTML5Backend}>
                 <BurgerIngredients />
-                <BurgerConstructor openModalOrder={openModalOrder} />
+                <BurgerConstructor
+                //  openModalOrder={openModalOrder} 
+                 />
               </DndProvider>
             </main>
           </Route>
@@ -126,7 +128,7 @@ function App() {
         <Route
           path="/orders/:orderId"
           children={
-            <Modal closeModal={closeModal} title="">
+            <Modal onCloseModal={closeModal} title="">
               <OrderDetails />
             </Modal>
           }

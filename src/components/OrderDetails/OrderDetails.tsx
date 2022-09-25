@@ -1,30 +1,18 @@
 import orderDetailsStyles from "./OrderDetails.module.css";
-import { typesOfClosedModal } from "../../utils/types";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { modalOrderItemClosed } from '../../services/actions/actions'
 
-const OrderDetails = (props) => {
-  const { order } = useSelector(state => state.ingredientReducers)
-  const dispatch = useDispatch()
-
-  const closeModal = () => {
-    props.closeModal()
-  }
+const OrderDetails = () => {
+  const { order } = useSelector((state: any) => state.ingredientReducers);
 
   return (
     <div className={orderDetailsStyles.container}>
-      <p className="text text_type_digits-large">
-        {order.order.number}
-      </p>
+      <p className="text text_type_digits-large">{order.order.number}</p>
       <p
         className={`${orderDetailsStyles.identity} text text_type_main-medium`}
       >
         идентификатор заказа
       </p>
-      <button
-        className={orderDetailsStyles.buttonImage}
-      ></button>
+      <button className={orderDetailsStyles.buttonImage}></button>
       <p className={`${orderDetailsStyles.status} text text_type_main-default`}>
         Ваш заказ начали готовить
       </p>
@@ -34,6 +22,5 @@ const OrderDetails = (props) => {
     </div>
   );
 };
-
 
 export default OrderDetails;
