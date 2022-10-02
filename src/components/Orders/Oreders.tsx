@@ -4,8 +4,9 @@ import orderStyles from "./Order.module.css";
 import { logOutUser } from "../../services/actions/auth";
 import { updateInfoAboutUser } from "../../services/actions/userInfo";
 import { useDispatch, useSelector } from "react-redux";
+import { FC } from 'react'
 
-const Orders = () => {
+const Orders: FC = () => {
   const { isLogged } = useSelector((state: any) => state.authReducer);
   const dispatch = useDispatch();
   const history = useHistory();

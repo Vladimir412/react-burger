@@ -1,5 +1,5 @@
 import forgotPasswordStyles from "./ForgotPassword.module.css";
-import { useState } from "react";
+import { useState, FC } from "react";
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { recoveryPasswordUser } from "../../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,14 +8,14 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const ForgotPassword = () => {
+const ForgotPassword: FC = () => {
   const dispatch: string | any = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
   const { isLogged } = useSelector((state: any) => state.authReducer);
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string>("");
 
   const onChangeEmail = (e: {target: {value: string}}) => {
     setEmail(e.target.value);
@@ -28,7 +28,7 @@ const ForgotPassword = () => {
     history.push("/reset-password", { from: location.pathname });
   };
 
-  const disabledButton = email.match(regEmail) === null ? true : false;
+  const disabledButton: boolean = email.match(regEmail) === null ? true : false;
 
   if (isLogged) {
     return <Redirect to="/" />;

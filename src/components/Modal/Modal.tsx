@@ -12,7 +12,7 @@ import {
   modalIngredientItemClosed,
 } from "../../services/actions/actions";
 
-const Modal: FunctionComponent<TModal> = ({ onCloseModal, title, children}) => {
+const Modal: FunctionComponent<TModal> = ({ closeModal, title, children}) => {
   //закрытие попапа на кнопку Esc
   useEffect(() => {
     const closeOnEscape = (e: { key: string; }) => {
@@ -27,8 +27,8 @@ const Modal: FunctionComponent<TModal> = ({ onCloseModal, title, children}) => {
     };
   }, []);
 
-  const closeModal = () => {
-    onCloseModal();
+  const onCloseModal = () => {
+    closeModal();
   };
 
   const typeContainer =
@@ -48,7 +48,7 @@ const Modal: FunctionComponent<TModal> = ({ onCloseModal, title, children}) => {
           <h1 className={`text text_type_main-large ${modaleStyles.title}`}>
             {title}
           </h1>
-          <button onClick={closeModal} className={modaleStyles.closeButton}>
+          <button onClick={onCloseModal} className={modaleStyles.closeButton}>
             <CloseIcon type={"secondary"} />
           </button>
         </header>

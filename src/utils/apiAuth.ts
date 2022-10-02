@@ -1,7 +1,8 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
+import { TRegister } from './types'
 
-export const signUp = (email, password, name) => {
+export const signUp = (email: string, password: string, name: string) => {
   return fetch(`${baseUrl}/auth/register`, {
     method: "POST",
     headers: {
@@ -11,7 +12,7 @@ export const signUp = (email, password, name) => {
   }).then(checkResponse);
 };
 
-export const signIn = (email, password) => {
+export const signIn = (email: string, password: string) => {
   return fetch(`${baseUrl}/auth/login`, {
     method: "POST",
     headers: {
@@ -21,7 +22,7 @@ export const signIn = (email, password) => {
   }).then(checkResponse);
 };
 
-export const recoveryPassword = (email) => {
+export const recoveryPassword = (email: string) => {
   return fetch(`${baseUrl}/password-reset`, {
     method: "POST",
     headers: {
@@ -31,7 +32,7 @@ export const recoveryPassword = (email) => {
   }).then(checkResponse);
 };
 
-export const resetPassword = (password, token) => {
+export const resetPassword = (password: string, token: string) => {
   return fetch(`${baseUrl}/password-reset/reset`, {
     method: "POST",
     headers: {
@@ -41,7 +42,7 @@ export const resetPassword = (password, token) => {
   }).then(checkResponse);
 };
 
-export const logOut = (refreshToken) => {
+export const logOut = (refreshToken: string) => {
   return fetch(`${baseUrl}/auth/logout`, {
     method: "POST",
     headers: {
@@ -51,7 +52,7 @@ export const logOut = (refreshToken) => {
   }).then(checkResponse);
 };
 
-export const getInfoUser = (accessToken) => {
+export const getInfoUser = (accessToken: string) => {
   return fetch(`${baseUrl}/auth/user`, {
     headers: {
       "Content-Type": "application/json",
@@ -60,7 +61,7 @@ export const getInfoUser = (accessToken) => {
   }).then(checkResponse);
 };
 
-export const updateInfoUser = ({ name, email, password, accessToken }) => {
+export const updateInfoUser = ({ name, email, password, accessToken }: TRegister & {accessToken: string}) => {
   return fetch(`${baseUrl}/auth/user`, {
     method: "PATCH",
     headers: {

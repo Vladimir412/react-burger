@@ -20,7 +20,7 @@ const BurgerConstructor = () => {
   );
   const { isLogged, accessToken } = useSelector((state: any) => state.authReducer);
   const history = useHistory();
-  const location = useLocation()
+  const location = useLocation<string>()
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -91,7 +91,7 @@ const BurgerConstructor = () => {
   useEffect(() => {
     let total = 0;
     ingredientsInConstructor &&
-      ingredientsInConstructor.forEach((item: TIngredientDetails) => {
+      ingredientsInConstructor.forEach((item: TIngredientDetails) => {        
         total += item.price;
       });
     if (itemBun && itemBun.length > 0) total += itemBun[0].price;
@@ -115,7 +115,6 @@ const BurgerConstructor = () => {
     if (!isLogged) {
       history.push("/login");
     } else {
-      // props.openModalOrder();
       const data = ingredientsInConstructor.map((i: TIngredientDetails) => i._id);
       data.push(itemBun[0]._id);
       {/* @ts-ignore */}

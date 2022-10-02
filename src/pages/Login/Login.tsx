@@ -6,11 +6,11 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect, FunctionComponent } from "react";
+import { useState, FC } from "react";
 import { signInUser } from "../../services/actions/auth";
 import { TLogin, TLocation } from '../../utils/types'
 
-const Login = () => {
+const Login: FC = () => {
   const dispatch: any = useDispatch();
   const history = useHistory();
   const location: TLocation = useLocation()
@@ -28,7 +28,7 @@ const Login = () => {
     setInputs({ email: "", password: "" });
   };
   
-  const disabledButton =
+  const disabledButton: boolean =
     inputs.email.match(regEmail) !== null && inputs.password.length >= 8
       ? false
       : true;

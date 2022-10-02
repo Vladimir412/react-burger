@@ -1,5 +1,6 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
+import { TIngredientDetails } from './types'
 
 export const getData = () => {
   return fetch(`${baseUrl}/ingredients`)
@@ -7,7 +8,7 @@ export const getData = () => {
     .then((res) => res.data);
 };
 
-export const sentDataIngredients = (arr, accessToken) => {
+export const sentDataIngredients = (arr: Array<TIngredientDetails>, accessToken: string) => {
   return fetch(`${baseUrl}/orders`, {
     method: "POST",
     headers: {

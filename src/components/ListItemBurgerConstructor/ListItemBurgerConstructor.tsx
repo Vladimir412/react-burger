@@ -5,41 +5,39 @@ import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { useState, useEffect } from "react";
+import { TIngredient, TIngredientDetails } from '../../utils/types'
 
 const ListItemBurgerConstructor = () => {
   const { ingredientsInConstructor } = useSelector(
-    (state) => state.ingredientReducers
+    (state: any) => state.ingredientReducers
   );
   const dispatch = useDispatch();
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredients, setIngredients] = useState<Array<TIngredientDetails>>([]);
   useEffect(() => {
     const arrWithoutBun = ingredientsInConstructor.filter(
-      (i) => i.type !== "bun"
+      (i: TIngredient) => i.type !== "bun"
     );
     setIngredients(arrWithoutBun);
   }, [ingredientsInConstructor]);
 
   const [, dropIngredientRef] = useDrop({
     accept: "ingredient",
-    drop(data) {
+    drop(data: TIngredient) {      
       handleDrop(data);
     },
   });
 
-  const handleDrop = (data) => {
+  const handleDrop = (data: TIngredient) => {
     if (ingredientsInConstructor && ingredientsInConstructor.length > 0) {
-      dispatch(
-        addIngredientInConstructor([
-          ...ingredientsInConstructor,
-          { ...data, dragId: uuidv4() },
-        ])
-      );
+      {/* @ts-ignore */}
+      dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },]));
     } else {
+      {/* @ts-ignore */}
       dispatch(addIngredientInConstructor([{ ...data, dragId: uuidv4() }]));
     }
   };
 
-  const moveItem = (dragIndex, hoverIndex) => {
+  const moveItem = (dragIndex: number, hoverIndex: number) => {
     const dragCard = ingredients[dragIndex];
     const newCards = [...ingredients];
     newCards.splice(dragIndex, 1);
@@ -49,7 +47,7 @@ const ListItemBurgerConstructor = () => {
 
   const cards =
     ingredients &&
-    ingredients.map((i, index) => {
+    ingredients.map((i: TIngredientDetails, index: number) => {
       if (i.type !== "bun") {
         return (
           <ItemBurgerConstructor
@@ -57,6 +55,7 @@ const ListItemBurgerConstructor = () => {
             index={index}
             moveItem={moveItem}
             key={i.dragId}
+            /* @ts-ignore */
             id={i._id}
           />
         );

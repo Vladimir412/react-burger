@@ -3,14 +3,14 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import profileStyles from "./Profile.module.css";
 import { logOutUser } from "../../services/actions/auth";
 import { updateInfoAboutUser } from "../../services/actions/userInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { TRegister } from "../../utils/types";
 
-const Profile = () => {
+const Profile: FC = () => {
   const { isLogged, accessToken } = useSelector(
     (state: any) => state.authReducer
   );
@@ -69,7 +69,7 @@ const Profile = () => {
     setInputs({ ...initialInputs });
   };
 
-  const disabledButton =
+  const disabledButton: boolean =
     inputs.password.length >= 8 &&
     inputs.email.match(regEmail) !== null &&
     valueMatch &&
@@ -77,7 +77,7 @@ const Profile = () => {
       ? false
       : true;
 
-  const stateButtonCancel =
+  const stateButtonCancel: boolean =
     inputs.password !== initialInputs.password ||
     inputs.email !== initialInputs.email ||
     inputs.name !== initialInputs.name

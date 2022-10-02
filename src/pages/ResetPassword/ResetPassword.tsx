@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { resetPasswordUser } from "../../services/actions/auth";
@@ -7,13 +7,13 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TLocation } from '../../utils/types'
-
-const ResetPassword = () => {
+import { TLocation, TResetPassword } from '../../utils/types'
+/* @ts-ignore */
+const ResetPassword: FC = () => {
   const dispatch: any = useDispatch();
   const history = useHistory();
   const location: TLocation = useLocation();
-  const [inputs, setInputs] = useState({ password: "", token: "" });
+  const [inputs, setInputs] = useState<TResetPassword>({ password: "", token: "" });
   const { isLogged } = useSelector((state: any) => state.authReducer);
 
   const onChange = (e: { target: { name: string; value: string; }; }) => {
@@ -27,7 +27,7 @@ const ResetPassword = () => {
     history.push("/login", { state: null });
   };
 
-  const disabledButton =
+  const disabledButton: boolean =
     inputs.password.length >= 8 && inputs.token.length >= 36 ? false : true;
 
   if (isLogged) {

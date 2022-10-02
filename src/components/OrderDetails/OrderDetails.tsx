@@ -1,7 +1,8 @@
 import orderDetailsStyles from "./OrderDetails.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { FC } from "react";
 
-const OrderDetails = () => {
+const OrderDetails: FC = () => {
   const { order } = useSelector((state: any) => state.ingredientReducers);
 
   return (

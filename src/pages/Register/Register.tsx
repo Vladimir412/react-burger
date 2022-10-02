@@ -1,5 +1,5 @@
 import { Link, Redirect } from "react-router-dom";
-import { useState } from "react";
+import { useState, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -9,7 +9,7 @@ import registerStyles from "./Register.module.css";
 import { signUpUser } from "../../services/actions/auth";
 import { TRegister } from '../../utils/types'
 
-const Register = () => {
+const Register: FC = () => {
   const dispatch: any = useDispatch();
   const { isLogged } = useSelector((state: any) => state.authReducer);
   const [inputs, setInputs] = useState<TRegister>({ name: "", email: "", password: "" });

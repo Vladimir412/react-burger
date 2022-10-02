@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { getData, sentDataIngredients } from "../../utils/dataApi";
+import { getData, sentDataIngredients } from "../../utils/dataApi.ts";
 
 export const getIngredientsForConstructor = createAction(
   "GET_INGREDIENTS_FOR_CONSTRUCTOR"
@@ -69,16 +69,13 @@ export const sentDataOrder = (order, accessToken, openModalOrder) => {
     dispatch(getAndUpdateNumberOrderItemRequest());
     sentDataIngredients(order, accessToken)
       .then((data) => {
-        console.log(data);
         if (data) {
           dispatch(getAndUpdateNumberOrderItemSuccess(data));
-          console.log(data);
           openModalOrder(data.order.number)
         } else {
           dispatch(getAndUpdateNumberOrderItemError());
         }
       })
-      // .then(() => dispatch(modalOrderItemOpen(true)))
       .then(() => dispatch(addIngredientInConstructor([])))
       .catch((err) => dispatch(getAndUpdateNumberOrderItemError()));
   };

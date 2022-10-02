@@ -35,7 +35,17 @@ export type TIngredientDetails = TIngredient & {
   key: string;
   withoutModal?: string;
   dragId?: string;
+  index?: number
 };
+
+export type TIngredientDetailsProps = {
+  key: string;
+  props: TIngredient;
+}
+
+export type TIngredientDetailsWithOut = {
+  withoutModal?: string
+}
 
 export type TCardIngredient = Omit<TIngredientDetails, "withoutModal">;
 
@@ -45,17 +55,64 @@ export type TRegister = {
   password: string;
 };
 
+export interface IItemBurgerConstructor {
+  dragId: string;
+  moveItem: (dragId: number, index: number) => void;
+  index: number;
+  name: string;
+  price: number;
+  image: string;
+}
+
+export type TResetPassword = {
+  password: string;
+  token: string;
+};
+
 export type TLogin = Omit<TRegister, "name">;
 
 export type TLocation = {
   state?: { from?: string };
 };
 
+export interface IReactNode {
+  children: ReactNode
+}
+
+export interface ILocationBackground {
+  location?: string;
+  background?: string;
+}
+
+export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
+  [key in TDataKey]: TDataType
+} & {
+  data?: object;
+  success: boolean;
+  message?: string;
+  headers?: Headers;
+};
+
+interface CustomBody<T extends any> extends Body {
+  json(): Promise<T>;
+}
+
+export interface CustomResponse<T> extends CustomBody<T> {
+  readonly headers: Headers;
+  readonly ok: boolean;
+  readonly redirected: boolean;
+  readonly status: number;
+  readonly statusText: string;
+  readonly type: ResponseType;
+  readonly url: string;
+  clone(): Response;
+}
+
 export type TModal = {
-  onCloseModal: () => void;
+  closeModal: () => void;
   title: string;
   children: ReactNode;
-}
+};
 
 export const typesOfOpenModalIngredient = PropTypes.func.isRequired;
 export const typesOfOpenModalOrder = PropTypes.func.isRequired;

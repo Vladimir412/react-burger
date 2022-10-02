@@ -25,50 +25,38 @@ import Register from "../../pages/Register/Register";
 import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
-import Orders from "../Orders/Oreders.tsx";
+import Orders from "../Orders/Oreders";
+import { withoutModal } from '../../utils/constans'
+import {Location} from "history";
 
-const ingredient = "ingredient";
-const order = "order";
-const withoutModal = "withoutModal";
 
 function App() {
-  const dispatch = useDispatch();
+  
+  const dispatch = useDispatch<any>();
   const history = useHistory();
-  const location = useLocation();
-  const background = location.state && location.state.background;
+  const location = useLocation<{background?: Location<{} | null | undefined>}>();
+  const background = location?.state && location?.state?.background;
 
   //получаем данные ингридиентов
-  useEffect(() => {
+  useEffect(() => {    
     dispatch(getDataIngredients());
   }, []);
 
-  const [typeModal, setTypeModal] = useState("");
-  const { isModalOrder, isModalIngredient, ingredients } = useSelector(
-    (state) => state.ingredientReducers
-  );
-  const { isLogged, accessToken } = useSelector((state) => state.authReducer);
-  const refreshToken = localStorage.getItem("refreshToken");
+  const { isLogged, accessToken } = useSelector((state: any) => state.authReducer);
+  const refreshToken: string | null = localStorage.getItem("refreshToken");
 
   useEffect(() => {
     if (isLogged) {
+      /* @ts-ignore */
       dispatch(getInfoAboutUser(accessToken));
     } else if (!isLogged && refreshToken) {
+      /* @ts-ignore */
       dispatch(autoLogin());
     }
   }, [isLogged]);
 
-  //открыитие попапа ингридиента и получение данных
-  const openModalIngredient = () => {
-    setTypeModal(ingredient);
-  };
-
-  //открыитие попапа c заказом
-  const openModalOrder = () => {
-    setTypeModal(order);
-  };
-
   //закрытие попапа
-  const closeModal = () => {
+  const closeModal = (): void => {
     history.goBack();
   };
 
@@ -82,7 +70,6 @@ function App() {
               <DndProvider backend={HTML5Backend}>
                 <BurgerIngredients />
                 <BurgerConstructor
-                //  openModalOrder={openModalOrder} 
                  />
               </DndProvider>
             </main>
@@ -128,7 +115,7 @@ function App() {
         <Route
           path="/orders/:orderId"
           children={
-            <Modal onCloseModal={closeModal} title="">
+            <Modal closeModal={closeModal} title="">
               <OrderDetails />
             </Modal>
           }
