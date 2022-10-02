@@ -26,17 +26,9 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
 import Orders from "../Orders/Oreders";
-<<<<<<< HEAD:src/components/App/App.tsx
 import { withoutModal } from '../../utils/constans'
 import {Location} from "history";
 
-=======
-import { withoutModal } from '../../utils/constans';
-
-const ingredient = "ingredient";
-const order = "order";
-// const withoutModal = "withoutModal";
->>>>>>> 24a5e8cb3b0ace043111cbc19d9c22fc2835b18a:src/components/App/App.jsx
 
 function App() {
   
