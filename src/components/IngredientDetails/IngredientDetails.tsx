@@ -2,10 +2,10 @@ import ingredientDetailsStyles from "./IngredientDetails.module.css";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { FunctionComponent } from "react";
+import { FC } from "react";
 import { TIngredientDetailsWithOut, TIngredient } from "../../utils/types";
 
-const IngredientDetails = ({
+const IngredientDetails: FC<{withoutModal?: string}> = ({
   withoutModal
 }: TIngredientDetailsWithOut) => {
   const history = useHistory();

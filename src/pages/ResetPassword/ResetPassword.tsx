@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { resetPasswordUser } from "../../services/actions/auth";
@@ -16,11 +16,11 @@ const ResetPassword: FC = () => {
   const [inputs, setInputs] = useState<TResetPassword>({ password: "", token: "" });
   const { isLogged } = useSelector((state: any) => state.authReducer);
 
-  const onChange = (e: { target: { name: string; value: string; }; }) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onHandleSubmit = (e: { preventDefault: () => void; }) => {
+  const onHandleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(resetPasswordUser(inputs.password, inputs.token));
     setInputs({ password: "", token: "" });
@@ -42,7 +42,7 @@ const ResetPassword: FC = () => {
         >
           Восстановление пароля
         </h1>
-        <form className={resetPasswordStyles.form}>
+        <form className={resetPasswordStyles.form} onSubmit={onHandleSubmit}>
           <div className={resetPasswordStyles.formInput}>
             <Input
               type="text"
@@ -67,7 +67,6 @@ const ResetPassword: FC = () => {
           <div className={resetPasswordStyles.buttonSubmit}>
             <Button
               size="medium"
-              onClick={onHandleSubmit}
               disabled={disabledButton}
             >
               Сохранить

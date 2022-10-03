@@ -3,7 +3,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { useEffect, useState, FC } from "react";
+import { useEffect, useState, FC, ChangeEvent, FormEvent, SyntheticEvent } from "react";
 import profileStyles from "./Profile.module.css";
 import { logOutUser } from "../../services/actions/auth";
 import { updateInfoAboutUser } from "../../services/actions/userInfo";
@@ -48,24 +48,24 @@ const Profile: FC = () => {
     }
   }, [isLogged]);
 
-  const onChangeInputs = (e: { target: { name: string; value: string } }) => {
+  const onChangeInputs = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const handleLogOut = (e: { preventDefault: () => void; }) => {
+  const handleLogOut = (e: SyntheticEvent): void => {
     e.preventDefault();
     {/* @ts-ignore */}
     dispatch(logOutUser(refreshToken));
   };
 
-  const handleUpdateDataUser = (e: { preventDefault: () => void; }) => {
+  const handleUpdateDataUser = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setInitialInputs({ ...inputs });
     {/* @ts-ignore */}
     dispatch(updateInfoAboutUser({ ...inputs, accessToken }));
   };
 
-  const handleReset = () => {
+  const handleReset = (): void => {
     setInputs({ ...initialInputs });
   };
 

@@ -1,5 +1,5 @@
 import { Link, Redirect } from "react-router-dom";
-import { useState, FC } from "react";
+import { useState, FC, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -14,11 +14,11 @@ const Register: FC = () => {
   const { isLogged } = useSelector((state: any) => state.authReducer);
   const [inputs, setInputs] = useState<TRegister>({ name: "", email: "", password: "" });
 
-  const onChange = (e: { target: { name: string; value: string } }) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onHandleSubmit = (e: { preventDefault: () => void }) => {
+  const onHandleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(signUpUser(inputs.email, inputs.password, inputs.name));
     setInputs({ name: "", email: "", password: "" });
@@ -31,7 +31,7 @@ const Register: FC = () => {
   return (
     <div className={registerStyles.container}>
       <h1 className={registerStyles.title}>Регистрация</h1>
-      <form className={registerStyles.form}>
+      <form className={registerStyles.form} onSubmit={onHandleSubmit}>
         <div className={registerStyles.formInput}>
           <Input
             type="text"
@@ -64,7 +64,7 @@ const Register: FC = () => {
           />
         </div>
         <div className={registerStyles.buttonSubmit}>
-          <Button size="large" onClick={onHandleSubmit}>
+          <Button size="large">
             Зарегистрироваться
           </Button>
         </div>

@@ -20,7 +20,7 @@ const Orders: FC = () => {
   }, [isLogged]);
 
 
-  const handleLogOut = (e: { preventDefault: () => void; }) => {
+  const handleLogOut = (e: { preventDefault: () => void; }): void => {
     e.preventDefault();
     {/* @ts-ignore */}
     dispatch(logOutUser(refreshToken));

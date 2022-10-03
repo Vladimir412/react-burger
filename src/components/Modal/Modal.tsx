@@ -1,26 +1,24 @@
-import { useEffect, FunctionComponent } from "react";
+import { useEffect, FC, KeyboardEvent, BaseSyntheticEvent } from "react";
 import { createPortal } from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modaleStyles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import PropTypes from "prop-types";
 import { buttonEscape, modalRoot } from '../../utils/constans'
 import { TModal } from '../../utils/types'
-import { useDispatch } from "react-redux";
-import {
-  modalOrderItemClosed,
-  modalIngredientItemClosed,
-} from "../../services/actions/actions";
 
-const Modal: FunctionComponent<TModal> = ({ closeModal, title, children}) => {
+
+const Modal: FC<TModal> = ({ closeModal, title, children}) => {
+
   //закрытие попапа на кнопку Esc
-  useEffect(() => {
-    const closeOnEscape = (e: { key: string; }) => {
+  useEffect(() => {    
+
+    const closeOnEscape = (e: {key: string}) => {
       if (e.key === buttonEscape) {
         closeModal();
       }
     };
-    document.addEventListener("keydown", closeOnEscape);
+
+    document.addEventListener("keydown", closeOnEscape) ;
 
     return () => {
       document.removeEventListener("keydown", closeOnEscape);
