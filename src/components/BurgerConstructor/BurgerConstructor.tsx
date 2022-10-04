@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -14,7 +14,8 @@ import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
 import ListItemBurgerConstructor from "../ListItemBurgerConstructor/ListItemBurgerConstructor";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
+  
   const { ingredientsInConstructor, isLoading } = useSelector(
     (state: any) => state.ingredientReducers
   );
@@ -31,7 +32,7 @@ const BurgerConstructor = () => {
     },
   });
   
-  const handleDrop = (data: TIngredientDetails) => {
+  const handleDrop = (data: TIngredientDetails): void => {
     if (ingredientsInConstructor && ingredientsInConstructor.length > 0) {
       {/* @ts-ignore */}
       dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },]));
@@ -107,11 +108,11 @@ const BurgerConstructor = () => {
     }
   }, [itemBun]);
 
-  const openModalOrder = (orderId: string) => {
+  const openModalOrder = (orderId: string): void => {
     history.push({pathname: `/orders/${orderId}`, state: { background: location },})
   }
 
-  const handleSentData = () => {
+  const handleSentData = (): void => {
     if (!isLogged) {
       history.push("/login");
     } else {

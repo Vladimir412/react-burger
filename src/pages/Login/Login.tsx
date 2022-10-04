@@ -6,7 +6,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, FC } from "react";
+import { useState, FC, ChangeEvent, FormEvent } from "react";
 import { signInUser } from "../../services/actions/auth";
 import { TLogin, TLocation } from '../../utils/types'
 
@@ -18,11 +18,11 @@ const Login: FC = () => {
   const [inputs, setInputs] = useState<TLogin>({ email: "", password: "" });
   const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-  const onChange = (e: { target: { name: string; value: string; }; }) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onHandleSubmit = (e: { preventDefault: () => void; }) => {
+  const onHandleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(signInUser(inputs.email, inputs.password));
     setInputs({ email: "", password: "" });

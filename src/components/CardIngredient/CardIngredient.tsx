@@ -26,7 +26,7 @@ import { useEffect, useState, FunctionComponent } from "react";
     item: {calories, carbohydrates, fat, price, proteins, image, image_large, name, type, id, _id}
   });
 
-  const countQuantity = () => {
+  const countQuantity = (): void => {
     let total: number = 0;
     ingredientsInConstructor &&
       ingredientsInConstructor.forEach((i: TCardIngredient) => {

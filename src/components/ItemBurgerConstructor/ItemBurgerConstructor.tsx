@@ -55,7 +55,7 @@ const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
     }),
   });
 
-  const handleDelete = () => {
+  const handleDelete = (): void => {
     let item = ingredientsInConstructor.filter((i: TIngredientDetails) => {
       return i.dragId !== props.dragId;
     });

@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { TIngredient, TIngredientDetails } from '../../utils/types'
 
-const ListItemBurgerConstructor = () => {
+const ListItemBurgerConstructor: FC = () => {
   const { ingredientsInConstructor } = useSelector(
     (state: any) => state.ingredientReducers
   );
@@ -27,7 +27,7 @@ const ListItemBurgerConstructor = () => {
     },
   });
 
-  const handleDrop = (data: TIngredient) => {
+  const handleDrop = (data: TIngredient): void => {
     if (ingredientsInConstructor && ingredientsInConstructor.length > 0) {
       {/* @ts-ignore */}
       dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },]));
@@ -37,7 +37,7 @@ const ListItemBurgerConstructor = () => {
     }
   };
 
-  const moveItem = (dragIndex: number, hoverIndex: number) => {
+  const moveItem = (dragIndex: number, hoverIndex: number): void => {
     const dragCard = ingredients[dragIndex];
     const newCards = [...ingredients];
     newCards.splice(dragIndex, 1);

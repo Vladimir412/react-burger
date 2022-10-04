@@ -1,10 +1,11 @@
 import modalOverlayStyles from "./ModalOverlay.module.css";
 import { useHistory } from "react-router-dom";
+import { FC } from 'react'
 
-const ModalOverlay = () => {
+const ModalOverlay: FC = () => {
   const history: {goBack: () => void} = useHistory();
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     history.goBack();
   };
 
