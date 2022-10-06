@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.orderNumber {
+    text-align: center;
+}

@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 64.6%;
+    margin: auto;
+    max-height: 750px;
+}
+
+.title {
+    width: 64.6%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.containerOrder {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    overflow-y: auto;
+}
+
+.containerOrder::-webkit-scrollbar {
+    width: 7px;
+}
+
+.containerOrder::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.containerOrder::-webkit-scrollbar-track {
+    background-color: #2F2F37;
+}
+
+.containerOrder__lists {
+    list-style: none;
+    padding: 0;
+}
+
+.containerInfo {
+    composes: containerOrder;
+    overflow:hidden
+}
+
+.containerInfo__lists {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+}
+

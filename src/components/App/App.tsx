@@ -26,6 +26,8 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
 import Orders from "../Orders/Oreders";
+import Feed from "../Feed/Feed";
+import OrderInformation from '../OrderInformation/OrderInformation';
 import { withoutModal } from '../../utils/constans'
 import {Location} from "history";
 
@@ -86,6 +88,9 @@ function App() {
           <Route path="/reset-password">
             <ResetPassword />
           </Route>
+          <Route path="/feed" exact>
+            <Feed />
+          </Route>
           <ProtectedRoute path="/profile" exact>
             <Profile />
           </ProtectedRoute>
@@ -99,8 +104,16 @@ function App() {
               children={<IngredientDetails withoutModal={withoutModal} />}
             />
           )}
+          {location && (
+             <Route
+             path="/feed/:id"
+             exact
+             children={<OrderInformation />}
+           />
+          )}
         </Switch>
       </div>
+      
       {background && (
         <Route
           path="/ingredients/:ingredientId"

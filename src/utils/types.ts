@@ -110,7 +110,7 @@ export interface CustomResponse<T> extends CustomBody<T> {
 
 export type TModal = {
   closeModal: () => void;
-  title: string;
+  title?: string | undefined;
   children: ReactNode;
 };
 
