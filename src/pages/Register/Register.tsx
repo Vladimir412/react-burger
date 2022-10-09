@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import registerStyles from "./Register.module.css";
 import { signUpUser } from "../../services/actions/auth";
-import { TRegister } from '../../utils/types'
+import { TRegister } from '../../utils/types/types'
 
 const Register: FC = () => {
   const dispatch: any = useDispatch();

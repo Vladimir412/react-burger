@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useState, FC, ChangeEvent, FormEvent } from "react";
 import { signInUser } from "../../services/actions/auth";
-import { TLogin, TLocation } from '../../utils/types'
+import { TLogin, TLocation } from '../../utils/types/types'
 
 const Login: FC = () => {
   const dispatch: any = useDispatch();

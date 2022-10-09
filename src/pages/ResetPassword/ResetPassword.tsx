@@ -7,7 +7,7 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TLocation, TResetPassword } from '../../utils/types'
+import { TLocation, TResetPassword } from '../../utils/types/types'
 /* @ts-ignore */
 const ResetPassword: FC = () => {
   const dispatch: any = useDispatch();

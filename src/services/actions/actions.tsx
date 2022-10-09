@@ -1,5 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
-import { getData, sentDataIngredients } from "../../utils/dataApi.ts";
+import { getData, sentDataIngredients } from "../../utils/dataApi";
+import { AppThunk, AppDispatch } from "../../utils/types/types";
 
 export const getIngredientsForConstructor = createAction(
   "GET_INGREDIENTS_FOR_CONSTRUCTOR"
@@ -47,8 +48,8 @@ export const modalIngredientItemClosed = createAction(
   "MODAL_INGREDIENT_ITEM_CLOSED"
 );
 
-export const getDataIngredients = () => {
-  return function (dispatch) {
+export const getDataIngredients: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch(getIngredientsItemRequest());
     getData()
       .then((data) => {

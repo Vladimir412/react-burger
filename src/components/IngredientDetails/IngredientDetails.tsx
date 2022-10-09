@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { FC } from "react";
-import { TIngredientDetailsWithOut, TIngredient } from "../../utils/types";
+import { TIngredientDetailsWithOut, TIngredient } from "../../utils/types/types";
 
 const IngredientDetails: FC<{withoutModal?: string}> = ({
   withoutModal

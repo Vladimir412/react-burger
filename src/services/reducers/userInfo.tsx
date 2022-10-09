@@ -7,8 +7,16 @@ import {
   userInfoUpdateItemSuccess,
   userInfoUpdateItemFailed,
 } from "../actions/userInfo";
+import { TUserInfoActions } from '../../utils/types/typesActionUserInfo'
 
-const userInitialState = {
+type TUserInitialState = {
+  name: string;
+  email: string;
+  isLoading: boolean;
+  isError: boolean;
+};
+
+const userInitialState: TUserInitialState = {
   name: "",
   email: "",
   isLoading: false,
@@ -16,14 +24,14 @@ const userInitialState = {
 };
 
 export default createReducer(userInitialState, {
-  [userInfoItemRequest]: (state) => {
+  [userInfoItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [userInfoItemSuccess]: (state, action) => {
+  [userInfoItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -31,21 +39,21 @@ export default createReducer(userInitialState, {
       email: action.payload.user.email,
     };
   },
-  [userInfoItemFailed]: (state) => {
+  [userInfoItemFailed.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [userInfoUpdateItemRequest]: (state) => {
+  [userInfoUpdateItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [userInfoUpdateItemSuccess]: (state, action) => {
+  [userInfoUpdateItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -53,7 +61,7 @@ export default createReducer(userInitialState, {
       email: action.payload.user.email,
     };
   },
-  [userInfoUpdateItemFailed]: (state) => {
+  [userInfoUpdateItemFailed.type]: (state) => {
     return {
       ...state,
       isLoading: false,

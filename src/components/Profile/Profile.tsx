@@ -8,7 +8,7 @@ import profileStyles from "./Profile.module.css";
 import { logOutUser } from "../../services/actions/auth";
 import { updateInfoAboutUser } from "../../services/actions/userInfo";
 import { useDispatch, useSelector } from "react-redux";
-import { TRegister } from "../../utils/types";
+import { TRegister } from "../../utils/types/types";
 
 const Profile: FC = () => {
   const { isLogged, accessToken } = useSelector(

@@ -1,14 +1,15 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, PayloadAction, ActionCreatorWithPayload, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
 import { getInfoUser, updateInfoUser, updateToken } from "../../utils/apiAuth";
+import { TUserInfo } from '../../utils/types/types'
 
 export const userInfoItemRequest = createAction("USER_INFO_ITEM_REQUEST");
-export const userInfoItemSuccess = createAction("USER_INFO_ITEM_SUCCESS");
+export const userInfoItemSuccess = createAction<TUserInfo>("USER_INFO_ITEM_SUCCESS",);
 export const userInfoItemFailed = createAction("USER_INFO_ITEM_FAILED");
 
 export const userInfoUpdateItemRequest = createAction(
   "USER_INFO_UPDATE_ITEM_REQUEST"
 );
-export const userInfoUpdateItemSuccess = createAction(
+export const userInfoUpdateItemSuccess = createAction<TUserInfo>(
   "USER_INFO_UPDATE_ITEM_SUCCESS"
 );
 export const userInfoUpdateItemFailed = createAction(
@@ -17,16 +18,16 @@ export const userInfoUpdateItemFailed = createAction(
 
 export const updateTokenUser = createAction("UPDATE_TOKEN");
 
-export const getInfoAboutUser = (accessToken) => {
-  return function (dispatch) {
+export const getInfoAboutUser = (accessToken: string) => {
+  return function (dispatch: any) {
     dispatch(userInfoItemRequest());
     getInfoUser(accessToken)
-      .then((data) => {
+      .then((data: any) => {
         if (data && data.success) {
           dispatch(userInfoItemSuccess(data));
         } else if (data && data.message === "jwt expired") {
-          updateToken().then((token) =>
-            getInfoUser(token).then((data) =>
+          updateToken().then((token: any) =>
+            getInfoUser(token).then((data: any) =>
               data && data.success
                 ? dispatch(userInfoItemSuccess(data))
                 : dispatch(userInfoItemFailed())
@@ -42,12 +43,12 @@ export const getInfoAboutUser = (accessToken) => {
   };
 };
 
-export const updateInfoAboutUser = (dataObject) => {
+export const updateInfoAboutUser = (dataObject: any) => {
   const { name, email, password } = dataObject;
-  return function (dispatch) {
+  return function (dispatch: any) {
     dispatch(userInfoUpdateItemRequest());
     updateInfoUser(dataObject)
-      .then((data) => {
+      .then((data: any) => {
         if (data && data.success) {
           dispatch(userInfoUpdateItemSuccess(data));
         } else {
@@ -56,7 +57,7 @@ export const updateInfoAboutUser = (dataObject) => {
       })
       .catch((err) => {
         if (err.message === "jwt expired") {
-          updateToken().then((info) => {
+          updateToken().then((info: any) => {
             localStorage.setItem("refreshToken", info.refreshToken);
             const newDataObject = {
               name,
@@ -64,7 +65,7 @@ export const updateInfoAboutUser = (dataObject) => {
               password,
               accessToken: info.accessToken,
             };
-            updateInfoUser(newDataObject).then((data) =>
+            updateInfoUser(newDataObject).then((data: any) =>
               data && data.success
                 ? dispatch(userInfoUpdateItemSuccess(data))
                 : dispatch(userInfoUpdateItemFailed())

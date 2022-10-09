@@ -5,7 +5,7 @@ import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { useState, useEffect, FC } from "react";
-import { TIngredient, TIngredientDetails } from '../../utils/types'
+import { TIngredient, TIngredientDetails } from '../../utils/types/types'
 
 const ListItemBurgerConstructor: FC = () => {
   const { ingredientsInConstructor } = useSelector(

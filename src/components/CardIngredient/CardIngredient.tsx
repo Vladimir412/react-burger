@@ -7,7 +7,7 @@ import { useLocation, Link } from "react-router-dom";
 import {
   TCardIngredient,
   TIngredient,
-} from "../../utils/types";
+} from "../../utils/types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { useEffect, useState, FunctionComponent } from "react";

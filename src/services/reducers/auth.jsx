@@ -6,7 +6,6 @@ import {
   loginUserItemRequest,
   loginUserItemSuccess,
   loginUserItemFailed,
-  loginUserItemRedirect,
   resetPasswordUserItemRequest,
   resetPasswordUserItemSuccess,
   resetPasswordUserItemFailed,

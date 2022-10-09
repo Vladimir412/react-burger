@@ -1,20 +1,13 @@
 import { type } from "@testing-library/user-event/dist/type";
 import PropTypes from "prop-types";
 import { ReactNode } from 'react'
+import { ThunkAction } from 'redux-thunk';
+import { Action, ActionCreator, Dispatch } from 'redux';
+import { store } from '../../index';
+import { TUserInfoActions } from "./typesActionUserInfo";
+import { TActionsActions } from "./typesActionsActions";
+import { TActionsAuth } from "./typesAuth";
 
-// export const typesOfIngredients = {
-//     calories: PropTypes.number.isRequired,
-//     carbohydrates: PropTypes.number.isRequired,
-//     fat: PropTypes.number.isRequired,
-//     price: PropTypes.number.isRequired,
-//     proteins: PropTypes.number.isRequired,
-//     image: PropTypes.string.isRequired,
-//     image_large: PropTypes.string.isRequired,
-//     image_mobile: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     type: PropTypes.string.isRequired,
-//     _id: PropTypes.string.isRequired,
-// }.isRequired;
 
 export type TIngredient = {
   calories: number;
@@ -35,7 +28,7 @@ export type TIngredientDetails = TIngredient & {
   key: string;
   withoutModal?: string;
   dragId?: string;
-  index?: number
+  index?: number;
 };
 
 export type TIngredientDetailsProps = {
@@ -54,6 +47,8 @@ export type TRegister = {
   email: string;
   password: string;
 };
+
+export type TUserInfo = Omit<TRegister, 'password'>
 
 export interface IItemBurgerConstructor {
   dragId: string;
@@ -114,7 +109,17 @@ export type TModal = {
   children: ReactNode;
 };
 
-export const typesOfOpenModalIngredient = PropTypes.func.isRequired;
-export const typesOfOpenModalOrder = PropTypes.func.isRequired;
+export type TApplicationActions =
+  | TUserInfoActions
+  | TActionsActions
+  | TActionsAuth
 
-export const typesOfClosedModal = PropTypes.func;
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
+
+export type AppThunk<TReturn = void> = ActionCreator<
+  ThunkAction<TReturn, Action, RootState, TApplicationActions>
+>; 
+

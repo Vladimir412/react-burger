@@ -8,7 +8,7 @@ import { removeIngredientInConstructor } from "../../services/actions/actions";
 import { useDrag, useDrop, DropTargetMonitor, XYCoord } from "react-dnd";
 import { useRef } from "react";
 import { FC } from 'react'
-import { IItemBurgerConstructor, TIngredientDetails } from '../../utils/types'
+import { IItemBurgerConstructor, TIngredientDetails } from '../../utils/types/types'
 
 const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
   const { dragId, moveItem, index } = props;

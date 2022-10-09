@@ -1,6 +1,6 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
-import { TRegister } from './types'
+import { TRegister } from './types/types'
 
 export const signUp = (email: string, password: string, name: string) => {
   return fetch(`${baseUrl}/auth/register`, {

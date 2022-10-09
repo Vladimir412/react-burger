@@ -1,6 +1,6 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
-import { TIngredientDetails } from './types'
+import { TIngredientDetails } from './types/types'
 
 export const getData = () => {
   return fetch(`${baseUrl}/ingredients`)

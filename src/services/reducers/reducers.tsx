@@ -17,8 +17,19 @@ import {
   modalIngredientItemOpen,
   modalIngredientItemClosed,
 } from "../actions/actions";
+import { TIngredientDetails, TIngredient, IItemBurgerConstructor } from '../../utils/types/types'
 
-const initialState = {
+type TInitialState = {
+  ingredients: Array<TIngredient>,
+  ingredientsInConstructor: Array<IItemBurgerConstructor>,
+  ingredient: any;
+  order: any;
+  isLoading: boolean;
+  isError: boolean;
+  isModalOrder: boolean;
+}
+
+const initialState: TInitialState = {
   ingredients: [],
   ingredientsInConstructor: [],
   ingredient: {},
@@ -29,53 +40,53 @@ const initialState = {
 };
 
 export default createReducer(initialState, {
-  [getIngredientsForConstructor]: (state, action) => {
+  [getIngredientsForConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [addIngredientInConstructor]: (state, action) => {
+  [addIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [addDataModalIngredient]: (state, action) => {
+  [addDataModalIngredient.type]: (state, action) => {
     state.ingredient = action.payload;
   },
-  [removeDataModalIngredient]: (state, action) => {
+  [removeDataModalIngredient.type]: (state, action) => {
     state.ingredient = action.payload;
   },
-  [getAndUpdateNumberOreder]: (state, action) => {
+  [getAndUpdateNumberOreder.type]: (state, action) => {
     state.order = action.payload;
   },
-  [removeIngredientInConstructor]: (state, action) => {
+  [removeIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [getIngredientsItemRequest]: (state) => {
+  [getIngredientsItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [getIngredientsItemSuccess]: (state, action) => {
+  [getIngredientsItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
       ingredients: action.payload,
     };
   },
-  [getIngredientsItemError]: (state) => {
+  [getIngredientsItemError.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [getAndUpdateNumberOrderItemRequest]: (state) => {
+  [getAndUpdateNumberOrderItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [getAndUpdateNumberOrderItemSuccess]: (state, action) => {
+  [getAndUpdateNumberOrderItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -83,32 +94,32 @@ export default createReducer(initialState, {
       // isModalOrder: true,
     };
   },
-  [getAndUpdateNumberOrderItemError]: (state) => {
+  [getAndUpdateNumberOrderItemError.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [modalOrderItemOpen]: (state, action) => {
+  [modalOrderItemOpen.type]: (state, action) => {
     return {
       ...state,
       isModalOrder: action.payload,
     };
   },
-  [modalOrderItemClosed]: (state, action) => {
+  [modalOrderItemClosed.type]: (state, action) => {
     return {
       ...state,
       isModalOrder: action.payload,
     };
   },
-  [modalIngredientItemOpen]: (state, action) => {
+  [modalIngredientItemOpen.type]: (state, action) => {
     return {
       ...state,
       isModalIngredient: action.payload,
     };
   },
-  [modalIngredientItemClosed]: (state, action) => {
+  [modalIngredientItemClosed.type]: (state, action) => {
     return {
       ...state,
       isModalIngredient: action.payload,

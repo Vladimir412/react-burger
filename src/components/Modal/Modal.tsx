@@ -4,7 +4,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modaleStyles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { buttonEscape, modalRoot } from "../../utils/constans";
-import { TModal } from "../../utils/types";
+import { TModal } from "../../utils/types/types";
 
 const Modal: FC<TModal> = ({ closeModal, title, children }) => {
   //закрытие попапа на кнопку Esc
