@@ -6,6 +6,6 @@ import {
 import { ThunkDispatch } from 'redux-thunk';
 import { AppDispatch, AppThunk, RootState, TApplicationActions } from './types/types';
 
-export const useSelector: TypedUseSelectorHook<RootState> = selectorHook; 
+export const useAppSelector: TypedUseSelectorHook<RootState> = selectorHook; 
 
-export const useDispatch = () => dispatchHook<ThunkDispatch<RootState, never, TApplicationActions>>(); 
+export const useAppDispatch = () => dispatchHook<ThunkDispatch<RootState, never, TApplicationActions>>()

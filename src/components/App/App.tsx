@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
+// import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
@@ -34,7 +35,7 @@ import {Location} from "history";
 
 function App() {
   
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation<{background?: Location<{} | null | undefined>}>();
   const background = location?.state && location?.state?.background;
@@ -44,7 +45,7 @@ function App() {
     dispatch(getDataIngredients());
   }, []);
 
-  const { isLogged, accessToken } = useSelector((state: any) => state.authReducer);
+  const { isLogged, accessToken } = useAppSelector((state: any) => state.authReducer);
   const refreshToken: string | null = localStorage.getItem("refreshToken");
 
   useEffect(() => {

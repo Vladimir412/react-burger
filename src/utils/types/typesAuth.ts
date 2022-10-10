@@ -25,7 +25,8 @@ type TRegisterUserItemRequest = {
 
 type TRegisterUserItemSuccess = {
     type: typeof registerUserItemSuccess;
-    payload: string;
+    payload: any;
+    // payload: string;
 }
 
 type TRegisterUserItemFailed = {
@@ -38,7 +39,8 @@ type TLoginUserItemRequest = {
 
 type TLoginUserItemSuccess = {
     type: typeof loginUserItemSuccess;
-    payload: string;
+    payload: any;
+    // payload: string;
 }
 
 type TLoginUserItemFailed = {
@@ -59,7 +61,8 @@ type TResetPasswordUserItemFailed = {
 
 type TForgotPassworUser = {
     type: typeof forgotPassworUser;
-    payload: string;
+    payload: any;
+    // payload: string;
 }
 
 type TLogOutItemRequest = {
@@ -68,7 +71,8 @@ type TLogOutItemRequest = {
 
 type TLogOutItemSuccess = {
     type: typeof logOutItemSuccess;
-    payload: string;
+    payload: any;
+    // payload: string;
 }
 
 type TLogOutItemFailed = {
@@ -81,12 +85,14 @@ type TUpadateUserItemRequest = {
 
 type TUpadateUserItemSuccess = {
     type: typeof upadateUserItemSuccess;
-    payload: string;
+    payload: any;
+    // payload: string;
 }
 
 type TUpadateUserItemFailed = {
     type: typeof upadateUserItemFailed;
-    payload: string;
+    payload: any;
+    // payload: string;
 }
 
 export type TActionsAuth =

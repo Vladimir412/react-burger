@@ -16,7 +16,8 @@ import { TIngredient, IItemBurgerConstructor } from './types'
 
 type TGetIngredientsForConstructor = {//+
     type: typeof getIngredientsForConstructor;
-    payload: Array<TIngredient>
+    payload: any;
+    // payload: Array<TIngredient>
 }
 
 type TAddIngredientInConstructor = {
@@ -41,14 +42,14 @@ type TRemoveDataModalIngredient = {
 
 type TGetAndUpdateNumberOreder = {
     type: typeof getAndUpdateNumberOreder;
-    payload: any;
+    payload: any;//???????
 }
 
 type TGetIngredientsItemRequest = {
     type: typeof getIngredientsItemRequest;
 }
 
-type TGetIngredientsItemSuccess = {
+export type TGetIngredientsItemSuccess = {
     type: typeof getIngredientsItemSuccess;
     payload: any;
 }
@@ -63,7 +64,7 @@ type TGetAndUpdateNumberOrderItemRequest = {
 
 type TGetAndUpdateNumberOrderItemSuccess = {
     type: typeof getAndUpdateNumberOrderItemSuccess;
-    payload: any;//????????????????????
+    payload: any
 }
 
 type TGetAndUpdateNumberOrderItemError = {

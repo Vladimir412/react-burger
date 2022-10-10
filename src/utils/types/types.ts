@@ -2,7 +2,7 @@ import { type } from "@testing-library/user-event/dist/type";
 import PropTypes from "prop-types";
 import { ReactNode } from 'react'
 import { ThunkAction } from 'redux-thunk';
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import { store } from '../../index';
 import { TUserInfoActions } from "./typesActionUserInfo";
 import { TActionsActions } from "./typesActionsActions";
@@ -119,7 +119,10 @@ export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
->; 
+export type AppThunk<ReturnType = void> = 
+  ThunkAction<ReturnType, RootState, unknown, TApplicationActions>
+
+// export type AppThunk<TReturn = void> = ActionCreator<
+//   ThunkAction<TReturn, Action, RootState, TApplicationActions>
+// >; 
 

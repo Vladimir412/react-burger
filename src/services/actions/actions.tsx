@@ -65,11 +65,13 @@ export const getDataIngredients: AppThunk = () => {
   };
 };
 
-export const sentDataOrder = (order, accessToken, openModalOrder) => {
-  return function (dispatch) {
+export const sentDataOrder: AppThunk = (order: any, accessToken: string, openModalOrder: () => void) => {
+  return function (dispatch: AppDispatch) {
     dispatch(getAndUpdateNumberOrderItemRequest());
     sentDataIngredients(order, accessToken)
       .then((data) => {
+        console.log(data);
+        
         if (data) {
           dispatch(getAndUpdateNumberOrderItemSuccess(data));
           openModalOrder(data.order.number)

@@ -15,7 +15,8 @@ export type TUserInfoItemRequest = {
 
 export type TUserInfoItemSuccess = {
     readonly type: typeof userInfoItemSuccess;
-    payload: TUserInfo;
+    payload: any;
+    // payload: TUserInfo;
 };
 
 export type TUserInfoItemFailed = {
@@ -28,7 +29,8 @@ export type TUserInfoUpdateItemRequest = {
 
 export type  TUserInfoUpdateItemSuccess = {
     readonly type: typeof userInfoUpdateItemSuccess;
-    payload: TUserInfo;
+    payload: any;
+    // payload: TUserInfo;
 };
 
 export type  TUserInfoUpdateItemFailed = {

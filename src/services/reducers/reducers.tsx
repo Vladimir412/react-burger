@@ -1,4 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
   getIngredientsForConstructor,
   addDataModalIngredient,
@@ -91,7 +91,6 @@ export default createReducer(initialState, {
       ...state,
       isLoading: false,
       order: action.payload,
-      // isModalOrder: true,
     };
   },
   [getAndUpdateNumberOrderItemError.type]: (state) => {

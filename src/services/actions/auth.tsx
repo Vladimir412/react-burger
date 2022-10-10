@@ -7,7 +7,8 @@ import {
   logOut,
   updateToken,
 } from "../../utils/apiAuth";
-import { getInfoAboutUser } from '../actions/userInfo'
+import { getInfoAboutUser } from './userInfo'
+import { AppDispatch, AppThunk } from "../../utils/types/types";
 
 export const registerUserItemRequest = createAction(
   "REGISTER_USER_ITEM_REQUEST"
@@ -41,8 +42,8 @@ export const upadateUserItemFailed = createAction('UPDATE_USER_ITEM_FAILED')
 
 export const forgotPassworUser = createAction("FORGOT_PASSWORD_USER");
 
-export const signUpUser = (email, password, name) => {
-  return function (dispatch) {
+export const signUpUser = (email: string, password: string, name: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(registerUserItemRequest());
     signUp(email, password, name)
       .then((data) => {
@@ -57,8 +58,8 @@ export const signUpUser = (email, password, name) => {
   };
 };
 
-export const signInUser = (email, password) => {
-  return function (dispatch) {
+export const signInUser = (email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(loginUserItemRequest());
     signIn(email, password)
       .then((data) => {
@@ -75,8 +76,8 @@ export const signInUser = (email, password) => {
   };
 };
 
-export const recoveryPasswordUser = (email) => {
-  return function (dispatch) {
+export const recoveryPasswordUser = (email: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(resetPasswordUserItemRequest());
     recoveryPassword(email)
       .then((data) => {
@@ -90,8 +91,8 @@ export const recoveryPasswordUser = (email) => {
   };
 };
 
-export const resetPasswordUser = (password, token) => {
-  return function (dispatch) {
+export const resetPasswordUser = (password: string, token: string) => {
+  return function (dispatch: AppDispatch) {
     resetPassword(password, token)
       .then((data) => {
         if (data && data.success) {
@@ -105,8 +106,8 @@ export const resetPasswordUser = (password, token) => {
   };
 };
 
-export const logOutUser = (refreshToken) => {
-  return function (dispatch) {
+export const logOutUser = (refreshToken: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(logOutItemRequest());
     logOut(refreshToken)
       .then((data) => {
@@ -123,7 +124,7 @@ export const logOutUser = (refreshToken) => {
 };
 
 export const updateTokenUser = () => {
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     dispatch(upadateUserItemRequest())
     updateToken().then((data) => {
       if (data && data.success) {
@@ -136,7 +137,7 @@ export const updateTokenUser = () => {
   };
 };
 
-export const autoLogin = () => (dispatch) => {
+export const autoLogin = () => (dispatch: AppDispatch) => {
   dispatch(upadateUserItemRequest())
   updateToken().then(data => {
     if (data && data.success) {
