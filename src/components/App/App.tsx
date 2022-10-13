@@ -50,10 +50,8 @@ function App() {
 
   useEffect(() => {
     if (isLogged) {
-      /* @ts-ignore */
       dispatch(getInfoAboutUser(accessToken));
     } else if (!isLogged && refreshToken) {
-      /* @ts-ignore */
       dispatch(autoLogin());
     }
   }, [isLogged]);

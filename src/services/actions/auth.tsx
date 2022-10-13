@@ -38,12 +38,12 @@ export const logOutItemSuccess = createAction("LOG_OUT_ITEM_SUCCESS");
 export const logOutItemFailed = createAction("LOG_OUT_ITEM_FAILED");
 
 export const upadateUserItemRequest = createAction('UPDATE_USER_ITEM_REQUEST')
-export const upadateUserItemSuccess = createAction('UPDATE_USER_ITEM_SUCCESS')
+export const upadateUserItemSuccess = createAction<any, 'UPDATE_USER_ITEM_SUCCESS'>('UPDATE_USER_ITEM_SUCCESS')
 export const upadateUserItemFailed = createAction('UPDATE_USER_ITEM_FAILED')
 
 export const forgotPassworUser = createAction("FORGOT_PASSWORD_USER");
 
-export const signUpUser: AppThunk = (email, password, name) => {
+export const signUpUser = ({email, password, name}: TRegister) => {
   return function (dispatch: AppDispatch) {
     dispatch(registerUserItemRequest());
     signUp({email, password, name})
@@ -59,12 +59,14 @@ export const signUpUser: AppThunk = (email, password, name) => {
   };
 };
 
-export const signInUser: AppThunk = (email, password) => {
+export const signInUser = ({email, password}: TLogin) => {
   return function (dispatch: AppDispatch) {
     dispatch(loginUserItemRequest());
     signIn({email, password})
       .then((data) => {
         if (data && data.success) {
+          console.log(data);
+          
           dispatch(loginUserItemSuccess(data));
           localStorage.setItem("refreshToken", data.refreshToken);
         } else {
@@ -77,10 +79,10 @@ export const signInUser: AppThunk = (email, password) => {
   };
 };
 
-export const recoveryPasswordUser: AppThunk = (email) => {
+export const recoveryPasswordUser = (email: string) => {
   return function (dispatch: AppDispatch) {
     dispatch(resetPasswordUserItemRequest());
-    recoveryPassword({email})
+    recoveryPassword(email)
       .then((data) => {
         if (data && data.success) {
           //перенаправить пользователя
@@ -92,12 +94,11 @@ export const recoveryPasswordUser: AppThunk = (email) => {
   };
 };
 
-export const resetPasswordUser: AppThunk = (password, token) => {
+export const resetPasswordUser = (password: string, token: string) => {
   return function (dispatch: AppDispatch) {
     resetPassword(password, token)
-      .then((data) => {
+      .then((data) => {//     ?????????????????????????
         if (data && data.success) {
-          console.log("good");
           //переадресация
         } else {
           dispatch(resetPasswordUserItemFailed());
@@ -140,7 +141,7 @@ export const updateTokenUser = () => {
 
 export const autoLogin = () => (dispatch: AppDispatch) => {
   dispatch(upadateUserItemRequest())
-  updateToken().then(data => {
+  updateToken().then((data) => {
     if (data && data.success) {
       localStorage.setItem('refreshToken', data.refreshToken)
       dispatch(loginUserItemSuccess(data))

@@ -1,11 +1,10 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
-import { TIngredientDetails } from './types/types'
+import { TIngredientDetails, TIngredient, TResponseGetData, TResponseSentDataIngredients } from './types/types'
 
 export const getData = () => {
   return fetch(`${baseUrl}/ingredients`)
-    .then(checkResponse)
-    .then((res) => res.data);
+    .then(res => checkResponse<TResponseGetData<TIngredient>>(res))
 };
 
 export const sentDataIngredients = (arr: Array<TIngredientDetails>, accessToken: string) => {
@@ -18,6 +17,6 @@ export const sentDataIngredients = (arr: Array<TIngredientDetails>, accessToken:
     body: JSON.stringify({
       ingredients: arr,
     }),
-  }).then(checkResponse);
+  }).then(res => checkResponse<TResponseSentDataIngredients>(res))
 };
 

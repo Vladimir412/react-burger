@@ -20,7 +20,8 @@ const Register: FC = () => {
 
   const onHandleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(signUpUser(inputs.email, inputs.password, inputs.name));
+    dispatch(signUpUser({...inputs}));
+    // dispatch(signUpUser(inputs.email, inputs.password, inputs.name));
     setInputs({ name: "", email: "", password: "" });
   };
 

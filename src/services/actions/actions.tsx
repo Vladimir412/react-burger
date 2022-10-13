@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload, createAction } from "@reduxjs/toolkit";
 import { getData, sentDataIngredients } from "../../utils/dataApi";
-import { AppThunk, AppDispatch } from "../../utils/types/types";
+import { AppThunk, AppDispatch, TIngredientDetails, TIngredient } from "../../utils/types/types";
 import { TGetIngredientsItemSuccess } from "../../utils/types/typesActionsActions";
 
 
@@ -50,13 +50,13 @@ export const modalIngredientItemClosed = createAction(
   "MODAL_INGREDIENT_ITEM_CLOSED"
 );
 
-export const getDataIngredients: AppThunk = () => {
+export const getDataIngredients = () => {
   return function (dispatch: AppDispatch) {
     dispatch(getIngredientsItemRequest());
     getData()
-      .then((data) => {
-        if (data) {
-          dispatch(getIngredientsItemSuccess(data));
+      .then((data) => {        
+        if (data && data.success) {
+          dispatch(getIngredientsItemSuccess(data.data));
         } else {
           dispatch(getIngredientsItemError());
         }
@@ -67,13 +67,11 @@ export const getDataIngredients: AppThunk = () => {
   };
 };
 
-export const sentDataOrder: AppThunk = (order, accessToken, openModalOrder) => {
+export const sentDataOrder = (order: Array<TIngredientDetails>, accessToken: string, openModalOrder: (num: number) => void) => {
   return function (dispatch: AppDispatch) {
     dispatch(getAndUpdateNumberOrderItemRequest());
     sentDataIngredients(order, accessToken)
       .then((data) => {
-        console.log(data);
-        
         if (data) {
           dispatch(getAndUpdateNumberOrderItemSuccess(data));
           openModalOrder(data.order.number)

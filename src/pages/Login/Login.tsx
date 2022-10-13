@@ -5,16 +5,17 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
+// import { useDispatch, useSelector } from "react-redux";
 import { useState, FC, ChangeEvent, FormEvent } from "react";
 import { signInUser } from "../../services/actions/auth";
 import { TLogin, TLocation } from '../../utils/types/types'
 
 const Login: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location: TLocation = useLocation()
-  const { isLogged }: {isLogged: boolean} = useSelector((state: any) => state.authReducer);
+  const { isLogged }: {isLogged: boolean} = useAppSelector((state) => state.authReducer);
   const [inputs, setInputs] = useState<TLogin>({ email: "", password: "" });
   const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
@@ -24,7 +25,10 @@ const Login: FC = () => {
 
   const onHandleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(signInUser(inputs.email, inputs.password));
+    console.log(inputs);
+    
+    dispatch(signInUser(inputs));
+    // dispatch(signInUser(inputs.email, inputs.password));
     setInputs({ email: "", password: "" });
   };
   
