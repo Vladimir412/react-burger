@@ -1,18 +1,18 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
-import { TRegister } from './types/types'
+import { TRegister, TLogin } from "./types/types";
 
-export const signUp = (email: string, password: string, name: string) => {
+export const signUp = ( {email, password, name}: TRegister ) => {
   return fetch(`${baseUrl}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password, name }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<any>(res));
 };
 
-export const signIn = (email: string, password: string) => {
+export const signIn = ({ email, password }: TLogin) => {
   return fetch(`${baseUrl}/auth/login`, {
     method: "POST",
     headers: {
@@ -61,7 +61,12 @@ export const getInfoUser = (accessToken: string) => {
   }).then(checkResponse);
 };
 
-export const updateInfoUser = ({ name, email, password, accessToken }: TRegister & {accessToken: string}) => {
+export const updateInfoUser = ({
+  name,
+  email,
+  password,
+  accessToken,
+}: TRegister & { accessToken: string }) => {
   return fetch(`${baseUrl}/auth/user`, {
     method: "PATCH",
     headers: {
@@ -78,6 +83,6 @@ export const updateToken = () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({token: localStorage.getItem('refreshToken')}),
+    body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
   }).then(checkResponse);
 };

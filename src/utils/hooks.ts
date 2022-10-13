@@ -8,4 +8,4 @@ import { AppDispatch, AppThunk, RootState, TApplicationActions } from './types/t
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = selectorHook; 
 
-export const useAppDispatch = () => dispatchHook<ThunkDispatch<RootState, never, TApplicationActions>>()
+export const useAppDispatch: () => AppDispatch = dispatchHook

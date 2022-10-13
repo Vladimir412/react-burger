@@ -1,11 +1,13 @@
-import { createAction } from "@reduxjs/toolkit";
+import { ActionCreatorWithPayload, createAction } from "@reduxjs/toolkit";
 import { getData, sentDataIngredients } from "../../utils/dataApi";
 import { AppThunk, AppDispatch } from "../../utils/types/types";
+import { TGetIngredientsItemSuccess } from "../../utils/types/typesActionsActions";
+
 
 export const getIngredientsForConstructor = createAction(
   "GET_INGREDIENTS_FOR_CONSTRUCTOR"
 );
-export const addIngredientInConstructor = createAction(
+export const addIngredientInConstructor = createAction<any, "ADD_INGREDIENT_IN_CONSTRUCTOR">(
   "ADD_INGREDIENT_IN_CONSTRUCTOR"
 );
 export const removeIngredientInConstructor = createAction(
@@ -21,7 +23,7 @@ export const getAndUpdateNumberOreder = createAction(
 export const getIngredientsItemRequest = createAction(
   "GET_INGREDIENTS_ITEM_REQUEST"
 );
-export const getIngredientsItemSuccess = createAction(
+export const getIngredientsItemSuccess = createAction<any, "GET_INGREDIENTS_ITEM_SUCCESS">(
   "GET_INGREDIENTS_ITEM_SUCCESS"
 );
 export const getIngredientsItemError = createAction(
@@ -31,7 +33,7 @@ export const getIngredientsItemError = createAction(
 export const getAndUpdateNumberOrderItemRequest = createAction(
   "GET_AND_UPDATE_NUMBER_ORDER_REQUEST"
 );
-export const getAndUpdateNumberOrderItemSuccess = createAction(
+export const getAndUpdateNumberOrderItemSuccess = createAction<any, "GET_AND_UPDATE_NUMBER_ORDER_SUCCESS">(
   "GET_AND_UPDATE_NUMBER_ORDER_SUCCESS"
 );
 export const getAndUpdateNumberOrderItemError = createAction(
@@ -65,7 +67,7 @@ export const getDataIngredients: AppThunk = () => {
   };
 };
 
-export const sentDataOrder: AppThunk = (order: any, accessToken: string, openModalOrder: () => void) => {
+export const sentDataOrder: AppThunk = (order, accessToken, openModalOrder) => {
   return function (dispatch: AppDispatch) {
     dispatch(getAndUpdateNumberOrderItemRequest());
     sentDataIngredients(order, accessToken)

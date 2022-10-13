@@ -40,22 +40,22 @@ const initialState: TInitialState = {
 };
 
 export default createReducer(initialState, {
-  [getIngredientsForConstructor.type]: (state, action) => {
+  [getIngredientsForConstructor.type]: (state, action: PayloadAction<any>) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [addIngredientInConstructor.type]: (state, action) => {
+  [addIngredientInConstructor.type]: (state, action: PayloadAction<any>) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [addDataModalIngredient.type]: (state, action) => {
+  [addDataModalIngredient.type]: (state, action: PayloadAction<any>) => {
     state.ingredient = action.payload;
   },
-  [removeDataModalIngredient.type]: (state, action) => {
+  [removeDataModalIngredient.type]: (state, action: PayloadAction<any>) => {
     state.ingredient = action.payload;
   },
-  [getAndUpdateNumberOreder.type]: (state, action) => {
+  [getAndUpdateNumberOreder.type]: (state, action: PayloadAction<any>) => {
     state.order = action.payload;
   },
-  [removeIngredientInConstructor.type]: (state, action) => {
+  [removeIngredientInConstructor.type]: (state, action: PayloadAction<any>) => {
     state.ingredientsInConstructor = action.payload;
   },
   [getIngredientsItemRequest.type]: (state) => {
@@ -65,7 +65,7 @@ export default createReducer(initialState, {
       isError: false,
     };
   },
-  [getIngredientsItemSuccess.type]: (state, action) => {
+  [getIngredientsItemSuccess.type]: (state, action: PayloadAction<any>) => {
     return {
       ...state,
       isLoading: false,
@@ -86,7 +86,7 @@ export default createReducer(initialState, {
       isError: false,
     };
   },
-  [getAndUpdateNumberOrderItemSuccess.type]: (state, action) => {
+  [getAndUpdateNumberOrderItemSuccess.type]: (state, action: PayloadAction<any>) => {
     return {
       ...state,
       isLoading: false,
@@ -100,25 +100,25 @@ export default createReducer(initialState, {
       isError: true,
     };
   },
-  [modalOrderItemOpen.type]: (state, action) => {
+  [modalOrderItemOpen.type]: (state, action: PayloadAction<any>) => {
     return {
       ...state,
       isModalOrder: action.payload,
     };
   },
-  [modalOrderItemClosed.type]: (state, action) => {
+  [modalOrderItemClosed.type]: (state, action: PayloadAction<any>) => {
     return {
       ...state,
       isModalOrder: action.payload,
     };
   },
-  [modalIngredientItemOpen.type]: (state, action) => {
+  [modalIngredientItemOpen.type]: (state, action: PayloadAction<any>) => {
     return {
       ...state,
       isModalIngredient: action.payload,
     };
   },
-  [modalIngredientItemClosed.type]: (state, action) => {
+  [modalIngredientItemClosed.type]: (state, action: PayloadAction<any>) => {
     return {
       ...state,
       isModalIngredient: action.payload,

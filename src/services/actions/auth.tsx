@@ -8,18 +8,19 @@ import {
   updateToken,
 } from "../../utils/apiAuth";
 import { getInfoAboutUser } from './userInfo'
-import { AppDispatch, AppThunk } from "../../utils/types/types";
+import { AppDispatch, AppThunk, TLogin, TRegister } from "../../utils/types/types";
+import { withPayloadType } from "../../utils/utils";
 
 export const registerUserItemRequest = createAction(
   "REGISTER_USER_ITEM_REQUEST"
 );
-export const registerUserItemSuccess = createAction(
+export const registerUserItemSuccess = createAction<any, "REGISTER_USER_ITEM_SUCCESS">(
   "REGISTER_USER_ITEM_SUCCESS"
 );
 export const registerUserItemFailed = createAction("REGISTER_USER_ITEM_FAILED");
 
 export const loginUserItemRequest = createAction("LOGIN_USER_ITEM_REQUEST");
-export const loginUserItemSuccess = createAction("LOGIN_USER_ITEM_SUCCESS");
+export const loginUserItemSuccess = createAction<any, "LOGIN_USER_ITEM_SUCCESS">("LOGIN_USER_ITEM_SUCCESS");
 export const loginUserItemFailed = createAction("LOGIN_USER_ITEM_FAILED");
 
 export const resetPasswordUserItemRequest = createAction(
@@ -42,10 +43,10 @@ export const upadateUserItemFailed = createAction('UPDATE_USER_ITEM_FAILED')
 
 export const forgotPassworUser = createAction("FORGOT_PASSWORD_USER");
 
-export const signUpUser = (email: string, password: string, name: string) => {
+export const signUpUser: AppThunk = (email, password, name) => {
   return function (dispatch: AppDispatch) {
     dispatch(registerUserItemRequest());
-    signUp(email, password, name)
+    signUp({email, password, name})
       .then((data) => {
         if (data) {
           dispatch(registerUserItemSuccess(data));
@@ -58,10 +59,10 @@ export const signUpUser = (email: string, password: string, name: string) => {
   };
 };
 
-export const signInUser = (email: string, password: string) => {
+export const signInUser: AppThunk = (email, password) => {
   return function (dispatch: AppDispatch) {
     dispatch(loginUserItemRequest());
-    signIn(email, password)
+    signIn({email, password})
       .then((data) => {
         if (data && data.success) {
           dispatch(loginUserItemSuccess(data));
@@ -76,10 +77,10 @@ export const signInUser = (email: string, password: string) => {
   };
 };
 
-export const recoveryPasswordUser = (email: string) => {
+export const recoveryPasswordUser: AppThunk = (email) => {
   return function (dispatch: AppDispatch) {
     dispatch(resetPasswordUserItemRequest());
-    recoveryPassword(email)
+    recoveryPassword({email})
       .then((data) => {
         if (data && data.success) {
           //перенаправить пользователя
@@ -91,7 +92,7 @@ export const recoveryPasswordUser = (email: string) => {
   };
 };
 
-export const resetPasswordUser = (password: string, token: string) => {
+export const resetPasswordUser: AppThunk = (password, token) => {
   return function (dispatch: AppDispatch) {
     resetPassword(password, token)
       .then((data) => {

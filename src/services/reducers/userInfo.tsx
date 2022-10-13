@@ -1,4 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
   userInfoItemRequest,
   userInfoItemSuccess,
