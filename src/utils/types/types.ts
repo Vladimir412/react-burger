@@ -7,6 +7,7 @@ import { store } from "../../index";
 import { TUserInfoActions } from "./typesActionUserInfo";
 import { TActionsActions } from "./typesActionsActions";
 import { TActionsAuth } from "./typesAuth";
+import { TWSActions }from './typesWS'
 
 //  Типы ингредиентов
 export type TIngredient = {
@@ -168,7 +169,8 @@ export type TModal = {
 export type TApplicationActions =
   | TUserInfoActions
   | TActionsActions
-  | TActionsAuth;
+  | TActionsAuth
+  | TWSActions
 
 export type RootState = ReturnType<typeof store.getState>;
 
