@@ -8,17 +8,19 @@ import { getInfoUser, updateInfoUser, updateToken } from "../../utils/apiAuth";
 import { TUserInfo, AppDispatch, TRegister } from "../../utils/types/types";
 
 export const userInfoItemRequest = createAction("USER_INFO_ITEM_REQUEST");
-export const userInfoItemSuccess = createAction<TUserInfo>(
+export const userInfoItemSuccess = createAction<
+  TUserInfo,
   "USER_INFO_ITEM_SUCCESS"
-);
+>("USER_INFO_ITEM_SUCCESS");
 export const userInfoItemFailed = createAction("USER_INFO_ITEM_FAILED");
 
 export const userInfoUpdateItemRequest = createAction(
   "USER_INFO_UPDATE_ITEM_REQUEST"
 );
-export const userInfoUpdateItemSuccess = createAction<TUserInfo>(
+export const userInfoUpdateItemSuccess = createAction<
+  TUserInfo,
   "USER_INFO_UPDATE_ITEM_SUCCESS"
-);
+>("USER_INFO_UPDATE_ITEM_SUCCESS");
 export const userInfoUpdateItemFailed = createAction(
   "USER_INFO_UPDATE_ITEM_FAILED"
 );

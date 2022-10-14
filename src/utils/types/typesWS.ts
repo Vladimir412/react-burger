@@ -12,25 +12,25 @@ type TWSConnectedStart = {
 }
 
 type TWSConnectedSuccess = {
-    type: typeof wsConnectStart;
+    type: typeof wsConnectSuccess;
 }
 
 type TWSConnectedError = {
-    type: typeof wsConnectStart;
+    type: typeof wsConnectError;
     payload: any;
 }
 
 type TWSConnectedClosed = {
-    type: typeof wsConnectStart;
+    type: typeof wsConnectClosed;
 }
 
 type TWSConnectedGetMessage = {
-    type: typeof wsConnectStart;
+    type: typeof wsGetMessage;
     payload: any;
 }
 
 type TWSConnectedSendMessage = {
-    type: typeof wsConnectStart;
+    type: typeof wsSendMessage;
     payload: any;
 }
 

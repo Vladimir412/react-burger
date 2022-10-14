@@ -6,9 +6,11 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
-    return next => (action: TApplicationActions) => {
+    return next => (action: any) => {
       const { dispatch, getState } = store;
       const { type, payload } = action;
+      console.log(action);
+      
  
       if (type === 'WS_CONNECTION_START') {
             // объект класса WebSocket

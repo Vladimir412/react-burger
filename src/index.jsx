@@ -9,12 +9,14 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducers";
 import thunk from "redux-thunk";
+import { socketMiddleware } from "./services/middlewares/socketMiddleware";
+import { wsUrl } from "./utils/constans";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl)));
 
 export const store = configureStore({
   reducer: rootReducer,
