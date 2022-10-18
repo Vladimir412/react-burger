@@ -8,18 +8,22 @@ import {
 
  type TWSState = {
     wcConnected: boolean;
-    message: any;
+    orders: any;
     error?: Event;
+    total: number;
+    totalToday: number;
  }
 
 
  const initialState: TWSState = {
     wcConnected: false,
-    message: []
+    orders: [],
+    total: 0,
+    totalToday: 0
  }
 
  export default createReducer(initialState, {
-    [wsConnectSuccess.type]: state => {
+    [wsConnectSuccess.type]: (state: any) => {
         return {
             ...state,
             error: undefined,
@@ -40,11 +44,13 @@ import {
             wsConnected: false
         }
     },
-    [wsGetMessage.type]: (state, action) => {
+    [wsGetMessage.type]: (state, action) => {        
         return {
             ...state,
             error: undefined,
-            message: [...state.message, action.payload]
+            orders: [...action.payload.orders],
+            total: action.payload.total,
+            totalToday: action.payload.totalToday
         }
     },
     default: state => state

@@ -1,7 +1,7 @@
 .container {
     width: 100%;
     max-width: 536px;
-    height: 214px;
+    min-height: 214px;
     background: #1C1C21;
     border-radius: 40px;
     padding: 0;
@@ -31,6 +31,8 @@
     position: relative;
     width: 400px;
     height: 64px;
+    padding: 0;
+    list-style: none;
 }
 
 .gradient {
