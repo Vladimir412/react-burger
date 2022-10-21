@@ -1,5 +1,9 @@
 .list {
     list-style: none;
+    color: #00CCCC;
+    max-height: 150px;
+    display: flex;
+    flex-flow: column wrap;
 }
 
 .container {

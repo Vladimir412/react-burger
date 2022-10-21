@@ -16,7 +16,7 @@ type TFeedItem = {
   key: string;
 };
 
-const FeedItem: FC<TFeedItem> = ({ order, time, title, price, images }) => {
+const FeedItem: FC<TFeedItem> = ({ order, time, title, price, images, id }) => {
   const { ingredients } = useAppSelector((state) => state.ingredientReducers);
   const location = useLocation<string>();
   let imagesArray;
@@ -70,7 +70,7 @@ const FeedItem: FC<TFeedItem> = ({ order, time, title, price, images }) => {
   return (
     <Link
       to={{
-        pathname: `/feed/${order}`,
+        pathname: `/feed/${id}`,
         // state: { background: location },
       }}
       style={{ textDecoration: "none", color: "#F2F2F3" }}

@@ -60,7 +60,10 @@ const Feed: FC = () => {
 
     item.forEach((i: any) => {      
       ingredients.forEach((j: any) => {
-        if (j._id === i) {
+        if (j._id === i) {          
+          if (j.type === 'bun') {
+            totalPrice += (j.price * 2)
+          }
           totalPrice += j.price
         }
       })
@@ -86,24 +89,14 @@ const Feed: FC = () => {
       </li>
     );
   });
+console.log(orders);
 
-  const item = (
-    <li>
-      <FeedItem
-        id={"#034535"}
-        order={"#034535"}
-        time={"Сегодня, 16:20 i-GMT+3"}
-        title={"Death Star Starship Main бургер"}
-        price={480}
-        images={[
-          "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
-          "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
-          "https://code.s3.yandex.net/react/code/core-mobile.png",
-        ]}
-        key={"0654645"}
-      />
-    </li>
-  );
+ const orderNumberComplete = orders.map((i: any) => {
+  if (i.status === 'done') {
+    return <li key={i._id}>{i.number}</li>
+  }
+ })
+ const newOrderNumberComplete = orderNumberComplete.slice(0, 10)
 
   return (
     <section>
@@ -114,7 +107,7 @@ const Feed: FC = () => {
         </div>
         <div className={feedStyles.containerInfo}>
           <div className={feedStyles.containerInfo__lists}>
-            <FeedItemOrderBoard title={"Готовы:"} children={<li></li>} />
+            <FeedItemOrderBoard title={"Готовы:"} children={newOrderNumberComplete} />
             <FeedItemOrderBoard title={"В работе:"} children={<li></li>} />
           </div>
           <FeedItemComplete title={completeAllTime} quantity={total} />

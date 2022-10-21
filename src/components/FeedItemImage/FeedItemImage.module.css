@@ -2,10 +2,17 @@
     width: 64px;
     height: 64px;
     background: linear-gradient(to right, #801AB2, #4C4CFF);
-    /* border-color: linear-gradient(to right, #801AB2, #4C4CFF); */
     border-radius: 50%;
     position: absolute;
-    /* z-index: 10; */
+}
+
+.gradient_type_relative {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(to right, #801AB2, #4C4CFF);
+    border-radius: 50%;
+
+    position: relative;
 }
 
 .image {

@@ -9,12 +9,10 @@ type TFeedItemOrderBoard = {
 const FeedItemOrderBoard: FC<TFeedItemOrderBoard> = ({ title, children }) => {
 
 
-
-
   return (
     <div className={feedItemOrderBoardStyles.container}>
       <h1 className={`text text_type_main-medium`}>{title}</h1>
-      <ul className={feedItemOrderBoardStyles.list}>{children}</ul>
+      <ul className={`${feedItemOrderBoardStyles.list} text text_type_digits-default`}>{children}</ul>
     </div>
   );
 };

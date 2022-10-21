@@ -2,11 +2,14 @@ import feedItemImageStyles from "./FeedItemImage.module.css";
 import { FC } from "react";
 
 const FeedItemImage: FC<any> = (props) => {
-  // console.log(props);
+
+  const styleContainer = !props.left && !props. zIndex
+  ? feedItemImageStyles.gradient_type_relative
+  : feedItemImageStyles.gradient
 
   return (
     <div
-      className={feedItemImageStyles.gradient}
+      className={styleContainer}
       style={{ left: props.left, zIndex: props.length }}
     >
       {props.quantity && (
