@@ -1,4 +1,5 @@
 import { Middleware, MiddlewareAPI } from "redux"; 
+import { store } from "../..";
 import { AppDispatch, RootState, TApplicationActions } from "../../utils/types/types";
 import { wsConnectStart, wsConnectSuccess,wsConnectError, wsConnectClosed, wsGetMessage } from "../actions/wsActionTypes";
 
@@ -6,8 +7,8 @@ import { wsConnectStart, wsConnectSuccess,wsConnectError, wsConnectClosed, wsGet
 export const socketMiddleware = (wsUrl: string): Middleware => {
   // console.log('Hello');
 
+
     return (state) => {
-      // console.log('I am Starting');
 
         let socket: WebSocket | null = null;
         
@@ -16,14 +17,16 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
     return next => (action: any) => {
       // const { dispatch, getState } = store;
       const { dispatch } = state
-      const { type, payload } = action;
-      // console.log(action);
+      const { type, payload } = action;      
       
-      // console.log("work");
       
-      if (type === wsConnectStart.type) {
+      if (type === wsConnectStart.type && payload.name === 'feed') {
             // объект класса WebSocket
-        socket = new WebSocket(wsUrl);        
+        socket = new WebSocket(`${wsUrl}/all`);        
+      }
+      if (type === wsConnectStart.type && payload.name === 'orders') {
+        const token = payload.token.replace('Bearer ', '')        
+        socket = new WebSocket(`${wsUrl}?token=${token}`);
       }
       if (socket) {
 

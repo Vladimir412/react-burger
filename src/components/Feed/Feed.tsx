@@ -4,19 +4,15 @@ import FeedItem from "../FeedItem/FeedItem";
 import FeedItemComplete from "../FeedItemComplete/FeedItemComplete";
 import FeedItemOrderBoard from "../FeedItemOrderBoard/FeedItemOrderBoard";
 import { completeAllTime, completeToday } from "../../utils/constans";
-import { wsUrl } from "../../utils/constans";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 import {
-  wsGetMessage,
-  wsConnectSuccess,
   wsConnectClosed,
   wsConnectStart,
 } from "../../services/actions/wsActionTypes";
-import wsReducer from "../../services/reducers/wsReducer";
-import { v4 as uuidv4 } from "uuid";
+import { countPrice, countTime, addZero } from "../../utils/utils";
 
 const Feed: FC = () => {
-  const { orders, wcConnected, total, totalToday } = useAppSelector(
+  const { orders, total, totalToday } = useAppSelector(
     (state) => state.wsReducer
   );
   const { ingredients } = useAppSelector((state) => state.ingredientReducers);
@@ -25,94 +21,77 @@ const Feed: FC = () => {
   let items: any;
 
   useEffect(() => {
-    dispatch(wsConnectStart());
-    console.log("Start");
+    dispatch(wsConnectStart({ name: "feed" }));
+    console.log("Start feed");
 
     return () => {
       dispatch(wsConnectClosed());
-      console.log("closed");
+      console.log("closed feed");
     };
   }, []);
 
-  const countTime = (time: string) => {
-    let result: string;
-    const timeResult: string = time.slice(11, 16);
-    const currentDate: number = Date.parse(Date());
-    const days: number = (currentDate - Date.parse(time)) / 86400000;
-    const day: number = Math.round(days);
-    if (day === 0) {
-      result = "Сегодня";
-    } else if (day === 1) {
-      result = "Вчера";
-    } else if (day >= 2 && day <= 4) {
-      result = `${day} дня назад`;
-    } else if (day >= 5 && day <= 7) {
-      result = `${day} дней назад`;
-    } else {
-      result = "Болше недели назад";
-    }
-
-    return `${result}, ${timeResult} i-GMT+3`;
-  };
-
-  const countPrice = (item: any) => {
-    let totalPrice: number = 0
-
-    item.forEach((i: any) => {      
-      ingredients.forEach((j: any) => {
-        if (j._id === i) {          
-          if (j.type === 'bun') {
-            totalPrice += (j.price * 2)
-          }
-          totalPrice += j.price
-        }
-      })
-    })
-    return totalPrice
-  }
-
   items = orders.map((i: any) => {
-    
     return (
       <li key={i._id}>
         <FeedItem
           id={i._id}
-          order={`#${i.number}`}
+          order={`#${addZero(i.number)}`}
           time={countTime(i.createdAt)}
           title={i.name}
-          price={countPrice(i.ingredients)}
-          // price={480}
+          price={countPrice(i.ingredients, ingredients)}
           images={i.ingredients}
           key={i._id}
+          path={"feed/"}
+          status={i.status}
           {...i}
         />
       </li>
     );
   });
-console.log(orders);
 
- const orderNumberComplete = orders.map((i: any) => {
-  if (i.status === 'done') {
-    return <li key={i._id}>{i.number}</li>
-  }
- })
- const newOrderNumberComplete = orderNumberComplete.slice(0, 10)
+  const orderNumberDone = orders.map((i: any) => {
+    if (i.status === "done") {
+      return (
+        <li key={i._id} style={{ marginBottom: 8 }}>
+          {addZero(i.number)}
+        </li>
+      );
+    }
+  });
+
+  const orderNumberPending = orders.map((i: any) => {
+    if (i.status === "pending") {
+      return <li key={i._id}>{addZero(i.number)}</li>;
+    }
+  });
+
+  const newOrderNumberPending = orderNumberPending.slice(0, 10);
+  const newOrderNumberDone = orderNumberDone.slice(0, 10);
 
   return (
     <section>
-      <h1 className={feedStyles.title}>Лента заказов</h1>
+      <h1 className={`${feedStyles.title} text text_type_main-large`}>
+        Лента заказов
+      </h1>
       <div className={feedStyles.container}>
         <div className={feedStyles.containerOrder}>
           <ul className={feedStyles.containerOrder__lists}>{items}</ul>
         </div>
         <div className={feedStyles.containerInfo}>
           <div className={feedStyles.containerInfo__lists}>
-            <FeedItemOrderBoard title={"Готовы:"} children={newOrderNumberComplete} />
-            <FeedItemOrderBoard title={"В работе:"} children={<li></li>} />
+            <FeedItemOrderBoard
+              title={"Готовы:"}
+              children={newOrderNumberDone}
+            />
+            <FeedItemOrderBoard
+              title={"В работе:"}
+              children={newOrderNumberPending}
+            />
           </div>
-          <FeedItemComplete title={completeAllTime} quantity={total} />
-
-          <FeedItemComplete title={completeToday} quantity={totalToday} />
+          <div className={feedStyles.containerInfo__statistic}>
+            <FeedItemComplete title={completeAllTime} quantity={total} />
+            <FeedItemComplete title={completeToday} quantity={totalToday} />
+          </div>
         </div>
       </div>
     </section>

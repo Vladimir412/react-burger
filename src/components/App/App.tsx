@@ -46,7 +46,7 @@ function App() {
     dispatch(getDataIngredients());
   }, []);
 
-  const { isLogged, accessToken } = useAppSelector((state: any) => state.authReducer);
+  const { isLogged, accessToken } = useAppSelector((state) => state.authReducer);
   const refreshToken: string | null = localStorage.getItem("refreshToken");
 
   useEffect(() => {
@@ -111,6 +111,13 @@ function App() {
              children={<OrderInformation />}
            />
           )}
+          {/* {location && (
+            <ProtectedRoute 
+              path="/profile/orders/:id"
+              exact
+              children={<OrderInformation />}
+            />
+          )} */}
         </Switch>
       </div>
       
@@ -130,6 +137,16 @@ function App() {
           children={
             <Modal closeModal={closeModal} title="">
               <OrderDetails />
+            </Modal>
+          }
+        />
+      )}
+      {background && (
+        <Route
+          path="/feed/:id"
+          children={
+            <Modal closeModal={closeModal}>
+              <OrderInformation />
             </Modal>
           }
         />

@@ -10,12 +10,15 @@
     width: 64.6%;
     margin: auto;
     margin-top: 40px;
+    margin-bottom: 18px;
+    padding-left: 5px;
 }
 
 .containerOrder {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 49%;
+    /* width: 50%; */
     overflow-y: auto;
 }
 
@@ -34,16 +37,28 @@
 .containerOrder__lists {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .containerInfo {
     composes: containerOrder;
-    overflow:hidden
+    overflow: hidden;
+    /* margin-left: 97px; */
+    width: 50%
 }
 
 .containerInfo__lists {
     display: flex;
     flex-flow: row nowrap;
     width: 100%;
+    margin-left: 20px;
 }
 
+.containerInfo__statistic {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 52px;
+    height: 100%;
+    max-height: 360px;
+}

@@ -2,18 +2,44 @@
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 40px;
+    width: 88.7%;
 }
 
 .orderNumber {
     text-align: center;
 }
 
+.title {
+    width: 100%;
+    max-width: 640px;
+    max-height: 80px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.status {
+    margin-top: 8px;
+    margin-bottom: 60px;
+}
+
+.status_type_done {
+    composes: status;
+    color: #00CCCC;
+}
+
+.status_type_other {
+    composes: status;
+    color: #F2F2F3;
+}
+
 .lists {
     list-style: none;
     padding: 0;
     overflow-y: auto;
-    max-height: 500px;
+    max-height: 300px;
+    margin: 0;
 }
 
 .lists::-webkit-scrollbar {
@@ -26,4 +52,17 @@
 
 .lists::-webkit-scrollbar-track {
     background-color: #2F2F37;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto 40px 40px;
+}
+
+.price {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 }
