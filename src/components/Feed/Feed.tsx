@@ -12,11 +12,11 @@ import {
 import { countPrice, countTime, addZero } from "../../utils/utils";
 
 const Feed: FC = () => {
-  const { orders, total, totalToday } = useAppSelector(
+  const { orders, total, totalToday, wsConnected } = useAppSelector(
     (state) => state.wsReducer
   );
   const { ingredients } = useAppSelector((state) => state.ingredientReducers);
-  
+
   const dispatch = useAppDispatch();
   let items: any;
 
@@ -31,6 +31,14 @@ const Feed: FC = () => {
   }, []);
 
   items = orders.map((i: any) => {
+    // if (items && items.length > 1) {
+    //   return items.map((j: any) => {
+    //     if (j.id === i._id) {
+    //       return {...j, quantityIngredients: j.quantityIngredients + 1}
+    //     }
+    //   })
+    // }
+
     return (
       <li key={i._id}>
         <FeedItem

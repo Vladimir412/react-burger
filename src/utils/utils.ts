@@ -18,9 +18,6 @@ export const countPrice = (item: any, array: any) => {
   item.forEach((i: any) => {      
     array.forEach((j: any) => {
       if (j._id === i) {          
-        if (j.type === 'bun') {
-          totalPrice += (j.price * 2)
-        }
         totalPrice += j.price
       }
     })

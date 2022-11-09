@@ -6,10 +6,9 @@ import {
     wsSetTitle
  } from '../actions/wsActionTypes'
  import { createReducer } from '@reduxjs/toolkit'
-import { title } from 'process';
 
  type TWSState = {
-    wcConnected: boolean;
+    wsConnected: boolean;
     orders: any;
     error?: Event;
     total: number;
@@ -19,7 +18,7 @@ import { title } from 'process';
 
 
  const initialState: TWSState = {
-    wcConnected: false,
+    wsConnected: false,
     orders: [],
     total: 0,
     totalToday: 0,
@@ -31,17 +30,17 @@ import { title } from 'process';
         return {
             ...state,
             error: undefined,
-            wcConnected: true
+            wsConnected: true
         }
     },
     [wsConnectError.type]: (state, action) => {
         return {
             ...state,
             error: action.payload,
-            wcConnected: false
+            wsConnected: false
         }
     },
-    [wsConnectClosed.type]: state => {
+    [wsConnectClosed.type]: (state) => {        
         return {
             ...state,
             error: undefined,

@@ -5,8 +5,6 @@ import { wsConnectStart, wsConnectSuccess,wsConnectError, wsConnectClosed, wsGet
 
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
-  // console.log('Hello');
-
 
     return (state) => {
 
@@ -22,18 +20,20 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
       
       if (type === wsConnectStart.type && payload.name === 'feed') {
             // объект класса WebSocket
-        socket = new WebSocket(`${wsUrl}/all`);        
+        socket = new WebSocket(`${wsUrl}/all`);      
+        console.log('Соединение all');
       }
       if (type === wsConnectStart.type && payload.name === 'orders') {
         const token = payload.token.replace('Bearer ', '')        
         socket = new WebSocket(`${wsUrl}?token=${token}`);
+        console.log('Соединение личных заказов');
       }
       if (socket) {
 
                 // функция, которая вызывается при открытии сокета
-        socket.onopen = event => {
-          // console.log('wsConnectSuccess');
-          
+        socket.onopen = event => {       
+          console.log('Соединение открыто');
+             
           dispatch(wsConnectSuccess());
         };
 
@@ -43,15 +43,22 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         };
 
                 // функция, которая вызывается при получения события от сервера
-        socket.onmessage = event => {          
+        socket.onmessage = event => {    
+          console.log("Полуили");
+                
           const { data } = event;
           const patsedData = JSON.parse(data)
           dispatch(wsGetMessage(patsedData));
         };
                 // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {
+          console.log('Соединение закрыто');
           dispatch(wsConnectClosed());
         };
+
+        if (type === 'WS_CONNECTION_CLOSED') {
+          socket.close()
+        }
 
         if (type === 'WS_SEND_MESSAGE') {
           const message = payload;

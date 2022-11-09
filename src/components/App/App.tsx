@@ -31,6 +31,7 @@ import Feed from "../Feed/Feed";
 import OrderInformation from '../OrderInformation/OrderInformation';
 import { withoutModal } from '../../utils/constans'
 import {Location} from "history";
+import { wsConnectStart } from '../../services/actions/wsActionTypes'
 
 
 function App() {
@@ -44,10 +45,12 @@ function App() {
   //получаем данные ингридиентов
   useEffect(() => {    
     dispatch(getDataIngredients());
+    // dispatch(wsConnectStart("feed"))
   }, []);
 
   const { isLogged, accessToken } = useAppSelector((state) => state.authReducer);
   const refreshToken: string | null = localStorage.getItem("refreshToken");
+  
 
   useEffect(() => {
     if (isLogged) {
@@ -108,7 +111,7 @@ function App() {
              <Route
              path="/feed/:id"
              exact
-             children={<OrderInformation />}
+             children={<OrderInformation withoutModal={withoutModal} />}
            />
           )}
           {/* {location && (

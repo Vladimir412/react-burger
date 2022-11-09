@@ -17,7 +17,7 @@ const Orders: FC = () => {
   const { isLogged, accessToken } = useAppSelector(
     (state) => state.authReducer
   );
-  const { orders } = useAppSelector((state) => state.wsReducer);
+  const { orders, wsConnected } = useAppSelector((state) => state.wsReducer);
   const { ingredients } = useAppSelector((state) => state.ingredientReducers);
   const dispatch = useAppDispatch();
   const history = useHistory();

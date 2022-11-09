@@ -75,8 +75,4 @@ const IngredientDetails: FC<{withoutModal?: string}> = ({
   }
 };
 
-// IngredientDetails.propTypes = {
-//   withoutModal: PropTypes.string,
-// };
-
 export default IngredientDetails;
