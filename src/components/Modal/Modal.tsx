@@ -10,7 +10,7 @@ import { useAppSelector } from "../../utils/hooks";
 
 const Modal: FC<TModal> = ({ closeModal, title, children }) => {
   const location = useLocation();
-  const { numberOrder } = useAppSelector((state) => state.wsReducer);
+  const { numberOrder } = useAppSelector((state) => state.wsReducer);  
 
   //закрытие попапа на кнопку Esc
   useEffect(() => {
@@ -44,6 +44,7 @@ const Modal: FC<TModal> = ({ closeModal, title, children }) => {
       numberOrder.length > 0
       ? `${modaleStyles.title} text text_type_digits-default`
       : `text text_type_main-large ${modaleStyles.title}`
+      
 
   return createPortal(
     <>

@@ -16,24 +16,23 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
       // const { dispatch, getState } = store;
       const { dispatch } = state
       const { type, payload } = action;      
+
       
-      
-      if (type === wsConnectStart.type && payload.name === 'feed') {
+      if (type === 'WS_CONNECTION_START' && (payload.name || payload) === 'feed') {
             // объект класса WebSocket
         socket = new WebSocket(`${wsUrl}/all`);      
-        console.log('Соединение all');
       }
       if (type === wsConnectStart.type && payload.name === 'orders') {
         const token = payload.token.replace('Bearer ', '')        
         socket = new WebSocket(`${wsUrl}?token=${token}`);
-        console.log('Соединение личных заказов');
       }
+
+      // console.log(socket);
+      
       if (socket) {
 
                 // функция, которая вызывается при открытии сокета
-        socket.onopen = event => {       
-          console.log('Соединение открыто');
-             
+        socket.onopen = event => {                    
           dispatch(wsConnectSuccess());
         };
 
@@ -43,16 +42,13 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         };
 
                 // функция, которая вызывается при получения события от сервера
-        socket.onmessage = event => {    
-          console.log("Полуили");
-                
+        socket.onmessage = event => {                    
           const { data } = event;
           const patsedData = JSON.parse(data)
           dispatch(wsGetMessage(patsedData));
         };
                 // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {
-          console.log('Соединение закрыто');
           dispatch(wsConnectClosed());
         };
 

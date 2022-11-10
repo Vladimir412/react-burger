@@ -21,8 +21,10 @@ const Feed: FC = () => {
   let items: any;
 
   useEffect(() => {
-    dispatch(wsConnectStart({ name: "feed" }));
+    setTimeout(() => {
+      dispatch(wsConnectStart({ name: "feed" }));
     console.log("Start feed");
+    }, 1000)
 
     return () => {
       dispatch(wsConnectClosed());
@@ -31,13 +33,6 @@ const Feed: FC = () => {
   }, []);
 
   items = orders.map((i: any) => {
-    // if (items && items.length > 1) {
-    //   return items.map((j: any) => {
-    //     if (j.id === i._id) {
-    //       return {...j, quantityIngredients: j.quantityIngredients + 1}
-    //     }
-    //   })
-    // }
 
     return (
       <li key={i._id}>

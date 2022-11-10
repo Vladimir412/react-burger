@@ -123,6 +123,17 @@ function App() {
           )} */}
         </Switch>
       </div>
+      {background && (
+        <ProtectedRoute 
+          path="/profile/orders/:id"
+          exact
+          children={
+            <Modal closeModal={closeModal}>
+              <OrderInformation />
+            </Modal>
+          }
+        />
+      )}
       
       {background && (
         <Route

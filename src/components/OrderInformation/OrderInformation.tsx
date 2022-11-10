@@ -18,19 +18,29 @@ import { v4 as uuidv4 } from "uuid";
 import { Location } from "history";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const OrderInformation: FC<{withoutModal?: string}> = ({withoutModal}) => {
+const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const dispatch = useAppDispatch();
   const location = useLocation<{
     background?: Location<{} | null | undefined>;
   }>();
-  // console.log(location); 
+  const { isLogged } = useAppSelector(state => state.authReducer)
+  console.log(location);
   
 
   useEffect(() => {
-    if (!location.state?.background) {
-    dispatch(wsConnectStart("feed"));
-    console.log("Start information");
+    if (location.pathname.includes("/profile/orders/")) {
+        dispatch(wsConnectStart("orders"));
+        console.log("start profile/orders");
+        
+    } else {
+    // if (location.pathname.startsWith('/feed') || !location?.state?.background) {
+      setTimeout(() => {
+        dispatch(wsConnectStart("feed"));
+        console.log("Start information");
+      }, 1000);
     }
+              dispatch(wsConnectStart("orders"));
+    // }
     return () => {
       dispatch(wsConnectClosed());
       console.log("closed information");
@@ -43,14 +53,22 @@ const OrderInformation: FC<{withoutModal?: string}> = ({withoutModal}) => {
   const background = location?.state && location?.state?.background;
   let data: any = [];
 
-  const order = orders && orders.length > 0 && orders.find((i: any) => i._id === orderId.id);
-//   console.log(orders);
-// console.log(order);
+  const order =
+    orders &&
+    orders.length > 0 &&
+    orders.find((i: any) => i._id === orderId.id);
 
-  const countItems = order && order.ingredients.reduce((acc: any, item: any) => {
-    acc[item] = acc[item] ? acc[item] + 1 : 1; // если элемент уже был, то прибавляем 1, если нет - устанавливаем 1
-    return acc;
-  }, {});  
+    // console.log(orders);
+    // console.log(order);
+
+  const countItems =
+    order &&
+    order.ingredients.reduce((acc: any, item: any) => {
+      acc[item] = acc[item] ? acc[item] + 1 : 1; // если элемент уже был, то прибавляем 1, если нет - устанавливаем 1
+      return acc;
+    }, {});
+    // console.log(countItems);
+    
 
   const result = Object.keys(countItems).map((item) => {
     return { id: item, quantity: countItems[item] };
@@ -83,8 +101,7 @@ const OrderInformation: FC<{withoutModal?: string}> = ({withoutModal}) => {
     );
   });
 
-console.log(countItems);
-
+  // console.log(countItems);
 
   useEffect(() => {
     order && dispatch(wsSetTitle(addZero(order.number)));
@@ -99,19 +116,32 @@ console.log(countItems);
       ? orderInformationStyles.status_type_done
       : orderInformationStyles.status_type_other;
 
+  const containerStyles = withoutModal
+    ? orderInformationStyles.container_type_withOutModal
+    : orderInformationStyles.container_type_withModal;
+
+  const titleStyles = withoutModal
+    ? orderInformationStyles.title_type_withOutModal
+    : orderInformationStyles.title_type_withModal
+
+    const infoStyles = withoutModal
+    ? orderInformationStyles.info_type_withOutModal
+    : orderInformationStyles.info_type_withModal
+
   if (orders && orders.length > 0) {
     return (
       <>
-        <div className={`${orderInformationStyles.container}`}>
+        <div className={`${containerStyles}`}>
+          {/* <div className={`${orderInformationStyles.container}`}> */}
           {!background && (
             <p
               className={`${orderInformationStyles.orderNumber} text text_type_digits-default`}
             >
-              {`#${order.number}`}
+              {`#${addZero(order.number)}`}
             </p>
           )}
           <h1
-            className={`${orderInformationStyles.title} text text_type_main-medium`}
+            className={`${titleStyles} text text_type_main-medium`}
           >
             {order.name}
           </h1>
@@ -121,7 +151,7 @@ console.log(countItems);
           <h2 className={`text text_type_main-medium mb-6`}>Состав:</h2>
           <ul className={orderInformationStyles.lists}>{data}</ul>
         </div>
-        <div className={orderInformationStyles.info}>
+        <div className={infoStyles}>
           <p className={`text text_type_main-default text_color_inactive`}>
             {countTime(order.createdAt)}
           </p>

@@ -87,8 +87,7 @@ const FeedItem: FC<TFeedItem> = ({
   const containerStyle =
     path === "feed/"
       ? feedItemStyles.container_type_feed
-      : feedItemStyles.container_type_order;
-
+      : feedItemStyles.container_type_order;              
 
   return (
     <Link

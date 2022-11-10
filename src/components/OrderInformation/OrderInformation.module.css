@@ -1,4 +1,4 @@
-.container {
+.container_type_withModal {
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -6,17 +6,30 @@
     width: 88.7%;
 }
 
+.container_type_withOutModal {
+    composes: container_type_withModal;
+    margin: auto;
+    margin-top: 120px;
+    max-width: 638px;
+}
+
 .orderNumber {
     text-align: center;
 }
 
-.title {
+.title_type_withModal {
     width: 100%;
     max-width: 640px;
     max-height: 80px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.title_type_withOutModal {
+    composes: title_type_withModal;
+    margin-top: 40px;
+    margin-bottom: 5px;
 }
 
 .status {
@@ -54,11 +67,19 @@
     background-color: #2F2F37;
 }
 
-.info {
+.info_type_withModal {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: auto 40px 40px;
+}
+
+.info_type_withOutModal {
+    composes: info_type_withModal;
+    margin: auto;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 638px;
 }
 
 .price {
