@@ -1,7 +1,7 @@
 import { Middleware, MiddlewareAPI } from "redux"; 
 import { store } from "../..";
 import { AppDispatch, RootState, TApplicationActions } from "../../utils/types/types";
-import { wsConnectStart, wsConnectSuccess,wsConnectError, wsConnectClosed, wsGetMessage } from "../actions/wsActionTypes";
+import { wsConnectStart, wsConnectSuccess,wsConnectError, wsConnectClosed, wsGetMessage, wsGetMessageMy } from "../actions/wsActionTypes";
 
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
@@ -15,7 +15,8 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
     return next => (action: any) => {
       // const { dispatch, getState } = store;
       const { dispatch } = state
-      const { type, payload } = action;      
+      const { type, payload } = action;
+       
 
       
       if (type === 'WS_CONNECTION_START' && (payload.name || payload) === 'feed') {
@@ -30,6 +31,8 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
       // console.log(socket);
       
       if (socket) {
+        // console.log(socket.url);
+        
 
                 // функция, которая вызывается при открытии сокета
         socket.onopen = event => {                    
@@ -43,9 +46,17 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
 
                 // функция, которая вызывается при получения события от сервера
         socket.onmessage = event => {                    
-          const { data } = event;
+          // const { data } = event;
+          // const patsedData = JSON.parse(data)
+          socket && socket.url === "wss://norma.nomoreparties.space/orders/all"
+          // ? console.log("all")
+          // : console.log("my")
+          ? const { data } = event;
           const patsedData = JSON.parse(data)
-          dispatch(wsGetMessage(patsedData));
+          dispatch(wsGetMessage(patsedData))
+          : const { data } = event;
+          const patsedData = JSON.parse(data)
+          dispatch(wsGetMessageMy(patsedData))
         };
                 // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {

@@ -23,9 +23,7 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const location = useLocation<{
     background?: Location<{} | null | undefined>;
   }>();
-  const { isLogged } = useAppSelector(state => state.authReducer)
-  console.log(location);
-  
+  const { isLogged } = useAppSelector(state => state.authReducer)  
 
   useEffect(() => {
     if (location.pathname.includes("/profile/orders/")) {
@@ -47,19 +45,22 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
     };
   }, []);
 
-  const { orders, wsConnected } = useAppSelector((state) => state.wsReducer); // массив заказов
+  const { orders, myOrders } = useAppSelector((state) => state.wsReducer); // массив заказов
   const { ingredients } = useAppSelector((state) => state.ingredientReducers); // массив ингредиентов
   const orderId = useParams<{ id: string }>();
   const background = location?.state && location?.state?.background;
   let data: any = [];
 
-  const order =
-    orders &&
+  const order = location.pathname.includes("/feed")
+    ? (orders &&
     orders.length > 0 &&
-    orders.find((i: any) => i._id === orderId.id);
+    orders.find((i: any) => i._id === orderId.id))
+    : (myOrders &&
+      myOrders.length > 0 &&
+      myOrders.find((i: any) => i._id === orderId.id))
 
     // console.log(orders);
-    // console.log(order);
+    console.log(myOrders);
 
   const countItems =
     order &&

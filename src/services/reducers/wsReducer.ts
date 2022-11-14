@@ -1,31 +1,34 @@
-import { 
+import {
     wsConnectSuccess,
     wsConnectError,
     wsConnectClosed,
     wsGetMessage,
+    wsGetMessageMy,
     wsSetTitle
- } from '../actions/wsActionTypes'
- import { createReducer } from '@reduxjs/toolkit'
+} from '../actions/wsActionTypes'
+import { createReducer } from '@reduxjs/toolkit'
 
- type TWSState = {
+type TWSState = {
     wsConnected: boolean;
     orders: any;
+    myOrders: any;
     error?: Event;
     total: number;
     totalToday: number;
     numberOrder: string;
- }
+}
 
 
- const initialState: TWSState = {
+const initialState: TWSState = {
     wsConnected: false,
     orders: [],
+    myOrders: [],
     total: 0,
     totalToday: 0,
     numberOrder: "",
- }
+}
 
- export default createReducer(initialState, {
+export default createReducer(initialState, {
     [wsConnectSuccess.type]: (state: any) => {
         return {
             ...state,
@@ -40,20 +43,27 @@ import {
             wsConnected: false
         }
     },
-    [wsConnectClosed.type]: (state) => {        
+    [wsConnectClosed.type]: (state) => {
         return {
             ...state,
             error: undefined,
             wsConnected: false
         }
     },
-    [wsGetMessage.type]: (state, action) => {        
+    [wsGetMessage.type]: (state, action) => {
         return {
             ...state,
             error: undefined,
             orders: [...action.payload.orders],
             total: action.payload.total,
             totalToday: action.payload.totalToday
+        }
+    },
+    [wsGetMessageMy.type]: (state, action) => {
+        return {
+            ...state,
+            error: undefined,
+            myOrders: [...action.payload.orders],
         }
     },
     [wsSetTitle.type]: (state, action) => {
@@ -63,4 +73,4 @@ import {
         }
     },
     default: state => state
- })
+})

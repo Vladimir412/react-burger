@@ -17,7 +17,7 @@ const Orders: FC = () => {
   const { isLogged, accessToken } = useAppSelector(
     (state) => state.authReducer
   );
-  const { orders, wsConnected } = useAppSelector((state) => state.wsReducer);
+  const { myOrders } = useAppSelector((state) => state.wsReducer);
   const { ingredients } = useAppSelector((state) => state.ingredientReducers);
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -41,7 +41,7 @@ const Orders: FC = () => {
     };
   }, []);
 
-  const items = orders.map((i: any) => {
+  const items = myOrders.map((i: any) => {
     
     return (
       <li key={i._id} className={orderStyles.orgerConatiner__list}>
