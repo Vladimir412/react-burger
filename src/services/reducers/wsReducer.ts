@@ -29,7 +29,7 @@ const initialState: TWSState = {
 }
 
 export default createReducer(initialState, {
-    [wsConnectSuccess.type]: (state: any) => {
+    [wsConnectSuccess.type]: (state) => {
         return {
             ...state,
             error: undefined,
@@ -60,6 +60,8 @@ export default createReducer(initialState, {
         }
     },
     [wsGetMessageMy.type]: (state, action) => {
+        console.log(action.payload.orders);
+        
         return {
             ...state,
             error: undefined,

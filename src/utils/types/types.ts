@@ -91,6 +91,10 @@ type TOrder = {
   _id: string;
 };
 
+export type TGetMessage = Omit<TOrder, "ingredients" | "owner" | "price"> & {
+  ingredients: Array<string>
+}
+
 export type TResponseSentDataIngredients = TSuccess & {
   name: string;
   order: TOrder;
@@ -163,6 +167,7 @@ export interface CustomResponse extends Body {
 export type TModal = {
   closeModal: () => void;
   title?: string | undefined;
+  stateHeader: boolean;
   children: ReactNode;
 };
 

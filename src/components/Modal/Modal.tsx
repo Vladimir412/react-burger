@@ -8,7 +8,7 @@ import { TModal } from "../../utils/types/types";
 import { useLocation } from "react-router-dom";
 import { useAppSelector } from "../../utils/hooks";
 
-const Modal: FC<TModal> = ({ closeModal, title, children }) => {
+const Modal: FC<TModal> = ({ closeModal, title, children, stateHeader }) => {
   const location = useLocation();
   const { numberOrder } = useAppSelector((state) => state.wsReducer);  
 
@@ -43,14 +43,14 @@ const Modal: FC<TModal> = ({ closeModal, title, children }) => {
       const typeTitle =
       numberOrder.length > 0
       ? `${modaleStyles.title} text text_type_digits-default`
-      : `text text_type_main-large ${modaleStyles.title}`
+      : `text text_type_main-large ${modaleStyles.title}`      
       
 
   return createPortal(
     <>
       <ModalOverlay />
       <div className={typeContainer}>
-        {title && (
+        {stateHeader && (
             <header className={typeHeader}>
               <h1 className={typeTitle}>
                 {title}

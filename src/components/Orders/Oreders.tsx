@@ -12,6 +12,7 @@ import {
   wsConnectClosed,
 } from "../../services/actions/wsActionTypes";
 import { countPrice, countTime, addZero } from "../../utils/utils";
+import { TGetMessage } from "../../utils/types/types";
 
 const Orders: FC = () => {
   const { isLogged, accessToken } = useAppSelector(
@@ -41,7 +42,7 @@ const Orders: FC = () => {
     };
   }, []);
 
-  const items = myOrders.map((i: any) => {
+  const items = myOrders.map((i: TGetMessage) => {
     
     return (
       <li key={i._id} className={orderStyles.orgerConatiner__list}>
@@ -99,7 +100,7 @@ const Orders: FC = () => {
         </ul>
       </div>
       <div className={orderStyles.orderConatiner}>
-        <ul style={{ listStyle: 'none' }}>{items}</ul>
+        <ul style={{ listStyle: 'none' }}>{items.reverse()}</ul>
       </div>
     </section>
   );

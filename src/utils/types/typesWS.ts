@@ -9,7 +9,12 @@ import {
 
 type TWSConnectedStart = {
     type: typeof wsConnectStart;
-    payload: string;
+    name?: string;
+    token?: string
+    payload: {
+        name: string;
+        token?: string
+    };
 }
 
 type TWSConnectedSuccess = {

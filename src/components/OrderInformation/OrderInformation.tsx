@@ -3,6 +3,7 @@ import orderInformationStyles from "./OrderInformation.module.css";
 import OrderInformationItem from "../OrderInformationItem/OrderInformationItem";
 import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { useLocation, useParams } from "react-router-dom";
+import { TGetMessage, TIngredient } from "../../utils/types/types";
 import {
   wsConnectClosed,
   wsConnectStart,
@@ -23,22 +24,16 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const location = useLocation<{
     background?: Location<{} | null | undefined>;
   }>();
-  const { isLogged } = useAppSelector(state => state.authReducer)  
+  const { accessToken } = useAppSelector((state) => state.authReducer);
 
   useEffect(() => {
     if (location.pathname.includes("/profile/orders/")) {
-        dispatch(wsConnectStart("orders"));
-        console.log("start profile/orders");
-        
+      dispatch(wsConnectStart({ name: "orders", token: accessToken }));
+      console.log("start profile/orders");
     } else {
-    // if (location.pathname.startsWith('/feed') || !location?.state?.background) {
-      setTimeout(() => {
-        dispatch(wsConnectStart("feed"));
-        console.log("Start information");
-      }, 1000);
+      dispatch(wsConnectStart({name: "feed"}));
+      console.log("Start information");
     }
-              dispatch(wsConnectStart("orders"));
-    // }
     return () => {
       dispatch(wsConnectClosed());
       console.log("closed information");
@@ -52,24 +47,24 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   let data: any = [];
 
   const order = location.pathname.includes("/feed")
-    ? (orders &&
-    orders.length > 0 &&
-    orders.find((i: any) => i._id === orderId.id))
-    : (myOrders &&
+    ? orders &&
+      orders.length > 0 &&
+      orders.find((i: TGetMessage) => i._id === orderId.id)
+    : myOrders &&
       myOrders.length > 0 &&
-      myOrders.find((i: any) => i._id === orderId.id))
+      myOrders.find((i: TGetMessage) => i._id === orderId.id);
 
-    // console.log(orders);
-    console.log(myOrders);
+  // console.log(orders);
+  // console.log(myOrders);
+  // console.log(order);
 
   const countItems =
     order &&
-    order.ingredients.reduce((acc: any, item: any) => {
+    order.ingredients.reduce((acc: any, item: number) => {
       acc[item] = acc[item] ? acc[item] + 1 : 1; // если элемент уже был, то прибавляем 1, если нет - устанавливаем 1
       return acc;
     }, {});
-    // console.log(countItems);
-    
+  // console.log(countItems);
 
   const result = Object.keys(countItems).map((item) => {
     return { id: item, quantity: countItems[item] };
@@ -80,7 +75,7 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
     let price: number = 0;
     let id: string = "";
     let quantity: number = 1;
-    ingredients.forEach((j: any) => {
+    ingredients.forEach((j: TIngredient) => {      
       if (i.id === j._id) {
         id = j._id;
         name = j.name;
@@ -123,27 +118,24 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
 
   const titleStyles = withoutModal
     ? orderInformationStyles.title_type_withOutModal
-    : orderInformationStyles.title_type_withModal
+    : orderInformationStyles.title_type_withModal;
 
-    const infoStyles = withoutModal
+  const infoStyles = withoutModal
     ? orderInformationStyles.info_type_withOutModal
-    : orderInformationStyles.info_type_withModal
+    : orderInformationStyles.info_type_withModal;
 
-  if (orders && orders.length > 0) {
+  if ((orders || myOrders) && (orders.length > 0 || myOrders.length > 0)) {
     return (
       <>
         <div className={`${containerStyles}`}>
-          {/* <div className={`${orderInformationStyles.container}`}> */}
-          {!background && (
+          {withoutModal && (
             <p
               className={`${orderInformationStyles.orderNumber} text text_type_digits-default`}
             >
               {`#${addZero(order.number)}`}
             </p>
           )}
-          <h1
-            className={`${titleStyles} text text_type_main-medium`}
-          >
+          <h1 className={`${titleStyles} text text_type_main-medium`}>
             {order.name}
           </h1>
           <p className={`${statusStyle} text text_type_main-default`}>

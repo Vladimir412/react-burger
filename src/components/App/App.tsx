@@ -31,7 +31,6 @@ import Feed from "../Feed/Feed";
 import OrderInformation from '../OrderInformation/OrderInformation';
 import { withoutModal } from '../../utils/constans'
 import {Location} from "history";
-import { wsConnectStart } from '../../services/actions/wsActionTypes'
 
 
 function App() {
@@ -45,7 +44,6 @@ function App() {
   //получаем данные ингридиентов
   useEffect(() => {    
     dispatch(getDataIngredients());
-    // dispatch(wsConnectStart("feed"))
   }, []);
 
   const { isLogged, accessToken } = useAppSelector((state) => state.authReducer);
@@ -64,6 +62,7 @@ function App() {
   const closeModal = (): void => {
     history.goBack();
   };
+  
 
   return (
     <>
@@ -114,13 +113,13 @@ function App() {
              children={<OrderInformation withoutModal={withoutModal} />}
            />
           )}
-          {/* {location && (
+          {location && (
             <ProtectedRoute 
               path="/profile/orders/:id"
               exact
-              children={<OrderInformation />}
+              children={<OrderInformation withoutModal={withoutModal} />}
             />
-          )} */}
+          )}
         </Switch>
       </div>
       {background && (
@@ -128,7 +127,7 @@ function App() {
           path="/profile/orders/:id"
           exact
           children={
-            <Modal closeModal={closeModal}>
+            <Modal closeModal={closeModal} stateHeader={false}>
               <OrderInformation />
             </Modal>
           }
@@ -139,7 +138,7 @@ function App() {
         <Route
           path="/ingredients/:ingredientId"
           children={
-            <Modal title="Детали ингредиента" closeModal={closeModal}>
+            <Modal title="Детали ингредиента" closeModal={closeModal} stateHeader={true}>
               <IngredientDetails />
             </Modal>
           }
@@ -149,7 +148,7 @@ function App() {
         <Route
           path="/orders/:orderId"
           children={
-            <Modal closeModal={closeModal} title="">
+            <Modal closeModal={closeModal} title="" stateHeader={true}>
               <OrderDetails />
             </Modal>
           }
@@ -159,7 +158,7 @@ function App() {
         <Route
           path="/feed/:id"
           children={
-            <Modal closeModal={closeModal}>
+            <Modal closeModal={closeModal} stateHeader={false}>
               <OrderInformation />
             </Modal>
           }
