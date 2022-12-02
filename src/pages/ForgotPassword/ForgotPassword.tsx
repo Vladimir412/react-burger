@@ -3,17 +3,18 @@ import { useState, FC, FormEvent, ChangeEvent} from "react";
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { recoveryPasswordUser } from "../../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const ForgotPassword: FC = () => {
-  const dispatch: string | any = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation();
   const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-  const { isLogged } = useSelector((state: any) => state.authReducer);
+  const { isLogged } = useAppSelector((store) => store.authReducer);
 
   const [email, setEmail] = useState<string>("");
 

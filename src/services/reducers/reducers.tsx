@@ -17,13 +17,13 @@ import {
   modalIngredientItemOpen,
   modalIngredientItemClosed,
 } from "../actions/actions";
-import { TIngredientDetails, TIngredient, IItemBurgerConstructor } from '../../utils/types/types'
+import { TIngredientDetails, TIngredient, IItemBurgerConstructor, TGetAndUpdateOrders } from '../../utils/types/types'
 
 type TInitialState = {
   ingredients: Array<TIngredient>,
   ingredientsInConstructor: Array<IItemBurgerConstructor>,
-  ingredient: any;
-  order: any;
+  // ingredient: any;
+  order: TGetAndUpdateOrders;
   isLoading: boolean;
   isError: boolean;
   isModalOrder: boolean;
@@ -32,30 +32,49 @@ type TInitialState = {
 const initialState: TInitialState = {
   ingredients: [],
   ingredientsInConstructor: [],
-  ingredient: {},
-  order: {},
+  // ingredient: {},
+  order: {
+    success: false,
+    name: '',
+    order: {
+      ingredients: [],
+      _id: '',
+      owner: {
+        name: '',
+        email: '',
+        createdAt: '',
+        updatedAt: '',
+      },
+      status: '',
+      name: '',
+      createdAt: '',
+      updatedAt: '',
+      number: 0,
+      price: 0,
+    }
+  },
   isLoading: false,
   isError: false,
   isModalOrder: false,
 };
 
 export default createReducer(initialState, {
-  [getIngredientsForConstructor.type]: (state, action: PayloadAction<any>) => {
+  [getIngredientsForConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [addIngredientInConstructor.type]: (state, action: PayloadAction<any>) => {
+  [addIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [addDataModalIngredient.type]: (state, action: PayloadAction<any>) => {
-    state.ingredient = action.payload;
-  },
-  [removeDataModalIngredient.type]: (state, action: PayloadAction<any>) => {
-    state.ingredient = action.payload;
-  },
-  [getAndUpdateNumberOreder.type]: (state, action: PayloadAction<any>) => {
+  // [addDataModalIngredient.type]: (state, action) => {
+  //   state.ingredient = action.payload;
+  // },
+  // [removeDataModalIngredient.type]: (state, action) => {
+  //   state.ingredient = action.payload;
+  // },
+  [getAndUpdateNumberOreder.type]: (state, action) => {
     state.order = action.payload;
   },
-  [removeIngredientInConstructor.type]: (state, action: PayloadAction<any>) => {
+  [removeIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
   [getIngredientsItemRequest.type]: (state) => {
@@ -65,7 +84,7 @@ export default createReducer(initialState, {
       isError: false,
     };
   },
-  [getIngredientsItemSuccess.type]: (state, action: PayloadAction<any>) => {
+  [getIngredientsItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -86,7 +105,7 @@ export default createReducer(initialState, {
       isError: false,
     };
   },
-  [getAndUpdateNumberOrderItemSuccess.type]: (state, action: PayloadAction<any>) => {
+  [getAndUpdateNumberOrderItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -100,25 +119,25 @@ export default createReducer(initialState, {
       isError: true,
     };
   },
-  [modalOrderItemOpen.type]: (state, action: PayloadAction<any>) => {
+  [modalOrderItemOpen.type]: (state, action) => {
     return {
       ...state,
       isModalOrder: action.payload,
     };
   },
-  [modalOrderItemClosed.type]: (state, action: PayloadAction<any>) => {
+  [modalOrderItemClosed.type]: (state, action) => {
     return {
       ...state,
       isModalOrder: action.payload,
     };
   },
-  [modalIngredientItemOpen.type]: (state, action: PayloadAction<any>) => {
+  [modalIngredientItemOpen.type]: (state, action) => {
     return {
       ...state,
       isModalIngredient: action.payload,
     };
   },
-  [modalIngredientItemClosed.type]: (state, action: PayloadAction<any>) => {
+  [modalIngredientItemClosed.type]: (state, action) => {
     return {
       ...state,
       isModalIngredient: action.payload,

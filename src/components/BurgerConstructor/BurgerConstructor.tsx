@@ -7,6 +7,7 @@ import {
 import burgerConstructor from "./BurgerConstructor.module.css";
 import { TIngredientDetails } from "../../utils/types/types";
 import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { sentDataOrder } from "../../services/actions/actions";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDrop } from "react-dnd";
@@ -16,13 +17,13 @@ import ListItemBurgerConstructor from "../ListItemBurgerConstructor/ListItemBurg
 
 const BurgerConstructor: FC = () => {
   
-  const { ingredientsInConstructor, isLoading } = useSelector(
-    (state: any) => state.ingredientReducers
+  const { ingredientsInConstructor, isLoading } = useAppSelector(
+    (state) => state.ingredientReducers
   );
-  const { isLogged, accessToken } = useSelector((state: any) => state.authReducer);
+  const { isLogged, accessToken } = useAppSelector((store) => store.authReducer);
   const history = useHistory();
   const location = useLocation<string>()
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const [, dropBunRef] = useDrop({
@@ -44,10 +45,10 @@ const BurgerConstructor: FC = () => {
 
   const itemBun =
     ingredientsInConstructor &&
-    ingredientsInConstructor.filter((i: TIngredientDetails) => i.type === "bun");
+    ingredientsInConstructor.filter((i) => i.type === "bun");
   const itemBunTop =
     itemBun &&
-    itemBun.map((i: TIngredientDetails) => {
+    itemBun.map((i) => {
       return (
         <li
           key={i._id}
@@ -69,7 +70,7 @@ const BurgerConstructor: FC = () => {
 
   const itemBunBottom =
     itemBun &&
-    itemBun.map((i: TIngredientDetails) => {
+    itemBun.map((i) => {
       return (
         <li
           key={i.dragId}
@@ -92,7 +93,7 @@ const BurgerConstructor: FC = () => {
   useEffect(() => {
     let total = 0;
     ingredientsInConstructor &&
-      ingredientsInConstructor.forEach((item: TIngredientDetails) => {        
+      ingredientsInConstructor.forEach((item) => {        
         total += item.price;
       });
     if (itemBun && itemBun.length > 0) total += itemBun[0].price;
@@ -102,7 +103,7 @@ const BurgerConstructor: FC = () => {
   useEffect(() => {
     if (itemBun.length > 1) {
       const lastBun = itemBun[itemBun.length - 1];
-      const arrIngr = ingredientsInConstructor.filter((i: TIngredientDetails) => i.type !== "bun");
+      const arrIngr = ingredientsInConstructor.filter((i) => i.type !== "bun");
       {/* @ts-ignore */}
       dispatch(addIngredientInConstructor([...arrIngr, lastBun]));
     }
@@ -116,14 +117,14 @@ const BurgerConstructor: FC = () => {
     if (!isLogged) {
       history.push("/login");
     } else {
-      const data = ingredientsInConstructor.map((i: TIngredientDetails) => i._id);
+      const data = ingredientsInConstructor.map((i) => i._id);
       data.push(itemBun[0]._id);
       {/* @ts-ignore */}
       dispatch(sentDataOrder(data, accessToken, openModalOrder));
     }
   };
 
-  const findItemBun = ingredientsInConstructor.some((i: TIngredientDetails) => i.type === "bun");
+  const findItemBun = ingredientsInConstructor.some((i) => i.type === "bun");
 
   const stateButton =
     ingredientsInConstructor.length >= 2 && findItemBun === true ? false : true;

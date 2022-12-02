@@ -4,6 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import itemBurgerConstructorStyles from "./ItemBurgerConstructor.module.css";
 import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { removeIngredientInConstructor } from "../../services/actions/actions";
 import { useDrag, useDrop, DropTargetMonitor, XYCoord } from "react-dnd";
 import { useRef } from "react";
@@ -13,11 +14,11 @@ import { IItemBurgerConstructor, TIngredientDetails } from '../../utils/types/ty
 const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
   const { dragId, moveItem, index } = props;
 
-  const { ingredientsInConstructor } = useSelector(
-    (state: any) => state.ingredientReducers
+  const { ingredientsInConstructor } = useAppSelector(
+    (store) => store.ingredientReducers
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLLIElement | null>(null);
   const [, dropRef] = useDrop({
@@ -56,7 +57,7 @@ const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
   });
 
   const handleDelete = (): void => {
-    let item = ingredientsInConstructor.filter((i: TIngredientDetails) => {
+    let item = ingredientsInConstructor.filter((i) => {
       return i.dragId !== props.dragId;
     });
     /* @ts-ignore */

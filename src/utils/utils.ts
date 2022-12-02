@@ -1,4 +1,4 @@
-import { TResponseBody, CustomResponse } from './types/types'
+import { TResponseBody, CustomResponse, TIngredient } from './types/types'
 
 // export const checkResponse = (res: CustomResponse<TResponseBody>): Promise<TResponseBody< '', {}>> => {
 //     return res.ok ? res.json() : res.json().then((err: object) => Promise.reject(err));
@@ -12,11 +12,11 @@ export function withPayloadType<T>() {
   return (t: T) => ({ payload: t })
 }
 
-export const countPrice = (item: any, array: any) => {
+export const countPrice = (item: Array<string>, array: Array<TIngredient>) => {
   let totalPrice: number = 0
 
-  item.forEach((i: any) => {      
-    array.forEach((j: any) => {
+  item.forEach((i) => {      
+    array.forEach((j) => {
       if (j._id === i) {          
         totalPrice += j.price
       }

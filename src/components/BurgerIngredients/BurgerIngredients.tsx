@@ -4,10 +4,11 @@ import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import CardIngredient from "../CardIngredient/CardIngredient";
 import { TIngredient, TIngredientDetailsProps } from "../../utils/types/types";
 import { useSelector } from "react-redux";
+import { useAppSelector } from "../../utils/hooks";
 import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients: FC = () => {
-  const { ingredients } = useSelector((state: any) => state.ingredientReducers);
+  const { ingredients } = useAppSelector((store) => store.ingredientReducers);
   
 
   const [bunTab, setBunTab] = useState<boolean>(true);
@@ -49,8 +50,8 @@ const BurgerIngredients: FC = () => {
     }
   };
 
-  const newData: Array<TIngredientDetailsProps> = ingredients
-    ? ingredients.map((i: TIngredient) => (
+  const newData = ingredients
+    ? ingredients.map((i) => (
         <CardIngredient
           key={i._id}
           id={i._id}

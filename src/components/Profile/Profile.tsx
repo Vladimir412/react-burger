@@ -8,16 +8,17 @@ import profileStyles from "./Profile.module.css";
 import { logOutUser } from "../../services/actions/auth";
 import { updateInfoAboutUser } from "../../services/actions/userInfo";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { TRegister } from "../../utils/types/types";
 
 const Profile: FC = () => {
-  const { isLogged, accessToken } = useSelector(
-    (state: any) => state.authReducer
+  const { isLogged, accessToken } = useAppSelector(
+    (store) => store.authReducer
   );
-  const { name, email, isLoading } = useSelector(
-    (state: any) => state.userReducer
+  const { name, email, isLoading } = useAppSelector(
+    (store) => store.userReducer
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location: { state: string } = useLocation();
   const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;

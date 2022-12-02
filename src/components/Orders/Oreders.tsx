@@ -18,8 +18,8 @@ const Orders: FC = () => {
   const { isLogged, accessToken } = useAppSelector(
     (state) => state.authReducer
   );
-  const { myOrders } = useAppSelector((state) => state.wsReducer);
-  const { ingredients } = useAppSelector((state) => state.ingredientReducers);
+  const { myOrders } = useAppSelector((store) => store.wsReducer);
+  const { ingredients } = useAppSelector((store) => store.ingredientReducers);
   const dispatch = useAppDispatch();
   const history = useHistory();
 
@@ -32,13 +32,9 @@ const Orders: FC = () => {
   }, [isLogged]);
 
   useEffect(() => {
-    dispatch(wsConnectStart({ name: "orders", token: accessToken }));
-    console.log("Start order");
-    
+    dispatch(wsConnectStart({ name: "orders", token: accessToken }));    
     return () => {
       dispatch(wsConnectClosed());
-      console.log("Closed order");
-      
     };
   }, []);
 
@@ -55,6 +51,7 @@ const Orders: FC = () => {
           images={i.ingredients}
           key={i._id}
           path={"profile/orders/"}
+          statusOrder={i.status}
           {...i}
         />
       </li>

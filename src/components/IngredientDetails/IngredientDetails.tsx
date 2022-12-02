@@ -1,14 +1,20 @@
 import ingredientDetailsStyles from "./IngredientDetails.module.css";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector } from "../../utils/hooks";
 import { useParams, useHistory } from "react-router-dom";
 import { FC } from "react";
-import { TIngredientDetailsWithOut, TIngredient } from "../../utils/types/types";
+import {
+  TIngredientDetailsWithOut,
+  TIngredient,
+  TDetailIngredient,
+} from "../../utils/types/types";
 
-const IngredientDetails: FC<{withoutModal?: string}> = ({
-  withoutModal
+const IngredientDetails: FC<{ withoutModal?: string }> = ({
+  withoutModal,
 }: TIngredientDetailsWithOut) => {
   const history = useHistory();
+  // const { ingredients } = useAppSelector((state) => state.ingredientReducers);
   const { ingredients } = useSelector((state: any) => state.ingredientReducers);
   const { ingredientId } = useParams<{ ingredientId: string }>();
 
@@ -18,7 +24,7 @@ const IngredientDetails: FC<{withoutModal?: string}> = ({
 
   if (ingredients && ingredients.length > 0) {
     const { calories, carbohydrates, image_large, name, proteins, fat } =
-      ingredients.find((i: TIngredient) => i._id === ingredientId);
+      ingredients.find((i: any) => i._id === ingredientId);
     return (
       <div className={stylesConainer}>
         {withoutModal && (

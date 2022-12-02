@@ -27,7 +27,7 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
 import Orders from "../Orders/Oreders";
-import Feed from "../Feed/Feed";
+import Feed from "../../pages/Feed/Feed";
 import OrderInformation from '../OrderInformation/OrderInformation';
 import { withoutModal } from '../../utils/constans'
 import {Location} from "history";
@@ -39,7 +39,6 @@ function App() {
   const history = useHistory();
   const location = useLocation<{background?: Location<{} | null | undefined>}>();
   const background = location?.state && location?.state?.background;
-  const ws = new WebSocket("wss://norma.nomoreparties.space/orders/all")
 
   //получаем данные ингридиентов
   useEffect(() => {    

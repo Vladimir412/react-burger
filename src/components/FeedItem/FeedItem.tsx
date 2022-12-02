@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, ReactNode } from "react";
 import feedItemStyles from "./FeedItem.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation } from "react-router-dom";
@@ -13,10 +13,10 @@ type TFeedItem = {
   time: string;
   title: string;
   price: number;
-  images: any;
+  images: Array<string>;
   key: string;
   path: string;
-  status: string;
+  statusOrder: string;
 };
 
 const FeedItem: FC<TFeedItem> = ({
@@ -27,18 +27,19 @@ const FeedItem: FC<TFeedItem> = ({
   images,
   id,
   path,
-  status,
+  statusOrder,
 }) => {
-  const { ingredients } = useAppSelector((state) => state.ingredientReducers);
+  const { ingredients } = useAppSelector((store) => store.ingredientReducers);
   const location = useLocation<string>();
   let imagesArray;
   let length = images.length;
   let left = -48;
   let width = 0;
   let picture: string = "";
+  
 
-  imagesArray = images.map((i: any) => {
-    ingredients.forEach((j: any) => {
+  imagesArray = images.map((i) => {
+    ingredients.forEach((j) => {      
       if (j._id === i) {
         picture = j.image;
         width += 48;
@@ -55,7 +56,7 @@ const FeedItem: FC<TFeedItem> = ({
     );
   });
 
-  let newArrayImages: any = [];
+  let newArrayImages: Array<ReactNode> = [];
 
   if (imagesArray.length >= 6) {
     for (let i = 0; i < 6; i++) {
@@ -77,10 +78,10 @@ const FeedItem: FC<TFeedItem> = ({
     newArrayImages.splice(5, 1, element);
   } else {
     newArrayImages = imagesArray;
-  }
+  }  
 
   const statusStyle =
-    identityStatus(status) === "Выполнен"
+    identityStatus(statusOrder) === "Выполнен"
       ? feedItemStyles.status_type_done
       : feedItemStyles.status_type_other;
 
@@ -113,7 +114,7 @@ const FeedItem: FC<TFeedItem> = ({
         </h1>
         {path === "profile/orders/" && (
           <p className={`${statusStyle} text text_type_main-default`}>
-            {identityStatus(status)}
+            {identityStatus(statusOrder)}
           </p>
         )}
         <div className={feedItemStyles.container__info}>

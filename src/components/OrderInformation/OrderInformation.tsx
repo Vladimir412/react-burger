@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import orderInformationStyles from "./OrderInformation.module.css";
 import OrderInformationItem from "../OrderInformationItem/OrderInformationItem";
 import { useAppSelector, useAppDispatch } from "../../utils/hooks";
@@ -24,19 +24,16 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const location = useLocation<{
     background?: Location<{} | null | undefined>;
   }>();
-  const { accessToken } = useAppSelector((state) => state.authReducer);
+  const { accessToken } = useAppSelector((store) => store.authReducer);
 
   useEffect(() => {
     if (location.pathname.includes("/profile/orders/")) {
       dispatch(wsConnectStart({ name: "orders", token: accessToken }));
-      console.log("start profile/orders");
     } else {
-      dispatch(wsConnectStart({name: "feed"}));
-      console.log("Start information");
+      dispatch(wsConnectStart({ name: "feed" }));
     }
     return () => {
       dispatch(wsConnectClosed());
-      console.log("closed information");
     };
   }, []);
 
@@ -44,19 +41,15 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const { ingredients } = useAppSelector((state) => state.ingredientReducers); // массив ингредиентов
   const orderId = useParams<{ id: string }>();
   const background = location?.state && location?.state?.background;
-  let data: any = [];
+  let data: Array<ReactNode> = [];
 
   const order = location.pathname.includes("/feed")
     ? orders &&
       orders.length > 0 &&
-      orders.find((i: TGetMessage) => i._id === orderId.id)
+      orders.find((i) => i._id === orderId.id)
     : myOrders &&
       myOrders.length > 0 &&
-      myOrders.find((i: TGetMessage) => i._id === orderId.id);
-
-  // console.log(orders);
-  // console.log(myOrders);
-  // console.log(order);
+      myOrders.find((i) => i._id === orderId.id);
 
   const countItems =
     order &&
@@ -64,18 +57,17 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
       acc[item] = acc[item] ? acc[item] + 1 : 1; // если элемент уже был, то прибавляем 1, если нет - устанавливаем 1
       return acc;
     }, {});
-  // console.log(countItems);
 
   const result = Object.keys(countItems).map((item) => {
     return { id: item, quantity: countItems[item] };
   });
-  result.forEach((i: any) => {
+  result.forEach((i) => {
     let image: string = "";
     let name: string = "";
     let price: number = 0;
     let id: string = "";
     let quantity: number = 1;
-    ingredients.forEach((j: TIngredient) => {      
+    ingredients.forEach((j: TIngredient) => {
       if (i.id === j._id) {
         id = j._id;
         name = j.name;
@@ -86,7 +78,8 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
     });
 
     data.push(
-      <li key={uuidv4()} id={id}>
+      <li key={id} id={id}>
+        {/* <li key={uuidv4()} id={id}> */}
         <OrderInformationItem
           image={image}
           title={name}
@@ -96,8 +89,6 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
       </li>
     );
   });
-
-  // console.log(countItems);
 
   useEffect(() => {
     order && dispatch(wsSetTitle(addZero(order.number)));

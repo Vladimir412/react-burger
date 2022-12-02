@@ -1,6 +1,7 @@
 import { Link, Redirect } from "react-router-dom";
 import { useState, FC, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import {
   Button,
   Input,
@@ -10,8 +11,8 @@ import { signUpUser } from "../../services/actions/auth";
 import { TRegister } from '../../utils/types/types'
 
 const Register: FC = () => {
-  const dispatch: any = useDispatch();
-  const { isLogged } = useSelector((state: any) => state.authReducer);
+  const dispatch = useAppDispatch();
+  const { isLogged } = useAppSelector((store) => store.authReducer);
   const [inputs, setInputs] = useState<TRegister>({ name: "", email: "", password: "" });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {

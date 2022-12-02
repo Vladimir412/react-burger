@@ -1,24 +1,31 @@
 import ItemBurgerConstructor from "../ItemBurgerConstructor/ItemBurgerConstructor";
 import listItemBurgerConstructorStyles from "./ListItemBurgerConstructor.module.css";
 import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { useState, useEffect, FC } from "react";
-import { TIngredient, TIngredientDetails } from '../../utils/types/types'
+import { TIngredient, TIngredientDetails, IItemBurgerConstructor } from '../../utils/types/types'
 
 const ListItemBurgerConstructor: FC = () => {
-  const { ingredientsInConstructor } = useSelector(
-    (state: any) => state.ingredientReducers
+  const { ingredientsInConstructor } = useAppSelector(
+    (store) => store.ingredientReducers
   );
-  const dispatch = useDispatch();
-  const [ingredients, setIngredients] = useState<Array<TIngredientDetails>>([]);
+  const dispatch = useAppDispatch();
+  const [ingredients, setIngredients] = useState<Array<IItemBurgerConstructor>>([]);
   useEffect(() => {
-    const arrWithoutBun = ingredientsInConstructor.filter(
-      (i: TIngredient) => i.type !== "bun"
+    const arrWithoutBun: Array<IItemBurgerConstructor> = ingredientsInConstructor.filter(
+      (i) => {       
+        console.log(i);
+         
+       return i.type !== "bun"
+      }
     );
+    console.log(arrWithoutBun);
     setIngredients(arrWithoutBun);
   }, [ingredientsInConstructor]);
+  
 
   const [, dropIngredientRef] = useDrop({
     accept: "ingredient",
@@ -47,7 +54,7 @@ const ListItemBurgerConstructor: FC = () => {
 
   const cards =
     ingredients &&
-    ingredients.map((i: TIngredientDetails, index: number) => {
+    ingredients.map((i, index: number) => {
       if (i.type !== "bun") {
         return (
           <ItemBurgerConstructor

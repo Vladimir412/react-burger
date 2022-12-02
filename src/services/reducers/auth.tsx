@@ -35,7 +35,7 @@ const authInitialState: TAuthInitialState = {
 };
 
 export default createReducer(authInitialState, {
-  [registerUserItemSuccess.type]: (state, action: PayloadAction<any>) => {
+  [registerUserItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,

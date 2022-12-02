@@ -16,12 +16,12 @@ import {
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
 
-  return (state) => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;   
 
-    return (next) => (action: any) => {
+    return (next) => (action) => {
       // const { dispatch, getState } = store;
-      const { dispatch } = state;
+      const { dispatch } = store;
       const { type, payload } = action;
 
       // console.log(type);
@@ -29,12 +29,12 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
             
       if (
         type === "WS_CONNECTION_START" &&
-        (payload.name || payload) === "feed"
+        payload.name === "feed"
       ) {
         // объект класса WebSocket
         socket = new WebSocket(`${wsUrl}/all`);
       }
-      if (type === "WS_CONNECTION_START" && (payload.name || payload) === "orders") {
+      if (type === "WS_CONNECTION_START" && payload.name === "orders") {
         
         if (payload.token) {
         const token = payload.token.replace("Bearer ", "");

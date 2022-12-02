@@ -1,8 +1,17 @@
 import feedItemImageStyles from "./FeedItemImage.module.css";
 import { FC } from "react";
 
-const FeedItemImage: FC<any> = (props) => {
+type TFeedItemImage = {
+  left?: number;
+  length?: number;
+  src: string | undefined;
+  zIndex?: number;
+  quantity?: number;
+  opacity?: number;
+}
 
+const FeedItemImage: FC<TFeedItemImage> = (props) => {
+  
   const styleContainer = !props.left && !props. zIndex
   ? feedItemImageStyles.gradient_type_relative
   : feedItemImageStyles.gradient

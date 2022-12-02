@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload, createAction } from "@reduxjs/toolkit";
 import { getData, sentDataIngredients } from "../../utils/dataApi";
-import { AppThunk, AppDispatch, TIngredientDetails, TIngredient } from "../../utils/types/types";
+import { AppThunk, AppDispatch, TIngredientDetails, TIngredient, TResponseSentDataIngredients } from "../../utils/types/types";
 import { TGetIngredientsItemSuccess } from "../../utils/types/typesActionsActions";
 
 

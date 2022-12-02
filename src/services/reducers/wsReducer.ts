@@ -7,11 +7,12 @@ import {
     wsSetTitle
 } from '../actions/wsActionTypes'
 import { createReducer } from '@reduxjs/toolkit'
+import { TOrder, TGetMessage } from '../../utils/types/types'
 
 type TWSState = {
     wsConnected: boolean;
-    orders: any;
-    myOrders: any;
+    orders: Array<TGetMessage>;
+    myOrders: Array<any>;
     error?: Event;
     total: number;
     totalToday: number;

@@ -9,14 +9,15 @@ import {
   TIngredient,
 } from "../../utils/types/types";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { useDrag } from "react-dnd";
 import { useEffect, useState, FunctionComponent } from "react";
 
     const CardIngredient: FunctionComponent<TCardIngredient> = ({ calories, carbohydrates, fat, price, proteins, image, image_large, name, type, id, _id }) => {
   const dispatch = useDispatch();
   const location = useLocation<string>();
-  const { ingredientsInConstructor } = useSelector(
-    (state: any) => state.ingredientReducers
+  const { ingredientsInConstructor } = useAppSelector(
+    (state) => state.ingredientReducers
   );
   const [quntity, setQuantity] = useState<number>(0);
   const ingredientId: string = id;
@@ -29,7 +30,7 @@ import { useEffect, useState, FunctionComponent } from "react";
   const countQuantity = (): void => {
     let total: number = 0;
     ingredientsInConstructor &&
-      ingredientsInConstructor.forEach((i: TCardIngredient) => {
+      ingredientsInConstructor.forEach((i) => {
         if (i._id === _id) total += 1;
         if (i._id === _id && i.type === "bun") total += 1;
       });

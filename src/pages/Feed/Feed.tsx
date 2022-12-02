@@ -1,8 +1,8 @@
-import { FC, useEffect } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import feedStyles from "./Feed.module.css";
-import FeedItem from "../FeedItem/FeedItem";
-import FeedItemComplete from "../FeedItemComplete/FeedItemComplete";
-import FeedItemOrderBoard from "../FeedItemOrderBoard/FeedItemOrderBoard";
+import FeedItem from "../../components/FeedItem/FeedItem";
+import FeedItemComplete from "../../components/FeedItemComplete/FeedItemComplete";
+import FeedItemOrderBoard from "../../components/FeedItemOrderBoard/FeedItemOrderBoard";
 import { completeAllTime, completeToday } from "../../utils/constans";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 import {
@@ -12,27 +12,25 @@ import {
 import { countPrice, countTime, addZero } from "../../utils/utils";
 
 const Feed: FC = () => {
-  const { orders, total, totalToday, wsConnected } = useAppSelector(
-    (state) => state.wsReducer
+  const { orders, total, totalToday } = useAppSelector(
+    (store) => store.wsReducer
   );
-  const { ingredients } = useAppSelector((state) => state.ingredientReducers);
+  const { ingredients } = useAppSelector((store) => store.ingredientReducers);
 
   const dispatch = useAppDispatch();
-  let items: any;
+  let items: Array<ReactNode>;
 
   useEffect(() => {
     setTimeout(() => {
       dispatch(wsConnectStart({ name: "feed" }));
-    console.log("Start feed");
     }, 1000)
 
     return () => {
       dispatch(wsConnectClosed());
-      console.log("closed feed");
     };
   }, []);
 
-  items = orders.map((i: any) => {
+  items = orders.map((i) => {
 
     return (
       <li key={i._id}>
@@ -45,12 +43,14 @@ const Feed: FC = () => {
           images={i.ingredients}
           key={i._id}
           path={"feed/"}
-          status={i.status}
+          statusOrder={i.status}
           {...i}
         />
       </li>
     );
   });
+  console.log(items);
+  
 
   const orderNumberDone = orders.map((i: any) => {
     if (i.status === "done") {

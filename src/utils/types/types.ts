@@ -7,7 +7,7 @@ import { store } from "../../index";
 import { TUserInfoActions } from "./typesActionUserInfo";
 import { TActionsActions } from "./typesActionsActions";
 import { TActionsAuth } from "./typesAuth";
-import { TWSActions }from './typesWS'
+import { TWSActions } from "./typesWS";
 
 //  Типы ингредиентов
 export type TIngredient = {
@@ -23,6 +23,11 @@ export type TIngredient = {
   type: string;
   _id: string;
 };
+
+export type TDetailIngredient = Omit<
+  TIngredient,
+  "_id" | "type" | "image_mobile" | "image" | "price"
+>;
 
 export type TIngredientDetails = TIngredient & {
   id: string;
@@ -42,12 +47,15 @@ export type TIngredientDetailsWithOut = {
 };
 
 export interface IItemBurgerConstructor {
-  dragId: string;
+  dragId?: string;
   moveItem: (dragId: number, index: number) => void;
   index: number;
   name: string;
   price: number;
   image: string;
+  _id: string;
+  id: string;
+  type: string;
 }
 
 export type TCardIngredient = Omit<TIngredientDetails, "withoutModal">;
@@ -79,21 +87,33 @@ export type TResponseGetData<T> = TSuccess & {
   data: Array<T>;
 };
 
-type TOrder = {
+type TOwner = {
+  name: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TOrder = {
   createdAt: string;
   ingredients: Array<TIngredient>;
   name: string;
   number: number;
-  owner: TUserInfo;
+  owner: TUserInfo | TOwner;
   price: number;
   status: string;
   updatedAt: string;
   _id: string;
 };
 
+export type TGetAndUpdateOrders = TSuccess & {
+  name: string;
+  order: TOrder;
+};
+
 export type TGetMessage = Omit<TOrder, "ingredients" | "owner" | "price"> & {
-  ingredients: Array<string>
-}
+  ingredients: Array<string>;
+};
 
 export type TResponseSentDataIngredients = TSuccess & {
   name: string;
@@ -110,9 +130,10 @@ export type TRecoveryPasswordAndResetPasswordAndLogout = TSuccess & {
   message: string;
 };
 
-export type TGetAndUpdateInfoUser = TUserInfo & TSuccess & {
-  message?: string
-}
+export type TGetAndUpdateInfoUser = TUserInfo &
+  TSuccess & {
+    message?: string;
+  };
 
 export type TUpdateToken = Omit<TResponseRegisterAndLogin, "user">;
 
@@ -175,7 +196,7 @@ export type TApplicationActions =
   | TUserInfoActions
   | TActionsActions
   | TActionsAuth
-  | TWSActions
+  | TWSActions;
 
 export type RootState = ReturnType<typeof store.getState>;
 
