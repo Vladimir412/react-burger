@@ -28,9 +28,9 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
 
   useEffect(() => {
     if (location.pathname.includes("/profile/orders/")) {
-      dispatch(wsConnectStart({ name: "orders", token: accessToken }));
+      dispatch(wsConnectStart(`?token=${accessToken}`));
     } else {
-      dispatch(wsConnectStart({ name: "feed" }));
+      dispatch(wsConnectStart("all"));
     }
     return () => {
       dispatch(wsConnectClosed());
@@ -50,6 +50,12 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
     : myOrders &&
       myOrders.length > 0 &&
       myOrders.find((i) => i._id === orderId.id);
+  // const order =
+  //   orders &&
+  //   orders.length > 0 &&
+  //   orders.find((i) => i._id === orderId.id);
+  //   console.log(order);
+    
 
   const countItems =
     order &&

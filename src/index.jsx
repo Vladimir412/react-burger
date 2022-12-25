@@ -11,6 +11,7 @@ import { rootReducer } from "./services/reducers/rootReducers";
 import thunk from "redux-thunk";
 import { socketMiddleware } from "./services/middlewares/socketMiddleware";
 import { wsUrl } from "./utils/constans";
+import { wsActionTypes } from "./services/actions/wsActionTypes";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -23,7 +24,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(socketMiddleware(wsUrl)),
+    }).concat(socketMiddleware(wsUrl, wsActionTypes)),
   enhancer,
 });
 

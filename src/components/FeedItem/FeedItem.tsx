@@ -36,9 +36,10 @@ const FeedItem: FC<TFeedItem> = ({
   let left = -48;
   let width = 0;
   let picture: string = "";
+  let keyId: string = ""
   
 
-  imagesArray = images.map((i) => {
+  imagesArray = images.map((i, index) => {
     ingredients.forEach((j) => {      
       if (j._id === i) {
         picture = j.image;
@@ -50,7 +51,8 @@ const FeedItem: FC<TFeedItem> = ({
     });
 
     return (
-      <li key={uuidv4()}>
+      <li key={index}>
+      {/* <li key={uuidv4()}> */}
         <FeedItemImage src={picture} left={left} length={length} />
       </li>
     );

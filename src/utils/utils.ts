@@ -28,7 +28,7 @@ export const countPrice = (item: Array<string>, array: Array<TIngredient>) => {
 export const countTime = (time: string) => {
   let result: string;
   const timeResult: string = time.slice(11, 16);
-  const currentDate: number = Date.parse(Date());
+  const currentDate: number = Date.parse(Date());  
   const days: number = (currentDate - Date.parse(time)) / 86400000;
   const day: number = Math.round(days);
   if (day === 0) {

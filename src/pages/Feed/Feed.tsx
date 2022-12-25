@@ -22,7 +22,7 @@ const Feed: FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(wsConnectStart({ name: "feed" }));
+      dispatch(wsConnectStart("/all"));
     }, 1000)
 
     return () => {
@@ -48,9 +48,7 @@ const Feed: FC = () => {
         />
       </li>
     );
-  });
-  console.log(items);
-  
+  });  
 
   const orderNumberDone = orders.map((i: any) => {
     if (i.status === "done") {

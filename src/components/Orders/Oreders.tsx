@@ -18,7 +18,8 @@ const Orders: FC = () => {
   const { isLogged, accessToken } = useAppSelector(
     (state) => state.authReducer
   );
-  const { myOrders } = useAppSelector((store) => store.wsReducer);
+  const { orders } = useAppSelector((store) => store.wsReducer);
+  // const { myOrders } = useAppSelector((store) => store.wsReducer);
   const { ingredients } = useAppSelector((store) => store.ingredientReducers);
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -32,13 +33,15 @@ const Orders: FC = () => {
   }, [isLogged]);
 
   useEffect(() => {
-    dispatch(wsConnectStart({ name: "orders", token: accessToken }));    
+    const token = accessToken.replace("Bearer ", "");
+    dispatch(wsConnectStart(`?token=${token}`));    
     return () => {
       dispatch(wsConnectClosed());
     };
   }, []);
 
-  const items = myOrders.map((i: TGetMessage) => {
+  const items = orders.map((i: TGetMessage) => {
+  // const items = myOrders.map((i: TGetMessage) => {
     
     return (
       <li key={i._id} className={orderStyles.orgerConatiner__list}>

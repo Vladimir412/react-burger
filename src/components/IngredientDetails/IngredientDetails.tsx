@@ -14,7 +14,7 @@ const IngredientDetails: FC<{ withoutModal?: string }> = ({
   withoutModal,
 }: TIngredientDetailsWithOut) => {
   const history = useHistory();
-  // const { ingredients } = useAppSelector((state) => state.ingredientReducers);
+  // const { ingredients } = useAppSelector((store) => store.ingredientReducers);
   const { ingredients } = useSelector((state: any) => state.ingredientReducers);
   const { ingredientId } = useParams<{ ingredientId: string }>();
 
@@ -24,7 +24,7 @@ const IngredientDetails: FC<{ withoutModal?: string }> = ({
 
   if (ingredients && ingredients.length > 0) {
     const { calories, carbohydrates, image_large, name, proteins, fat } =
-      ingredients.find((i: any) => i._id === ingredientId);
+      ingredients.find((i:any) => i._id === ingredientId);
     return (
       <div className={stylesConainer}>
         {withoutModal && (

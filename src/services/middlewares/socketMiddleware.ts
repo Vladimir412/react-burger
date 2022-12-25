@@ -14,7 +14,7 @@ import {
   wsGetMessageMy,
 } from "../actions/wsActionTypes";
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (wsUrl: string, wsInit: any): Middleware => {
 
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;   
@@ -23,24 +23,35 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
       // const { dispatch, getState } = store;
       const { dispatch } = store;
       const { type, payload } = action;
+      const { wsConnectStart,
+        wsConnectSuccess,
+        wsConnectError,
+        wsConnectClosed,
+        wsGetData,
+        wsSendData
+      } = wsInit
 
       // console.log(type);
       // console.log(payload);
             
       if (
-        type === "WS_CONNECTION_START" &&
-        payload.name === "feed"
+        type === wsConnectStart.type
+        // type === wsConnectStart.type
+        // payload.name === "feed"
       ) {
         // объект класса WebSocket
-        socket = new WebSocket(`${wsUrl}/all`);
-      }
-      if (type === "WS_CONNECTION_START" && payload.name === "orders") {
+        console.log(payload);
         
-        if (payload.token) {
-        const token = payload.token.replace("Bearer ", "");
-        socket = new WebSocket(`${wsUrl}?token=${token}`);
-        }
+        socket = new WebSocket(`${wsUrl}${payload}`);
       }
+      // if (type === wsConnectStart.type && payload.name === "orders") {
+        
+        
+        // if (wsConnectStart.type && payload.token) {
+        // const token = payload.token.replace("Bearer ", "");
+        // socket = new WebSocket(`${wsUrl}?token=${token}`);
+        // }
+      // }
 
       // console.log(socket);
 
@@ -60,16 +71,20 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         // функция, которая вызывается при получения события от сервера
         socket.onmessage = (event) => {
           if (
-            socket &&
-            socket.url === "wss://norma.nomoreparties.space/orders/all"
+            socket
+            // socket.url === "wss://norma.nomoreparties.space/orders/all"
           ) {
+            try {
             const { data } = event;
             const parsedData = JSON.parse(data);
             dispatch(wsGetMessage(parsedData));
-          } else {
-            const { data } = event;
-            const parsedData = JSON.parse(data);
-            dispatch(wsGetMessageMy(parsedData));
+            } catch(err) {
+              console.log(err)
+            }
+          // } else {
+          //   const { data } = event;
+          //   const parsedData = JSON.parse(data);
+          //   dispatch(wsGetMessageMy(parsedData));
           }
         };
         // функция, которая вызывается при закрытии соединения
