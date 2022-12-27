@@ -25,11 +25,19 @@ export const countPrice = (item: Array<string>, array: Array<TIngredient>) => {
   return totalPrice
 }
 
-export const countTime = (time: string) => {
+export const countTime = (timeInfo: string) => {
   let result: string;
-  const timeResult: string = time.slice(11, 16);
+  const time: string = timeInfo.slice(11, 16);
+  const hours: number = Number(time.slice(0, 2)) + 3 === 24
+    ? Number("00")
+    : Number(time.slice(0, 2)) + 3 > 24
+    ? 24 - Number(time.slice(0, 2)) + 3
+    : Number(time.slice(0, 2)) + 3
+  const strHours: string = String(hours)
+  const timeResult: string = strHours + time.substring(2)
   const currentDate: number = Date.parse(Date());  
-  const days: number = (currentDate - Date.parse(time)) / 86400000;
+  const days: number = (currentDate - Date.parse(timeInfo)) / 86400000;
+  
   const day: number = Math.round(days);
   if (day === 0) {
     result = "Сегодня";

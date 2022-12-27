@@ -10,6 +10,7 @@ import {
   wsConnectStart,
 } from "../../services/actions/wsActionTypes";
 import { countPrice, countTime, addZero } from "../../utils/utils";
+import { wsUrl } from "../../utils/constans";
 
 const Feed: FC = () => {
   const { orders, total, totalToday } = useAppSelector(
@@ -22,7 +23,7 @@ const Feed: FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(wsConnectStart("/all"));
+      dispatch(wsConnectStart(`${wsUrl}/all`));
     }, 1000)
 
     return () => {

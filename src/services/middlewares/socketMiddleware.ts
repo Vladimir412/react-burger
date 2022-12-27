@@ -13,8 +13,16 @@ import {
   wsGetMessage,
   wsGetMessageMy,
 } from "../actions/wsActionTypes";
+import { TWSActionTypes } from "../../utils/types/typesWS";
 
-export const socketMiddleware = (wsUrl: string, wsInit: any): Middleware => {
+export const socketMiddleware = (wsActions: TWSActionTypes): Middleware => {
+  const { wsConnectStart,
+    wsConnectSuccess,
+    wsConnectError,
+    wsConnectClosed,
+    wsGetData,
+    wsSendData
+  } = wsActions
 
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;   
@@ -23,13 +31,7 @@ export const socketMiddleware = (wsUrl: string, wsInit: any): Middleware => {
       // const { dispatch, getState } = store;
       const { dispatch } = store;
       const { type, payload } = action;
-      const { wsConnectStart,
-        wsConnectSuccess,
-        wsConnectError,
-        wsConnectClosed,
-        wsGetData,
-        wsSendData
-      } = wsInit
+   
 
       // console.log(type);
       // console.log(payload);
@@ -40,9 +42,9 @@ export const socketMiddleware = (wsUrl: string, wsInit: any): Middleware => {
         // payload.name === "feed"
       ) {
         // объект класса WebSocket
-        console.log(payload);
+        // console.log(payload);
         
-        socket = new WebSocket(`${wsUrl}${payload}`);
+        socket = new WebSocket(payload);
       }
       // if (type === wsConnectStart.type && payload.name === "orders") {
         
@@ -59,7 +61,7 @@ export const socketMiddleware = (wsUrl: string, wsInit: any): Middleware => {
         // console.log(socket.url);
 
         // функция, которая вызывается при открытии сокета
-        socket.onopen = (event) => {
+        socket.onopen = (event) => {          
           dispatch(wsConnectSuccess());
         };
 
@@ -75,9 +77,9 @@ export const socketMiddleware = (wsUrl: string, wsInit: any): Middleware => {
             // socket.url === "wss://norma.nomoreparties.space/orders/all"
           ) {
             try {
-            const { data } = event;
+            const { data } = event;            
             const parsedData = JSON.parse(data);
-            dispatch(wsGetMessage(parsedData));
+            dispatch(wsGetData(parsedData));
             } catch(err) {
               console.log(err)
             }
@@ -92,11 +94,11 @@ export const socketMiddleware = (wsUrl: string, wsInit: any): Middleware => {
           dispatch(wsConnectClosed());
         };
 
-        if (type === "WS_CONNECTION_CLOSED") {
+        if (type === wsConnectClosed.type) {
           socket.close();
         }
 
-        if (type === "WS_SEND_MESSAGE") {
+        if (type === wsSendData.type) {
           const message = payload;
           // функция для отправки сообщения на сервер
           socket.send(JSON.stringify(message));

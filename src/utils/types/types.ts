@@ -83,6 +83,11 @@ type TSuccess = {
   success: boolean;
 };
 
+export type TRegisterUserItemSuccess = TSuccess & TUserInfo & {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export type TResponseGetData<T> = TSuccess & {
   data: Array<T>;
 };

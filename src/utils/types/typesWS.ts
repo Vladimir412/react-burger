@@ -1,20 +1,23 @@
+import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { type } from 'os';
 import {
     wsConnectStart,
     wsConnectSuccess,
     wsConnectError,
     wsConnectClosed,
+    wsGetData,
+    wsSendData,
     wsGetMessage,
     wsSendMessage
 } from '../../services/actions/wsActionTypes'
 
-type TWSConnectedStart = {
+import { TGetMessage, TOrder } from '../types/types'
+
+export type TWSConnectedStart = {
     type: typeof wsConnectStart;
-    name?: string;
-    token?: string
-    payload: {
-        name: string;
-        token?: string
-    };
+    // name?: string;
+    // token?: string
+    payload?: string;
 }
 
 type TWSConnectedSuccess = {
@@ -23,27 +26,52 @@ type TWSConnectedSuccess = {
 
 type TWSConnectedError = {
     type: typeof wsConnectError;
-    payload: any;
+    payload: Event;
 }
 
 type TWSConnectedClosed = {
     type: typeof wsConnectClosed;
 }
 
-type TWSConnectedGetMessage = {
-    type: typeof wsGetMessage;
-    payload: any;
+type TWSGetData = {
+    type: typeof wsGetData;
+    payload: TOrder
 }
 
-type TWSConnectedSendMessage = {
-    type: typeof wsSendMessage;
-    payload: any;
+type TWSSendData = {
+    type: typeof wsSendData
 }
 
-export type TWSActions =
+// type TWSConnectedGetMessage = {
+//     type: typeof wsGetMessage;
+//     payload: any;
+// }
+
+// type TWSConnectedSendMessage = {
+//     type: typeof wsSendMessage;
+//     payload: any;
+// }
+
+export type TWSActions = 
+    // TWSConnectedStart: TWSConnectedStart,
+    // TWSConnectedSuccess: TWSConnectedSuccess,
+    // TWSConnectedError: TWSConnectedError,
+    // TWSConnectedClosed: TWSConnectedClosed,
+    // TWSGetData: TWSGetData,
+    // TWSSendData: TWSSendData,
     | TWSConnectedStart
     | TWSConnectedSuccess
     | TWSConnectedError
     | TWSConnectedClosed
-    | TWSConnectedGetMessage
-    | TWSConnectedSendMessage
+    | TWSGetData
+    | TWSSendData
+    // | TWSConnectedGetMessage
+    // | TWSConnectedSendMessage
+export type TWSActionTypes = {
+    wsConnectStart: ActionCreatorWithPayload<string>,
+    wsConnectSuccess: ActionCreatorWithoutPayload,
+    wsConnectError: ActionCreatorWithPayload<Event>,
+    wsConnectClosed: ActionCreatorWithoutPayload,
+    wsGetData: ActionCreatorWithPayload<TGetMessage>,
+    wsSendData: ActionCreatorWithoutPayload,
+}

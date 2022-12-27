@@ -95,6 +95,7 @@ const FeedItem: FC<TFeedItem> = ({
   return (
     <Link
       to={{
+        // pathname: `/${path}${order}`,
         pathname: `/${path}${id}`,
         state: { background: location },
       }}

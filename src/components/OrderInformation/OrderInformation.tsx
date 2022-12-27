@@ -9,6 +9,12 @@ import {
   wsConnectStart,
   wsSetTitle,
 } from "../../services/actions/wsActionTypes";
+import 
+  * as myWs
+  // wsConnectClosed,
+  // wsConnectStart,
+  // wsSetTitle,
+ from "../../services/actions/wsActionMyTypes";
 import {
   identityStatus,
   addZero,
@@ -18,6 +24,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { Location } from "history";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { wsUrl } from "../../utils/constans";
 
 const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const dispatch = useAppDispatch();
@@ -28,41 +35,52 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
 
   useEffect(() => {
     if (location.pathname.includes("/profile/orders/")) {
-      dispatch(wsConnectStart(`?token=${accessToken}`));
+      console.log("GG");
+      
+      const token = accessToken.replace("Bearer ", "");
+      dispatch(myWs.wsConnectStart(`${wsUrl}?token=${token}`));
     } else {
-      dispatch(wsConnectStart("all"));
+      console.log("????");
+      
+      dispatch(wsConnectStart(`${wsUrl}/all`));
     }
     return () => {
       dispatch(wsConnectClosed());
+      dispatch(myWs.wsConnectClosed());
     };
   }, []);
 
-  const { orders, myOrders } = useAppSelector((state) => state.wsReducer); // массив заказов
-  const { ingredients } = useAppSelector((state) => state.ingredientReducers); // массив ингредиентов
+  const { orders } = useAppSelector((store) => store.wsReducer); // массив заказов
+  const { myOrders } = useAppSelector((store) => store.wsReducerMy)
+  const { ingredients } = useAppSelector((store) => store.ingredientReducers); // массив ингредиентов
   const orderId = useParams<{ id: string }>();
   const background = location?.state && location?.state?.background;
   let data: Array<ReactNode> = [];
 
-  const order = location.pathname.includes("/feed")
-    ? orders &&
-      orders.length > 0 &&
-      orders.find((i) => i._id === orderId.id)
-    : myOrders &&
-      myOrders.length > 0 &&
-      myOrders.find((i) => i._id === orderId.id);
-  // const order =
-  //   orders &&
-  //   orders.length > 0 &&
-  //   orders.find((i) => i._id === orderId.id);
-  //   console.log(order);
+  // const order = location.pathname.includes("/feed")
+  //   ? orders &&
+  //     orders.length > 0 &&
+  //     orders.find((i) => i._id === orderId.id)
+  //   : myOrders &&
+  //     myOrders.length > 0 &&
+  //     myOrders.find((i) => i._id === orderId.id);
+  const order = location.pathname.includes("/profile/orders/")
+  ? myOrders &&
+    myOrders.length > 0 &&
+    myOrders.find((i) => i._id === orderId.id)
+  : orders &&
+    orders.length > 0 &&
+    orders.find((i) => i._id === orderId.id);
+    console.log(order);
+    console.log(location.pathname);
     
 
   const countItems =
     order &&
-    order.ingredients.reduce((acc: any, item: number) => {
+    order.ingredients.reduce((acc: any, item: string) => {            
       acc[item] = acc[item] ? acc[item] + 1 : 1; // если элемент уже был, то прибавляем 1, если нет - устанавливаем 1
       return acc;
-    }, {});
+    }, {});    
 
   const result = Object.keys(countItems).map((item) => {
     return { id: item, quantity: countItems[item] };
@@ -103,11 +121,14 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
       dispatch(wsSetTitle(""));
     };
   }, []);
+  console.log(data);
+  
 
-  const statusStyle =
+  const statusStyle = (order !== undefined && order &&
     identityStatus(order.status) === "Выполнен"
       ? orderInformationStyles.status_type_done
-      : orderInformationStyles.status_type_other;
+      : orderInformationStyles.status_type_other);
+  
 
   const containerStyles = withoutModal
     ? orderInformationStyles.container_type_withOutModal
@@ -121,7 +142,10 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
     ? orderInformationStyles.info_type_withOutModal
     : orderInformationStyles.info_type_withModal;
 
-  if ((orders || myOrders) && (orders.length > 0 || myOrders.length > 0)) {
+    console.log(order, data, data.length);
+    
+
+  if (orders && order && data && data.length > 0) {
     return (
       <>
         <div className={`${containerStyles}`}>
