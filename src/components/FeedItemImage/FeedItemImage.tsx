@@ -7,6 +7,7 @@ type TFeedItemImage = {
   src: string | undefined;
   zIndex?: number;
   quantity?: number;
+  quantityImages?: number;
   opacity?: number;
 }
 

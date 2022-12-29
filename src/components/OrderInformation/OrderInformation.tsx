@@ -25,6 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Location } from "history";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { wsUrl } from "../../utils/constans";
+import Preloader from "../Preloader/Preloader";
 
 const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const dispatch = useAppDispatch();
@@ -179,7 +180,8 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
       </>
     );
   } else {
-    return <p style={{ color: "white" }}>Waiting...</p>;
+    return <Preloader />
+    // return <p style={{ color: "white" }}>Waiting...</p>;
   }
 };
 

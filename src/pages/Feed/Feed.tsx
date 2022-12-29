@@ -51,7 +51,7 @@ const Feed: FC = () => {
     );
   });  
 
-  const orderNumberDone = orders.map((i: any) => {
+  const orderNumberDone = orders.map((i) => {
     if (i.status === "done") {
       return (
         <li key={i._id} style={{ marginBottom: 8 }}>
@@ -61,7 +61,7 @@ const Feed: FC = () => {
     }
   });
 
-  const orderNumberPending = orders.map((i: any) => {
+  const orderNumberPending = orders.map((i) => {
     if (i.status === "pending") {
       return <li key={i._id}>{addZero(i.number)}</li>;
     }

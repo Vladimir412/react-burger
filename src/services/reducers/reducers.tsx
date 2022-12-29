@@ -22,7 +22,6 @@ import { TIngredientDetails, TIngredient, IItemBurgerConstructor, TGetAndUpdateO
 type TInitialState = {
   ingredients: Array<TIngredient>,
   ingredientsInConstructor: Array<IItemBurgerConstructor>,
-  // ingredient: any;
   order: TGetAndUpdateOrders;
   isLoading: boolean;
   isError: boolean;
@@ -32,7 +31,6 @@ type TInitialState = {
 const initialState: TInitialState = {
   ingredients: [],
   ingredientsInConstructor: [],
-  // ingredient: {},
   order: {
     success: false,
     name: '',
@@ -65,12 +63,6 @@ export default createReducer(initialState, {
   [addIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  // [addDataModalIngredient.type]: (state, action) => {
-  //   state.ingredient = action.payload;
-  // },
-  // [removeDataModalIngredient.type]: (state, action) => {
-  //   state.ingredient = action.payload;
-  // },
   [getAndUpdateNumberOreder.type]: (state, action) => {
     state.order = action.payload;
   },
