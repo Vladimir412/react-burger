@@ -1,9 +1,9 @@
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import {
   getIngredientsForConstructor,
-  addDataModalIngredient,
-  removeDataModalIngredient,
-  getAndUpdateNumberOreder,
+  // addDataModalIngredient,
+  // removeDataModalIngredient,
+  // getAndUpdateNumberOreder,
   addIngredientInConstructor,
   removeIngredientInConstructor,
   getIngredientsItemRequest,
@@ -63,9 +63,9 @@ export default createReducer(initialState, {
   [addIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  [getAndUpdateNumberOreder.type]: (state, action) => {
-    state.order = action.payload;
-  },
+  // [getAndUpdateNumberOreder.type]: (state, action) => {
+  //   state.order = action.payload;
+  // },
   [removeIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },

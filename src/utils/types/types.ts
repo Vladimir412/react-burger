@@ -83,6 +83,10 @@ type TSuccess = {
   success: boolean;
 };
 
+export type TAccessToken = {
+  accessToken: string;
+}
+
 export type TRegisterUserItemSuccess = TSuccess & TUserInfo & {
   accessToken: string;
   refreshToken: string;
@@ -130,6 +134,10 @@ export type TResponseRegisterAndLogin = TSuccess & {
   accessToken: string;
   refreshToken: string;
 };
+
+export type TUpdateUserItem = Omit<TResponseRegisterAndLogin, 'user'> & {
+  user: Omit<TRegister, 'password'>
+}
 
 export type TRecoveryPasswordAndResetPasswordAndLogout = TSuccess & {
   message: string;

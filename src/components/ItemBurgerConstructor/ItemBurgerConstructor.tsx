@@ -60,7 +60,9 @@ const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
     let item = ingredientsInConstructor.filter((i) => {
       return i.dragId !== props.dragId;
     });
-    /* @ts-ignore */
+    console.log(item);
+    
+    /* @ts-ignore */    
     dispatch(removeIngredientInConstructor(item));
   };
 

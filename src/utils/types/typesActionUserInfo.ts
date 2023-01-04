@@ -6,7 +6,7 @@ import {
     userInfoUpdateItemSuccess,
     userInfoUpdateItemFailed,
   } from '../../services/actions/userInfo'
-  import { TUserInfo } from './types';
+  import { TUpdateUserItem } from './types';
 
 export type TUserInfoItemRequest = {
     readonly type: typeof userInfoItemRequest
@@ -15,7 +15,7 @@ export type TUserInfoItemRequest = {
 
 export type TUserInfoItemSuccess = {
     readonly type: typeof userInfoItemSuccess;
-    payload: any;
+    payload: TUpdateUserItem;
     // payload: TUserInfo;
 };
 
@@ -29,7 +29,7 @@ export type TUserInfoUpdateItemRequest = {
 
 export type  TUserInfoUpdateItemSuccess = {
     readonly type: typeof userInfoUpdateItemSuccess;
-    payload: any;
+    payload: TUpdateUserItem;
     // payload: TUserInfo;
 };
 

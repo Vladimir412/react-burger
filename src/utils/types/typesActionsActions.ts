@@ -2,9 +2,9 @@ import {
     getIngredientsForConstructor,
     addIngredientInConstructor,
     removeIngredientInConstructor,
-    addDataModalIngredient,
-    removeDataModalIngredient,
-    getAndUpdateNumberOreder,
+    // addDataModalIngredient,
+    // removeDataModalIngredient,
+    // getAndUpdateNumberOreder,
     getIngredientsItemRequest,
     getIngredientsItemSuccess,
     getIngredientsItemError,
@@ -12,38 +12,37 @@ import {
     getAndUpdateNumberOrderItemSuccess,
     getAndUpdateNumberOrderItemError,
 } from '../../services/actions/actions'
-import { TIngredient, IItemBurgerConstructor } from './types'
+import { TIngredient, TIngredientDetails, TGetAndUpdateOrders } from './types'
 
 type TGetIngredientsForConstructor = {//+
     type: typeof getIngredientsForConstructor;
-    payload: any;
-    // payload: Array<TIngredient>
+    // payload: any;
 }
 
 type TAddIngredientInConstructor = {
     type: typeof addIngredientInConstructor;
-    payload: any;
+    payload: TIngredientDetails;
 }
 
 type TRemoveIngredientInConstructor = {
     type: typeof removeIngredientInConstructor;
-    payload: any;
+    // payload: any;
 }
 
-type TAddDataModalIngredient = {
-    type: typeof addDataModalIngredient;
-    payload: any;
-}
+// type TAddDataModalIngredient = {
+//     type: typeof addDataModalIngredient;
+//     payload: any;
+// }
 
-type TRemoveDataModalIngredient = {
-    type: typeof removeDataModalIngredient;
-    payload: any
-}
+// type TRemoveDataModalIngredient = {
+//     type: typeof removeDataModalIngredient;
+//     payload: any
+// }
 
-type TGetAndUpdateNumberOreder = {
-    type: typeof getAndUpdateNumberOreder;
-    payload: any;//???????
-}
+// type TGetAndUpdateNumberOreder = {
+//     type: typeof getAndUpdateNumberOreder;
+//     payload: any;//???????
+// }
 
 type TGetIngredientsItemRequest = {
     type: typeof getIngredientsItemRequest;
@@ -51,7 +50,7 @@ type TGetIngredientsItemRequest = {
 
 export type TGetIngredientsItemSuccess = {
     type: typeof getIngredientsItemSuccess;
-    payload: any;
+    payload: Array<TIngredient>;
 }
 
 type TGetIngredientsItemError = {
@@ -64,7 +63,7 @@ type TGetAndUpdateNumberOrderItemRequest = {
 
 type TGetAndUpdateNumberOrderItemSuccess = {
     type: typeof getAndUpdateNumberOrderItemSuccess;
-    payload: any
+    payload: TGetAndUpdateOrders
 }
 
 type TGetAndUpdateNumberOrderItemError = {
@@ -75,9 +74,9 @@ export type TActionsActions =
     | TGetIngredientsForConstructor
     | TAddIngredientInConstructor
     | TRemoveIngredientInConstructor
-    | TAddDataModalIngredient
-    | TRemoveDataModalIngredient
-    | TGetAndUpdateNumberOreder
+    // | TAddDataModalIngredient
+    // | TRemoveDataModalIngredient
+    // | TGetAndUpdateNumberOreder
     | TGetIngredientsItemRequest
     | TGetIngredientsItemSuccess
     | TGetIngredientsItemError

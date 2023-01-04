@@ -1,4 +1,3 @@
-import { TypeOfExpression } from 'typescript'
 import {
     registerUserItemRequest,
     registerUserItemSuccess,
@@ -17,6 +16,7 @@ import {
     upadateUserItemFailed,
     forgotPassworUser,
 } from '../../services/actions/auth'
+import { TRegisterUserItemSuccess as TRegUserItemSuccess, TRecoveryPasswordAndResetPasswordAndLogout, TUpdateUserItem, TAccessToken } from './types';
 
 
 type TRegisterUserItemRequest = {
@@ -25,8 +25,7 @@ type TRegisterUserItemRequest = {
 
 type TRegisterUserItemSuccess = {
     type: typeof registerUserItemSuccess;
-    payload: any;
-    // payload: string;
+    payload: TRegUserItemSuccess;
 }
 
 type TRegisterUserItemFailed = {
@@ -39,8 +38,7 @@ type TLoginUserItemRequest = {
 
 type TLoginUserItemSuccess = {
     type: typeof loginUserItemSuccess;
-    payload: any;
-    // payload: string;
+    payload: TRegUserItemSuccess;
 }
 
 type TLoginUserItemFailed = {
@@ -61,8 +59,7 @@ type TResetPasswordUserItemFailed = {
 
 type TForgotPassworUser = {
     type: typeof forgotPassworUser;
-    payload: any;
-    // payload: string;
+    payload: TRecoveryPasswordAndResetPasswordAndLogout;
 }
 
 type TLogOutItemRequest = {
@@ -71,8 +68,7 @@ type TLogOutItemRequest = {
 
 type TLogOutItemSuccess = {
     type: typeof logOutItemSuccess;
-    payload: any;
-    // payload: string;
+    payload: TRecoveryPasswordAndResetPasswordAndLogout;
 }
 
 type TLogOutItemFailed = {
@@ -85,14 +81,12 @@ type TUpadateUserItemRequest = {
 
 type TUpadateUserItemSuccess = {
     type: typeof upadateUserItemSuccess;
-    payload: any;
-    // payload: string;
+    payload: TUpdateUserItem;
 }
 
 type TUpadateUserItemFailed = {
     type: typeof upadateUserItemFailed;
-    payload: any;
-    // payload: string;
+    payload: TRecoveryPasswordAndResetPasswordAndLogout;
 }
 
 export type TActionsAuth =

@@ -2,8 +2,6 @@ import { useRef, useState, FC } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import CardIngredient from "../CardIngredient/CardIngredient";
-import { TIngredient, TIngredientDetailsProps } from "../../utils/types/types";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "../../utils/hooks";
 import { useInView } from "react-intersection-observer";
 
