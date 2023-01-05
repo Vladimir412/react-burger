@@ -1,5 +1,5 @@
 import React from "react";
-import { compose, createStore, applyMiddleware } from "redux";
+import { compose, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
@@ -10,7 +10,6 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducers";
 import thunk from "redux-thunk";
 import { socketMiddleware } from "./services/middlewares/socketMiddleware";
-import { wsUrl } from "./utils/constans";
 import { wsActionTypes } from "./services/actions/wsActionTypes";
 import { wsActionMyTypes } from "./services/actions/wsActionMyTypes";
 

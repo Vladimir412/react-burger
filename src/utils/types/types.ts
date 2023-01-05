@@ -172,21 +172,6 @@ export type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
   headers?: Headers;
 };
 
-interface CustomBody<T extends any> extends Body {
-  json(): Promise<T>;
-}
-
-// export interface CustomResponse<T> extends CustomBody<T> {
-//   readonly headers: Headers;
-//   readonly ok: boolean;
-//   readonly redirected: boolean;
-//   readonly status: number;
-//   readonly statusText: string;
-//   readonly type: ResponseType;
-//   readonly url: string;
-//   clone(): Response;
-// }
-
 export interface CustomResponse extends Body {
   readonly headers: Headers;
   readonly ok: boolean;
@@ -221,7 +206,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   TApplicationActions
 >;
-
-// export type AppThunk<TReturn = void> = ActionCreator<
-//   ThunkAction<TReturn, Action, RootState, TApplicationActions>
-// >;

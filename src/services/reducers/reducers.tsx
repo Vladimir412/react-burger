@@ -1,9 +1,6 @@
-import { createReducer, PayloadAction } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import {
   getIngredientsForConstructor,
-  // addDataModalIngredient,
-  // removeDataModalIngredient,
-  // getAndUpdateNumberOreder,
   addIngredientInConstructor,
   removeIngredientInConstructor,
   getIngredientsItemRequest,
@@ -17,39 +14,43 @@ import {
   modalIngredientItemOpen,
   modalIngredientItemClosed,
 } from "../actions/actions";
-import { TIngredientDetails, TIngredient, IItemBurgerConstructor, TGetAndUpdateOrders } from '../../utils/types/types'
+import {
+  TIngredient,
+  IItemBurgerConstructor,
+  TGetAndUpdateOrders,
+} from "../../utils/types/types";
 
 type TInitialState = {
-  ingredients: Array<TIngredient>,
-  ingredientsInConstructor: Array<IItemBurgerConstructor>,
+  ingredients: Array<TIngredient>;
+  ingredientsInConstructor: Array<IItemBurgerConstructor>;
   order: TGetAndUpdateOrders;
   isLoading: boolean;
   isError: boolean;
   isModalOrder: boolean;
-}
+};
 
 const initialState: TInitialState = {
   ingredients: [],
   ingredientsInConstructor: [],
   order: {
     success: false,
-    name: '',
+    name: "",
     order: {
       ingredients: [],
-      _id: '',
+      _id: "",
       owner: {
-        name: '',
-        email: '',
-        createdAt: '',
-        updatedAt: '',
+        name: "",
+        email: "",
+        createdAt: "",
+        updatedAt: "",
       },
-      status: '',
-      name: '',
-      createdAt: '',
-      updatedAt: '',
+      status: "",
+      name: "",
+      createdAt: "",
+      updatedAt: "",
       number: 0,
       price: 0,
-    }
+    },
   },
   isLoading: false,
   isError: false,
@@ -63,9 +64,6 @@ export default createReducer(initialState, {
   [addIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
-  // [getAndUpdateNumberOreder.type]: (state, action) => {
-  //   state.order = action.payload;
-  // },
   [removeIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },

@@ -1,4 +1,4 @@
-import { createReducer, PayloadAction } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import {
   registerUserItemSuccess,
   registerUserItemRequest,
@@ -18,7 +18,6 @@ import {
   upadateUserItemFailed,
 } from "../actions/auth";
 import { updateTokenUser } from '../actions/userInfo'
-import { TRegister } from '../../utils/types/types'
 
 type TAuthInitialState = {
   isLoading: boolean;

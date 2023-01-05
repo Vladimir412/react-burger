@@ -10,13 +10,11 @@ import {
 import { getInfoAboutUser } from "./userInfo";
 import {
   AppDispatch,
-  AppThunk,
   TLogin,
   TRegister,
   TResponseRegisterAndLogin,
   TUpdateToken,
 } from "../../utils/types/types";
-import { withPayloadType } from "../../utils/utils";
 
 export const registerUserItemRequest = createAction(
   "REGISTER_USER_ITEM_REQUEST"
@@ -79,8 +77,6 @@ export const signInUser = ({ email, password }: TLogin) => {
     signIn({ email, password })
       .then((data) => {
         if (data && data.success) {
-          console.log(data);
-
           dispatch(loginUserItemSuccess(data));
           localStorage.setItem("refreshToken", data.refreshToken);
         } else {
@@ -99,7 +95,6 @@ export const recoveryPasswordUser = (email: string) => {
     recoveryPassword(email)
       .then((data) => {
         if (data && data.success) {
-          //перенаправить пользователя
         } else {
           dispatch(resetPasswordUserItemFailed());
         }
@@ -112,7 +107,6 @@ export const resetPasswordUser = (password: string, token: string) => {
   return function (dispatch: AppDispatch) {
     resetPassword(password, token)
       .then((data) => {
-        //     ?????????????????????????
         if (data && data.success) {
           //переадресация
         } else {
@@ -131,7 +125,6 @@ export const logOutUser = (refreshToken: string) => {
         if (data && data.success) {
           dispatch(logOutItemSuccess());
           localStorage.removeItem("refreshToken");
-          //переадресация
         } else {
           dispatch(logOutItemFailed());
         }

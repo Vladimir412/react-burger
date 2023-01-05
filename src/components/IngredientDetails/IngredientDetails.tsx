@@ -1,19 +1,14 @@
 import ingredientDetailsStyles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
 import { useAppSelector } from "../../utils/hooks";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FC } from "react";
 import {
   TIngredientDetailsWithOut,
-  TIngredient,
-  TDetailIngredient,
 } from "../../utils/types/types";
 
 const IngredientDetails: FC<{ withoutModal?: string }> = ({
   withoutModal,
 }: TIngredientDetailsWithOut) => {
-  const history = useHistory();
   const { ingredients } = useAppSelector((store) => store.ingredientReducers);
   const { ingredientId } = useParams<{ ingredientId: string }>();
 

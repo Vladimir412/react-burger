@@ -1,18 +1,8 @@
 import { Middleware, MiddlewareAPI } from "redux";
-import { store } from "../..";
 import {
   AppDispatch,
   RootState,
-  TApplicationActions,
 } from "../../utils/types/types";
-import {
-  wsConnectStart,
-  wsConnectSuccess,
-  wsConnectError,
-  wsConnectClosed,
-  wsGetMessage,
-  wsGetMessageMy,
-} from "../actions/wsActionTypes";
 import { TWSActionTypes } from "../../utils/types/typesWS";
 
 export const socketMiddleware = (wsActions: TWSActionTypes): Middleware => {
@@ -28,7 +18,6 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware => {
     let socket: WebSocket | null = null;   
 
     return (next) => (action) => {
-      // const { dispatch, getState } = store;
       const { dispatch } = store;
       const { type, payload } = action;
    
@@ -38,28 +27,13 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware => {
             
       if (
         type === wsConnectStart.type
-        // type === wsConnectStart.type
-        // payload.name === "feed"
+
       ) {
         // объект класса WebSocket
-        // console.log(payload);
-        
         socket = new WebSocket(payload);
       }
-      // if (type === wsConnectStart.type && payload.name === "orders") {
-        
-        
-        // if (wsConnectStart.type && payload.token) {
-        // const token = payload.token.replace("Bearer ", "");
-        // socket = new WebSocket(`${wsUrl}?token=${token}`);
-        // }
-      // }
-
-      // console.log(socket);
 
       if (socket) {
-        // console.log(socket.url);
-
         // функция, которая вызывается при открытии сокета
         socket.onopen = (event) => {          
           dispatch(wsConnectSuccess());
@@ -74,7 +48,6 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware => {
         socket.onmessage = (event) => {
           if (
             socket
-            // socket.url === "wss://norma.nomoreparties.space/orders/all"
           ) {
             try {
             const { data } = event;            
@@ -83,10 +56,6 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware => {
             } catch(err) {
               console.log(err)
             }
-          // } else {
-          //   const { data } = event;
-          //   const parsedData = JSON.parse(data);
-          //   dispatch(wsGetMessageMy(parsedData));
           }
         };
         // функция, которая вызывается при закрытии соединения

@@ -3,12 +3,9 @@ import {
     wsConnectError,
     wsConnectClosed,
     wsGetData,
-    wsGetMessage,
-    wsGetMessageMy,
-    wsSetTitle
 } from '../actions/wsActionTypes'
 import { createReducer } from '@reduxjs/toolkit'
-import { TOrder, TGetMessage } from '../../utils/types/types'
+import { TGetMessage } from '../../utils/types/types'
 
 type TWSState = {
     wsConnected: boolean;

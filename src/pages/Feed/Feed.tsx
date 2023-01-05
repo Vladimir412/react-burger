@@ -24,7 +24,7 @@ const Feed: FC = () => {
   useEffect(() => {
     setTimeout(() => {
       dispatch(wsConnectStart(`${wsUrl}/all`));
-    }, 1000)
+    }, 1000);
 
     return () => {
       dispatch(wsConnectClosed());
@@ -32,7 +32,6 @@ const Feed: FC = () => {
   }, []);
 
   items = orders.map((i) => {
-
     return (
       <li key={i._id}>
         <FeedItem
@@ -49,7 +48,7 @@ const Feed: FC = () => {
         />
       </li>
     );
-  });  
+  });
 
   const orderNumberDone = orders.map((i) => {
     if (i.status === "done") {

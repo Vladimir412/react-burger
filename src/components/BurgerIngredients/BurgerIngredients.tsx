@@ -7,7 +7,6 @@ import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients: FC = () => {
   const { ingredients } = useAppSelector((store) => store.ingredientReducers);
-  
 
   const [bunTab, setBunTab] = useState<boolean>(true);
   const [sauceTab, setSauceTab] = useState<boolean>(false);
@@ -22,8 +21,8 @@ const BurgerIngredients: FC = () => {
   });
   const [sauceViewRef, sauceViewInView] = useInView({});
   const [mainViewRef, mainViewInView] = useInView({});
-  
-  const scrollIngredients = (value: {current: any}) => {    
+
+  const scrollIngredients = (value: { current: any }) => {
     value.current.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -49,21 +48,14 @@ const BurgerIngredients: FC = () => {
   };
 
   const newData = ingredients
-    ? ingredients.map((i) => (
-        <CardIngredient
-          key={i._id}
-          id={i._id}
-          {...i}
-        />
-      ))
+    ? ingredients.map((i) => <CardIngredient key={i._id} id={i._id} {...i} />)
     : null;
-    
 
   const bun = newData !== null && newData.filter((i) => i.props.type === "bun");
   const sauce =
     newData !== null && newData.filter((i) => i.props.type === "sauce");
   const main =
-    newData !== null && newData.filter((i) => i.props.type === "main");    
+    newData !== null && newData.filter((i) => i.props.type === "main");
 
   return (
     <section className={burgerIngredientsStyles.container}>

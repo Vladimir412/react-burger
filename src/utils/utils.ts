@@ -1,8 +1,4 @@
-import { TResponseBody, CustomResponse, TIngredient } from './types/types'
-
-// export const checkResponse = (res: CustomResponse<TResponseBody>): Promise<TResponseBody< '', {}>> => {
-//     return res.ok ? res.json() : res.json().then((err: object) => Promise.reject(err));
-//   };
+import { CustomResponse, TIngredient } from './types/types'
 
 export const checkResponse = <T>(res: CustomResponse): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err: object) => Promise.reject(err));
@@ -54,7 +50,7 @@ export const countTime = (timeInfo: string) => {
   return `${result}, ${timeResult} i-GMT+3`;
 };
 
-export const addZero = (number: number) => {
+export const addZero = (number: number): string => {
   let str = number.toString();
   if (str.length < 6) {
     for (let j: number = str.length; j < 6; j++) {
@@ -72,10 +68,5 @@ export const identityStatus = (status: string) => {
   } else {
     return "Создан"
   }
-  // status === "done"
-  // ? "Выполнен"
-  // : status === "pending"
-  // ? "Готовится"
-  // : "Создан"
 }
 

@@ -1,5 +1,4 @@
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import { type } from 'os';
 import {
     wsConnectStart,
     wsConnectSuccess,
@@ -7,16 +6,12 @@ import {
     wsConnectClosed,
     wsGetData,
     wsSendData,
-    wsGetMessage,
-    wsSendMessage
 } from '../../services/actions/wsActionTypes'
 
 import { TGetMessage, TOrder } from '../types/types'
 
 export type TWSConnectedStart = {
     type: typeof wsConnectStart;
-    // name?: string;
-    // token?: string
     payload?: string;
 }
 
@@ -43,20 +38,13 @@ type TWSSendData = {
 }
 
 export type TWSActions = 
-    // TWSConnectedStart: TWSConnectedStart,
-    // TWSConnectedSuccess: TWSConnectedSuccess,
-    // TWSConnectedError: TWSConnectedError,
-    // TWSConnectedClosed: TWSConnectedClosed,
-    // TWSGetData: TWSGetData,
-    // TWSSendData: TWSSendData,
     | TWSConnectedStart
     | TWSConnectedSuccess
     | TWSConnectedError
     | TWSConnectedClosed
     | TWSGetData
     | TWSSendData
-    // | TWSConnectedGetMessage
-    // | TWSConnectedSendMessage
+
 export type TWSActionTypes = {
     wsConnectStart: ActionCreatorWithPayload<string>,
     wsConnectSuccess: ActionCreatorWithoutPayload,

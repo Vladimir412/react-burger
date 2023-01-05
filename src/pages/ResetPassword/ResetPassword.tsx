@@ -1,5 +1,4 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { resetPasswordUser } from "../../services/actions/auth";
@@ -9,6 +8,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TLocation, TResetPassword } from '../../utils/types/types'
+
 /* @ts-ignore */
 const ResetPassword: FC = () => {
   const dispatch = useAppDispatch();

@@ -4,17 +4,24 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardIngredientStyles from "./CardIngredient.module.css";
 import { useLocation, Link } from "react-router-dom";
-import {
-  TCardIngredient,
-  TIngredient,
-} from "../../utils/types/types";
-import { useDispatch, useSelector } from "react-redux";
-import { useAppSelector, useAppDispatch } from "../../utils/hooks";
+import { TCardIngredient } from "../../utils/types/types";
+import { useAppSelector } from "../../utils/hooks";
 import { useDrag } from "react-dnd";
 import { useEffect, useState, FunctionComponent } from "react";
 
-    const CardIngredient: FunctionComponent<TCardIngredient> = ({ calories, carbohydrates, fat, price, proteins, image, image_large, name, type, id, _id }) => {
-  const dispatch = useDispatch();
+const CardIngredient: FunctionComponent<TCardIngredient> = ({
+  calories,
+  carbohydrates,
+  fat,
+  price,
+  proteins,
+  image,
+  image_large,
+  name,
+  type,
+  id,
+  _id,
+}) => {
   const location = useLocation<string>();
   const { ingredientsInConstructor } = useAppSelector(
     (state) => state.ingredientReducers
@@ -24,7 +31,19 @@ import { useEffect, useState, FunctionComponent } from "react";
 
   const [, dragRef] = useDrag({
     type: type === "bun" ? "bun" : "ingredient",
-    item: {calories, carbohydrates, fat, price, proteins, image, image_large, name, type, id, _id}
+    item: {
+      calories,
+      carbohydrates,
+      fat,
+      price,
+      proteins,
+      image,
+      image_large,
+      name,
+      type,
+      id,
+      _id,
+    },
   });
 
   const countQuantity = (): void => {
@@ -55,11 +74,7 @@ import { useEffect, useState, FunctionComponent } from "react";
         ref={dragRef}
       >
         {quntity > 0 && <Counter count={quntity} size="default" />}
-        <img
-          className={cardIngredientStyles.image}
-          src={image}
-          alt="Продукт"
-        />
+        <img className={cardIngredientStyles.image} src={image} alt="Продукт" />
         <div className={cardIngredientStyles.price}>
           <p className="mr-2">{price}</p>
           <CurrencyIcon type="primary" />

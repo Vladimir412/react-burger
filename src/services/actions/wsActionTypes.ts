@@ -1,5 +1,4 @@
 import { createAction } from "@reduxjs/toolkit";
-import { TWSActions } from '../../utils/types/typesWS'
 import { TGetMessage } from "../../utils/types/types";
 
 export const wsConnectStart = createAction<string,'WS_CONNECTION_START'>('WS_CONNECTION_START')
@@ -12,16 +11,6 @@ export const wsGetMessageMy = createAction<TGetMessage, 'WS_GET_MESSAGE_MY'>('WS
 export const wsSendData = createAction<"WS_SEND_DATA">("WS_SEND_DATA")
 export const wsSendMessage = createAction<'WS_SEND_MESSAGE'>('WS_SEND_MESSAGE')
 export const wsSetTitle = createAction<string, "WS_SET_TITLE">("WS_SET_TITLE")
-
-
-// export const wsActionTypes = {
-//     wsConnectStart: wsConnectStart.type,
-//     wsConnectSuccess: wsConnectSuccess.type,
-//     wsConnectError: wsConnectError.type,
-//     wsConnectClosed: wsConnectClosed.type,
-//     wsGetData: wsGetData.type,
-//     wsSendData: wsSendData.type,
-// }
 
 export const wsActionTypes = {
     wsConnectStart,

@@ -2,9 +2,6 @@ import {
     getIngredientsForConstructor,
     addIngredientInConstructor,
     removeIngredientInConstructor,
-    // addDataModalIngredient,
-    // removeDataModalIngredient,
-    // getAndUpdateNumberOreder,
     getIngredientsItemRequest,
     getIngredientsItemSuccess,
     getIngredientsItemError,
@@ -16,7 +13,6 @@ import { TIngredient, TIngredientDetails, TGetAndUpdateOrders } from './types'
 
 type TGetIngredientsForConstructor = {//+
     type: typeof getIngredientsForConstructor;
-    // payload: any;
 }
 
 type TAddIngredientInConstructor = {
@@ -26,23 +22,7 @@ type TAddIngredientInConstructor = {
 
 type TRemoveIngredientInConstructor = {
     type: typeof removeIngredientInConstructor;
-    // payload: any;
 }
-
-// type TAddDataModalIngredient = {
-//     type: typeof addDataModalIngredient;
-//     payload: any;
-// }
-
-// type TRemoveDataModalIngredient = {
-//     type: typeof removeDataModalIngredient;
-//     payload: any
-// }
-
-// type TGetAndUpdateNumberOreder = {
-//     type: typeof getAndUpdateNumberOreder;
-//     payload: any;//???????
-// }
 
 type TGetIngredientsItemRequest = {
     type: typeof getIngredientsItemRequest;
@@ -74,9 +54,6 @@ export type TActionsActions =
     | TGetIngredientsForConstructor
     | TAddIngredientInConstructor
     | TRemoveIngredientInConstructor
-    // | TAddDataModalIngredient
-    // | TRemoveDataModalIngredient
-    // | TGetAndUpdateNumberOreder
     | TGetIngredientsItemRequest
     | TGetIngredientsItemSuccess
     | TGetIngredientsItemError

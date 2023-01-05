@@ -3,25 +3,19 @@ import orderInformationStyles from "./OrderInformation.module.css";
 import OrderInformationItem from "../OrderInformationItem/OrderInformationItem";
 import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { useLocation, useParams } from "react-router-dom";
-import { TGetMessage, TIngredient } from "../../utils/types/types";
+import { TIngredient } from "../../utils/types/types";
 import {
   wsConnectClosed,
   wsConnectStart,
   wsSetTitle,
 } from "../../services/actions/wsActionTypes";
-import 
-  * as myWs
-  // wsConnectClosed,
-  // wsConnectStart,
-  // wsSetTitle,
- from "../../services/actions/wsActionMyTypes";
+import * as myWs from "../../services/actions/wsActionMyTypes";
 import {
   identityStatus,
   addZero,
   countTime,
   countPrice,
 } from "../../utils/utils";
-import { v4 as uuidv4 } from "uuid";
 import { Location } from "history";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { wsUrl } from "../../utils/constans";
@@ -36,13 +30,9 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
 
   useEffect(() => {
     if (location.pathname.includes("/profile/orders/")) {
-      console.log("GG");
-      
       const token = accessToken.replace("Bearer ", "");
       dispatch(myWs.wsConnectStart(`${wsUrl}?token=${token}`));
     } else {
-      console.log("????");
-      
       dispatch(wsConnectStart(`${wsUrl}/all`));
     }
     return () => {
@@ -52,36 +42,23 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   }, []);
 
   const { orders } = useAppSelector((store) => store.wsReducer); // массив заказов
-  const { myOrders } = useAppSelector((store) => store.wsReducerMy)
+  const { myOrders } = useAppSelector((store) => store.wsReducerMy);
   const { ingredients } = useAppSelector((store) => store.ingredientReducers); // массив ингредиентов
   const orderId = useParams<{ id: string }>();
-  const background = location?.state && location?.state?.background;
   let data: Array<ReactNode> = [];
 
-  // const order = location.pathname.includes("/feed")
-  //   ? orders &&
-  //     orders.length > 0 &&
-  //     orders.find((i) => i._id === orderId.id)
-  //   : myOrders &&
-  //     myOrders.length > 0 &&
-  //     myOrders.find((i) => i._id === orderId.id);
   const order = location.pathname.includes("/profile/orders/")
-  ? myOrders &&
-    myOrders.length > 0 &&
-    myOrders.find((i) => i._id === orderId.id)
-  : orders &&
-    orders.length > 0 &&
-    orders.find((i) => i._id === orderId.id);
-    console.log(order);
-    console.log(location.pathname);
-    
+    ? myOrders &&
+      myOrders.length > 0 &&
+      myOrders.find((i) => i._id === orderId.id)
+    : orders && orders.length > 0 && orders.find((i) => i._id === orderId.id);
 
   const countItems =
     order &&
-    order.ingredients.reduce((acc: any, item: string) => {            
+    order.ingredients.reduce((acc: any, item: string) => {
       acc[item] = acc[item] ? acc[item] + 1 : 1; // если элемент уже был, то прибавляем 1, если нет - устанавливаем 1
       return acc;
-    }, {});    
+    }, {});
 
   const result = Object.keys(countItems).map((item) => {
     return { id: item, quantity: countItems[item] };
@@ -104,7 +81,6 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
 
     data.push(
       <li key={id} id={id}>
-        {/* <li key={uuidv4()} id={id}> */}
         <OrderInformationItem
           image={image}
           title={name}
@@ -122,14 +98,11 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
       dispatch(wsSetTitle(""));
     };
   }, []);
-  console.log(data);
-  
 
-  const statusStyle = (order !== undefined && order &&
-    identityStatus(order.status) === "Выполнен"
+  const statusStyle =
+    order !== undefined && order && identityStatus(order.status) === "Выполнен"
       ? orderInformationStyles.status_type_done
-      : orderInformationStyles.status_type_other);
-  
+      : orderInformationStyles.status_type_other;
 
   const containerStyles = withoutModal
     ? orderInformationStyles.container_type_withOutModal
@@ -142,9 +115,6 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
   const infoStyles = withoutModal
     ? orderInformationStyles.info_type_withOutModal
     : orderInformationStyles.info_type_withModal;
-
-    console.log(order, data, data.length);
-    
 
   if (orders && order && data && data.length > 0) {
     return (
@@ -180,8 +150,7 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
       </>
     );
   } else {
-    return <Preloader />
-    // return <p style={{ color: "white" }}>Waiting...</p>;
+    return <Preloader />;
   }
 };
 

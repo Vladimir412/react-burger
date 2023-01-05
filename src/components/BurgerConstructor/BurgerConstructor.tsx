@@ -6,7 +6,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructor from "./BurgerConstructor.module.css";
 import { TIngredientDetails } from "../../utils/types/types";
-import { useSelector, useDispatch } from "react-redux";
 import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { sentDataOrder } from "../../services/actions/actions";
 import { useHistory, useLocation } from "react-router-dom";
@@ -157,9 +156,5 @@ const BurgerConstructor: FC = () => {
     </section>
   );
 };
-
-// BurgerConstructor.propTypes = {
-//   openModalOrder: typesOfOpenModalOrder,
-// };
 
 export default BurgerConstructor;
