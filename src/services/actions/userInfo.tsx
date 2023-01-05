@@ -1,9 +1,4 @@
-import {
-  createAction,
-  PayloadAction,
-  ActionCreatorWithPayload,
-  ActionCreatorWithoutPayload,
-} from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
 import { getInfoUser, updateInfoUser, updateToken } from "../../utils/apiAuth";
 import { TUserInfo, AppDispatch, TRegister } from "../../utils/types/types";
 

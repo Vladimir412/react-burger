@@ -1,4 +1,4 @@
-import { createReducer, PayloadAction } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import {
   userInfoItemRequest,
   userInfoItemSuccess,
@@ -7,7 +7,6 @@ import {
   userInfoUpdateItemSuccess,
   userInfoUpdateItemFailed,
 } from "../actions/userInfo";
-import { TUserInfoActions } from '../../utils/types/typesActionUserInfo'
 
 type TUserInitialState = {
   name: string;

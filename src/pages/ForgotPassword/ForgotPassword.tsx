@@ -1,8 +1,7 @@
 import forgotPasswordStyles from "./ForgotPassword.module.css";
-import { useState, FC, FormEvent, ChangeEvent} from "react";
+import { useState, FC, FormEvent, ChangeEvent } from "react";
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { recoveryPasswordUser } from "../../services/actions/auth";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import {
   Button,
@@ -22,7 +21,7 @@ const ForgotPassword: FC = () => {
     setEmail(e.target.value);
   };
 
-  const onHandleSubmit = (e: FormEvent<HTMLFormElement>):void => {
+  const onHandleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(recoveryPasswordUser(email));
     setEmail("");
@@ -54,10 +53,7 @@ const ForgotPassword: FC = () => {
           />
         </div>
         <div className={forgotPasswordStyles.buttonSubmit}>
-          <Button
-            size="medium"
-            disabled={disabledButton}
-          >
+          <Button size="medium" disabled={disabledButton}>
             Восстановить
           </Button>
         </div>

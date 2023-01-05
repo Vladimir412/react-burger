@@ -1,8 +1,5 @@
-import { type } from "@testing-library/user-event/dist/type";
-import PropTypes from "prop-types";
 import { ReactNode } from "react";
 import { ThunkAction } from "redux-thunk";
-import { Action, ActionCreator } from "redux";
 import { store } from "../../index";
 import { TUserInfoActions } from "./typesActionUserInfo";
 import { TActionsActions } from "./typesActionsActions";
@@ -85,12 +82,13 @@ type TSuccess = {
 
 export type TAccessToken = {
   accessToken: string;
-}
+};
 
-export type TRegisterUserItemSuccess = TSuccess & TUserInfo & {
-  accessToken: string;
-  refreshToken: string;
-}
+export type TRegisterUserItemSuccess = TSuccess &
+  TUserInfo & {
+    accessToken: string;
+    refreshToken: string;
+  };
 
 export type TResponseGetData<T> = TSuccess & {
   data: Array<T>;
@@ -135,9 +133,9 @@ export type TResponseRegisterAndLogin = TSuccess & {
   refreshToken: string;
 };
 
-export type TUpdateUserItem = Omit<TResponseRegisterAndLogin, 'user'> & {
-  user: Omit<TRegister, 'password'>
-}
+export type TUpdateUserItem = Omit<TResponseRegisterAndLogin, "user"> & {
+  user: Omit<TRegister, "password">;
+};
 
 export type TRecoveryPasswordAndResetPasswordAndLogout = TSuccess & {
   message: string;

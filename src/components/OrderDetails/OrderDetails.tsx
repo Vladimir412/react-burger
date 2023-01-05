@@ -1,5 +1,4 @@
 import orderDetailsStyles from "./OrderDetails.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector } from "../../utils/hooks";
 import { FC } from "react";
 

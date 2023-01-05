@@ -7,14 +7,17 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TLocation, TResetPassword } from '../../utils/types/types'
+import { TLocation, TResetPassword } from "../../utils/types/types";
 
 /* @ts-ignore */
 const ResetPassword: FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const location: TLocation = useLocation();
-  const [inputs, setInputs] = useState<TResetPassword>({ password: "", token: "" });
+  const [inputs, setInputs] = useState<TResetPassword>({
+    password: "",
+    token: "",
+  });
   const { isLogged } = useAppSelector((store) => store.authReducer);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -66,10 +69,7 @@ const ResetPassword: FC = () => {
             />
           </div>
           <div className={resetPasswordStyles.buttonSubmit}>
-            <Button
-              size="medium"
-              disabled={disabledButton}
-            >
+            <Button size="medium" disabled={disabledButton}>
               Сохранить
             </Button>
           </div>

@@ -17,14 +17,14 @@ import {
   upadateUserItemSuccess,
   upadateUserItemFailed,
 } from "../actions/auth";
-import { updateTokenUser } from '../actions/userInfo'
+import { updateTokenUser } from "../actions/userInfo";
 
 type TAuthInitialState = {
   isLoading: boolean;
   isError: boolean;
   accessToken: string;
   isLogged: boolean;
-}
+};
 
 const authInitialState: TAuthInitialState = {
   isLoading: false,
@@ -149,8 +149,8 @@ export default createReducer(authInitialState, {
   [updateTokenUser.type]: (state, action) => {
     return {
       ...state,
-      accessToken: action.payload.accessToken
-    }
+      accessToken: action.payload.accessToken,
+    };
   },
   default: (state) => state,
 });

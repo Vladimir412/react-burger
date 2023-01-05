@@ -6,7 +6,7 @@ import {
   TResponseRegisterAndLogin,
   TRecoveryPasswordAndResetPasswordAndLogout,
   TUpdateToken,
-  TGetAndUpdateInfoUser
+  TGetAndUpdateInfoUser,
 } from "./types/types";
 
 export const signUp = ({ email, password, name }: TRegister) => {
@@ -38,7 +38,9 @@ export const recoveryPassword = (email: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email }),
-  }).then((res) => checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res));
+  }).then((res) =>
+    checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res)
+  );
 };
 
 export const resetPassword = (password: string, token: string) => {
@@ -48,7 +50,9 @@ export const resetPassword = (password: string, token: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, token }),
-  }).then((res) => checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res));
+  }).then((res) =>
+    checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res)
+  );
 };
 
 export const logOut = (refreshToken: string) => {
@@ -58,7 +62,9 @@ export const logOut = (refreshToken: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ token: refreshToken }),
-  }).then((res) => checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res));
+  }).then((res) =>
+    checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res)
+  );
 };
 
 export const getInfoUser = (accessToken: string) => {
