@@ -2,12 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {
-  Route,
-  Switch,
-  useLocation,
-  useHistory,
-} from "react-router-dom";
+import { Route, Switch, useLocation, useHistory } from "react-router-dom";
 import ProtectedRoute from "../../pages/ProtectedRoute/ProtectedRoute";
 import appStyles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
@@ -26,26 +21,27 @@ import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
 import Orders from "../Orders/Oreders";
 import Feed from "../../pages/Feed/Feed";
-import OrderInformation from '../OrderInformation/OrderInformation';
-import { withoutModal } from '../../utils/constans'
-import {Location} from "history";
-
+import OrderInformation from "../OrderInformation/OrderInformation";
+import { withoutModal } from "../../utils/constans";
+import { Location } from "history";
 
 function App() {
-  
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const location = useLocation<{background?: Location<{} | null | undefined>}>();
+  const location = useLocation<{
+    background?: Location<{} | null | undefined>;
+  }>();
   const background = location?.state && location?.state?.background;
 
   //получаем данные ингридиентов
-  useEffect(() => {    
+  useEffect(() => {
     dispatch(getDataIngredients());
   }, []);
 
-  const { isLogged, accessToken } = useAppSelector((state) => state.authReducer);
+  const { isLogged, accessToken } = useAppSelector(
+    (state) => state.authReducer
+  );
   const refreshToken: string | null = localStorage.getItem("refreshToken");
-  
 
   useEffect(() => {
     if (isLogged) {
@@ -56,10 +52,9 @@ function App() {
   }, [isLogged]);
 
   //закрытие попапа
-  const closeModal = (): void => {
+  const closeModal = (): void => {    
     history.goBack();
   };
-  
 
   return (
     <>
@@ -70,8 +65,7 @@ function App() {
             <main className={appStyles.main}>
               <DndProvider backend={HTML5Backend}>
                 <BurgerIngredients />
-                <BurgerConstructor
-                 />
+                <BurgerConstructor />
               </DndProvider>
             </main>
           </Route>
@@ -104,14 +98,14 @@ function App() {
             />
           )}
           {location && (
-             <Route
-             path="/feed/:id"
-             exact
-             children={<OrderInformation withoutModal={withoutModal} />}
-           />
+            <Route
+              path="/feed/:id"
+              exact
+              children={<OrderInformation withoutModal={withoutModal} closeModal={closeModal}/>}
+            />
           )}
           {location && (
-            <ProtectedRoute 
+            <ProtectedRoute
               path="/profile/orders/:id"
               exact
               children={<OrderInformation withoutModal={withoutModal} />}
@@ -120,7 +114,7 @@ function App() {
         </Switch>
       </div>
       {background && (
-        <ProtectedRoute 
+        <ProtectedRoute
           path="/profile/orders/:id"
           exact
           children={
@@ -130,12 +124,16 @@ function App() {
           }
         />
       )}
-      
+
       {background && (
         <Route
           path="/ingredients/:ingredientId"
           children={
-            <Modal title="Детали ингредиента" closeModal={closeModal} stateHeader={true}>
+            <Modal
+              title="Детали ингредиента"
+              closeModal={closeModal}
+              stateHeader={true}
+            >
               <IngredientDetails />
             </Modal>
           }

@@ -20,8 +20,12 @@ import { Location } from "history";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { wsUrl } from "../../utils/constans";
 import Preloader from "../Preloader/Preloader";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
+const OrderInformation: FC<{
+  withoutModal?: string;
+  closeModal?: () => void;
+}> = ({ withoutModal, closeModal }) => {
   const dispatch = useAppDispatch();
   const location = useLocation<{
     background?: Location<{} | null | undefined>;
@@ -126,6 +130,13 @@ const OrderInformation: FC<{ withoutModal?: string }> = ({ withoutModal }) => {
             >
               {`#${addZero(order.number)}`}
             </p>
+          )}
+          {!withoutModal && (
+            <header className={orderInformationStyles.header}>
+              <h1
+                className={`${orderInformationStyles.header__title} text text_type_digits-default`}
+              >{`#${addZero(order.number)}`}</h1>
+            </header>
           )}
           <h1 className={`${titleStyles} text text_type_main-medium`}>
             {order.name}

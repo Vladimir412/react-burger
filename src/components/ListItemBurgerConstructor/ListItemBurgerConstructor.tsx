@@ -5,30 +5,27 @@ import { addIngredientInConstructor } from "../../services/actions/actions";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { useState, useEffect, FC } from "react";
-import { TIngredient, IItemBurgerConstructor } from '../../utils/types/types'
+import { TIngredient, IItemBurgerConstructor } from "../../utils/types/types";
 
 const ListItemBurgerConstructor: FC = () => {
   const { ingredientsInConstructor } = useAppSelector(
     (store) => store.ingredientReducers
   );
   const dispatch = useAppDispatch();
-  const [ingredients, setIngredients] = useState<Array<IItemBurgerConstructor>>([]);
+  const [ingredients, setIngredients] = useState<Array<IItemBurgerConstructor>>(
+    []
+  );
   useEffect(() => {
-    const arrWithoutBun: Array<IItemBurgerConstructor> = ingredientsInConstructor.filter(
-      (i) => {       
-        console.log(i);
-         
-       return i.type !== "bun"
-      }
-    );
-    console.log(arrWithoutBun);
+    const arrWithoutBun: Array<IItemBurgerConstructor> =
+      ingredientsInConstructor.filter((i) => {
+        return i.type !== "bun";
+      });
     setIngredients(arrWithoutBun);
   }, [ingredientsInConstructor]);
-  
 
   const [, dropIngredientRef] = useDrop({
     accept: "ingredient",
-    drop(data: TIngredient) {      
+    drop(data: TIngredient) {
       handleDrop(data);
     },
   });
@@ -36,7 +33,8 @@ const ListItemBurgerConstructor: FC = () => {
   const handleDrop = (data: TIngredient): void => {
     if (ingredientsInConstructor && ingredientsInConstructor.length > 0) {
       {/* @ts-ignore */}
-      dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },]));
+      dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },])
+      );
     } else {
       {/* @ts-ignore */}
       dispatch(addIngredientInConstructor([{ ...data, dragId: uuidv4() }]));
