@@ -7,18 +7,29 @@ import {
   logOut,
   updateToken,
 } from "../../utils/apiAuth";
-import { getInfoAboutUser } from '../actions/userInfo'
+import { getInfoAboutUser } from "./userInfo";
+import {
+  AppDispatch,
+  TLogin,
+  TRegister,
+  TResponseRegisterAndLogin,
+  TUpdateToken,
+} from "../../utils/types/types";
 
 export const registerUserItemRequest = createAction(
   "REGISTER_USER_ITEM_REQUEST"
 );
-export const registerUserItemSuccess = createAction(
+export const registerUserItemSuccess = createAction<
+  TResponseRegisterAndLogin,
   "REGISTER_USER_ITEM_SUCCESS"
-);
+>("REGISTER_USER_ITEM_SUCCESS");
 export const registerUserItemFailed = createAction("REGISTER_USER_ITEM_FAILED");
 
 export const loginUserItemRequest = createAction("LOGIN_USER_ITEM_REQUEST");
-export const loginUserItemSuccess = createAction("LOGIN_USER_ITEM_SUCCESS");
+export const loginUserItemSuccess = createAction<
+  TUpdateToken,
+  "LOGIN_USER_ITEM_SUCCESS"
+>("LOGIN_USER_ITEM_SUCCESS");
 export const loginUserItemFailed = createAction("LOGIN_USER_ITEM_FAILED");
 
 export const resetPasswordUserItemRequest = createAction(
@@ -35,16 +46,19 @@ export const logOutItemRequest = createAction("LOG_OUT_ITEM_REQUEST");
 export const logOutItemSuccess = createAction("LOG_OUT_ITEM_SUCCESS");
 export const logOutItemFailed = createAction("LOG_OUT_ITEM_FAILED");
 
-export const upadateUserItemRequest = createAction('UPDATE_USER_ITEM_REQUEST')
-export const upadateUserItemSuccess = createAction('UPDATE_USER_ITEM_SUCCESS')
-export const upadateUserItemFailed = createAction('UPDATE_USER_ITEM_FAILED')
+export const upadateUserItemRequest = createAction("UPDATE_USER_ITEM_REQUEST");
+export const upadateUserItemSuccess = createAction<
+  TUpdateToken,
+  "UPDATE_USER_ITEM_SUCCESS"
+>("UPDATE_USER_ITEM_SUCCESS");
+export const upadateUserItemFailed = createAction("UPDATE_USER_ITEM_FAILED");
 
 export const forgotPassworUser = createAction("FORGOT_PASSWORD_USER");
 
-export const signUpUser = (email, password, name) => {
-  return function (dispatch) {
+export const signUpUser = ({ email, password, name }: TRegister) => {
+  return function (dispatch: AppDispatch) {
     dispatch(registerUserItemRequest());
-    signUp(email, password, name)
+    signUp({ email, password, name })
       .then((data) => {
         if (data) {
           dispatch(registerUserItemSuccess(data));
@@ -57,10 +71,10 @@ export const signUpUser = (email, password, name) => {
   };
 };
 
-export const signInUser = (email, password) => {
-  return function (dispatch) {
+export const signInUser = ({ email, password }: TLogin) => {
+  return function (dispatch: AppDispatch) {
     dispatch(loginUserItemRequest());
-    signIn(email, password)
+    signIn({ email, password })
       .then((data) => {
         if (data && data.success) {
           dispatch(loginUserItemSuccess(data));
@@ -75,13 +89,12 @@ export const signInUser = (email, password) => {
   };
 };
 
-export const recoveryPasswordUser = (email) => {
-  return function (dispatch) {
+export const recoveryPasswordUser = (email: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(resetPasswordUserItemRequest());
     recoveryPassword(email)
       .then((data) => {
         if (data && data.success) {
-          //перенаправить пользователя
         } else {
           dispatch(resetPasswordUserItemFailed());
         }
@@ -90,12 +103,11 @@ export const recoveryPasswordUser = (email) => {
   };
 };
 
-export const resetPasswordUser = (password, token) => {
-  return function (dispatch) {
+export const resetPasswordUser = (password: string, token: string) => {
+  return function (dispatch: AppDispatch) {
     resetPassword(password, token)
       .then((data) => {
         if (data && data.success) {
-          console.log("good");
           //переадресация
         } else {
           dispatch(resetPasswordUserItemFailed());
@@ -105,15 +117,14 @@ export const resetPasswordUser = (password, token) => {
   };
 };
 
-export const logOutUser = (refreshToken) => {
-  return function (dispatch) {
+export const logOutUser = (refreshToken: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(logOutItemRequest());
     logOut(refreshToken)
       .then((data) => {
         if (data && data.success) {
           dispatch(logOutItemSuccess());
           localStorage.removeItem("refreshToken");
-          //переадресация
         } else {
           dispatch(logOutItemFailed());
         }
@@ -123,29 +134,31 @@ export const logOutUser = (refreshToken) => {
 };
 
 export const updateTokenUser = () => {
-  return function (dispatch) {
-    dispatch(upadateUserItemRequest())
-    updateToken().then((data) => {
-      if (data && data.success) {
-        dispatch(upadateUserItemSuccess(data))
-      } else {
-        dispatch(upadateUserItemFailed())
-      }
-    })
-    .catch(err => dispatch(upadateUserItemFailed()))
+  return function (dispatch: AppDispatch) {
+    dispatch(upadateUserItemRequest());
+    updateToken()
+      .then((data) => {
+        if (data && data.success) {
+          dispatch(upadateUserItemSuccess(data));
+        } else {
+          dispatch(upadateUserItemFailed());
+        }
+      })
+      .catch((err) => dispatch(upadateUserItemFailed()));
   };
 };
 
-export const autoLogin = () => (dispatch) => {
-  dispatch(upadateUserItemRequest())
-  updateToken().then(data => {
-    if (data && data.success) {
-      localStorage.setItem('refreshToken', data.refreshToken)
-      dispatch(loginUserItemSuccess(data))
-      dispatch(getInfoAboutUser(data.accessToken))
-    } else {
-      dispatch(upadateUserItemFailed())
-    }
-  })
-  .catch(err => dispatch(upadateUserItemFailed()))
+export const autoLogin = () => (dispatch: AppDispatch) => {
+  dispatch(upadateUserItemRequest());
+  updateToken()
+    .then((data) => {
+      if (data && data.success) {
+        localStorage.setItem("refreshToken", data.refreshToken);
+        dispatch(loginUserItemSuccess(data));
+        dispatch(getInfoAboutUser(data.accessToken));
+      } else {
+        dispatch(upadateUserItemFailed());
+      }
+    })
+    .catch((err) => dispatch(upadateUserItemFailed()));
 };

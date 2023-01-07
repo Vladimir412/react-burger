@@ -1,14 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useLocation,
-  useHistory,
-} from "react-router-dom";
+import { Route, Switch, useLocation, useHistory } from "react-router-dom";
 import ProtectedRoute from "../../pages/ProtectedRoute/ProtectedRoute";
 import appStyles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
@@ -26,37 +20,39 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Profile from "../Profile/Profile";
 import Orders from "../Orders/Oreders";
-import { withoutModal } from '../../utils/constans'
-import {Location} from "history";
-
+import Feed from "../../pages/Feed/Feed";
+import OrderInformation from "../OrderInformation/OrderInformation";
+import { withoutModal } from "../../utils/constans";
+import { Location } from "history";
 
 function App() {
-  
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const location = useLocation<{background?: Location<{} | null | undefined>}>();
+  const location = useLocation<{
+    background?: Location<{} | null | undefined>;
+  }>();
   const background = location?.state && location?.state?.background;
 
   //получаем данные ингридиентов
-  useEffect(() => {    
+  useEffect(() => {
     dispatch(getDataIngredients());
   }, []);
 
-  const { isLogged, accessToken } = useSelector((state: any) => state.authReducer);
+  const { isLogged, accessToken } = useAppSelector(
+    (state) => state.authReducer
+  );
   const refreshToken: string | null = localStorage.getItem("refreshToken");
 
   useEffect(() => {
     if (isLogged) {
-      /* @ts-ignore */
       dispatch(getInfoAboutUser(accessToken));
     } else if (!isLogged && refreshToken) {
-      /* @ts-ignore */
       dispatch(autoLogin());
     }
   }, [isLogged]);
 
   //закрытие попапа
-  const closeModal = (): void => {
+  const closeModal = (): void => {    
     history.goBack();
   };
 
@@ -69,8 +65,7 @@ function App() {
             <main className={appStyles.main}>
               <DndProvider backend={HTML5Backend}>
                 <BurgerIngredients />
-                <BurgerConstructor
-                 />
+                <BurgerConstructor />
               </DndProvider>
             </main>
           </Route>
@@ -86,6 +81,9 @@ function App() {
           <Route path="/reset-password">
             <ResetPassword />
           </Route>
+          <Route path="/feed" exact>
+            <Feed />
+          </Route>
           <ProtectedRoute path="/profile" exact>
             <Profile />
           </ProtectedRoute>
@@ -99,13 +97,43 @@ function App() {
               children={<IngredientDetails withoutModal={withoutModal} />}
             />
           )}
+          {location && (
+            <Route
+              path="/feed/:id"
+              exact
+              children={<OrderInformation withoutModal={withoutModal} closeModal={closeModal}/>}
+            />
+          )}
+          {location && (
+            <ProtectedRoute
+              path="/profile/orders/:id"
+              exact
+              children={<OrderInformation withoutModal={withoutModal} />}
+            />
+          )}
         </Switch>
       </div>
+      {background && (
+        <ProtectedRoute
+          path="/profile/orders/:id"
+          exact
+          children={
+            <Modal closeModal={closeModal} stateHeader={false}>
+              <OrderInformation />
+            </Modal>
+          }
+        />
+      )}
+
       {background && (
         <Route
           path="/ingredients/:ingredientId"
           children={
-            <Modal title="Детали ингредиента" closeModal={closeModal}>
+            <Modal
+              title="Детали ингредиента"
+              closeModal={closeModal}
+              stateHeader={true}
+            >
               <IngredientDetails />
             </Modal>
           }
@@ -115,8 +143,19 @@ function App() {
         <Route
           path="/orders/:orderId"
           children={
-            <Modal closeModal={closeModal} title="">
+            <Modal closeModal={closeModal} title="" stateHeader={true}>
               <OrderDetails />
+            </Modal>
+          }
+        />
+      )}
+      {background && (
+        <Route
+          // path="/feed/:order"
+          path="/feed/:id"
+          children={
+            <Modal closeModal={closeModal} stateHeader={false}>
+              <OrderInformation />
             </Modal>
           }
         />

@@ -1,28 +1,30 @@
 import { createAction } from "@reduxjs/toolkit";
-import { getData, sentDataIngredients } from "../../utils/dataApi.ts";
+import { getData, sentDataIngredients } from "../../utils/dataApi";
+import {
+  AppDispatch,
+  TIngredientDetails,
+  TIngredient,
+  TGetAndUpdateOrders,
+} from "../../utils/types/types";
 
 export const getIngredientsForConstructor = createAction(
   "GET_INGREDIENTS_FOR_CONSTRUCTOR"
 );
-export const addIngredientInConstructor = createAction(
+export const addIngredientInConstructor = createAction<
+  Array<TIngredientDetails>,
   "ADD_INGREDIENT_IN_CONSTRUCTOR"
-);
+>("ADD_INGREDIENT_IN_CONSTRUCTOR");
 export const removeIngredientInConstructor = createAction(
   "REMOVE_INGREDIENT_IN_CONSTRUCTOR"
 );
-export const addDataModalIngredient = createAction("ADD_DATA_MODAL_INGREDIENT");
-export const removeDataModalIngredient = createAction(
-  "REMOVE_DATA_MODAL_INGREDIENT"
-);
-export const getAndUpdateNumberOreder = createAction(
-  "GET_AND_UPDATE_NUMBER_ORDER"
-);
+
 export const getIngredientsItemRequest = createAction(
   "GET_INGREDIENTS_ITEM_REQUEST"
 );
-export const getIngredientsItemSuccess = createAction(
+export const getIngredientsItemSuccess = createAction<
+  Array<TIngredient>,
   "GET_INGREDIENTS_ITEM_SUCCESS"
-);
+>("GET_INGREDIENTS_ITEM_SUCCESS");
 export const getIngredientsItemError = createAction(
   "GET_INGREDIENTS_ITEM_ERROR"
 );
@@ -30,9 +32,10 @@ export const getIngredientsItemError = createAction(
 export const getAndUpdateNumberOrderItemRequest = createAction(
   "GET_AND_UPDATE_NUMBER_ORDER_REQUEST"
 );
-export const getAndUpdateNumberOrderItemSuccess = createAction(
+export const getAndUpdateNumberOrderItemSuccess = createAction<
+  TGetAndUpdateOrders,
   "GET_AND_UPDATE_NUMBER_ORDER_SUCCESS"
-);
+>("GET_AND_UPDATE_NUMBER_ORDER_SUCCESS");
 export const getAndUpdateNumberOrderItemError = createAction(
   "GET_AND_UPDATE_NUMBER_ORDER_ERROR"
 );
@@ -48,12 +51,12 @@ export const modalIngredientItemClosed = createAction(
 );
 
 export const getDataIngredients = () => {
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     dispatch(getIngredientsItemRequest());
     getData()
       .then((data) => {
-        if (data) {
-          dispatch(getIngredientsItemSuccess(data));
+        if (data && data.success) {
+          dispatch(getIngredientsItemSuccess(data.data));
         } else {
           dispatch(getIngredientsItemError());
         }
@@ -64,14 +67,18 @@ export const getDataIngredients = () => {
   };
 };
 
-export const sentDataOrder = (order, accessToken, openModalOrder) => {
-  return function (dispatch) {
+export const sentDataOrder = (
+  order: Array<TIngredientDetails>,
+  accessToken: string,
+  openModalOrder: (num: number) => void
+) => {
+  return function (dispatch: AppDispatch) {
     dispatch(getAndUpdateNumberOrderItemRequest());
     sentDataIngredients(order, accessToken)
       .then((data) => {
         if (data) {
           dispatch(getAndUpdateNumberOrderItemSuccess(data));
-          openModalOrder(data.order.number)
+          openModalOrder(data.order.number);
         } else {
           dispatch(getAndUpdateNumberOrderItemError());
         }

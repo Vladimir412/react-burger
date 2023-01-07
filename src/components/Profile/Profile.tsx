@@ -3,21 +3,28 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { useEffect, useState, FC, ChangeEvent, FormEvent, SyntheticEvent } from "react";
+import {
+  useEffect,
+  useState,
+  FC,
+  ChangeEvent,
+  FormEvent,
+  SyntheticEvent,
+} from "react";
 import profileStyles from "./Profile.module.css";
 import { logOutUser } from "../../services/actions/auth";
 import { updateInfoAboutUser } from "../../services/actions/userInfo";
-import { useDispatch, useSelector } from "react-redux";
-import { TRegister } from "../../utils/types";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
+import { TRegister } from "../../utils/types/types";
 
 const Profile: FC = () => {
-  const { isLogged, accessToken } = useSelector(
-    (state: any) => state.authReducer
+  const { isLogged, accessToken } = useAppSelector(
+    (store) => store.authReducer
   );
-  const { name, email, isLoading } = useSelector(
-    (state: any) => state.userReducer
+  const { name, email, isLoading } = useAppSelector(
+    (store) => store.userReducer
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location: { state: string } = useLocation();
   const regEmail: RegExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
@@ -54,14 +61,12 @@ const Profile: FC = () => {
 
   const handleLogOut = (e: SyntheticEvent): void => {
     e.preventDefault();
-    {/* @ts-ignore */}
-    dispatch(logOutUser(refreshToken));
+    refreshToken !== null && dispatch(logOutUser(refreshToken));
   };
 
   const handleUpdateDataUser = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setInitialInputs({ ...inputs });
-    {/* @ts-ignore */}
     dispatch(updateInfoAboutUser({ ...inputs, accessToken }));
   };
 

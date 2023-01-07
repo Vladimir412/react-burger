@@ -1,0 +1,19 @@
+.list_type_complete {
+    list-style: none;
+    color: #00CCCC;
+    max-height: 150px;
+    display: flex;
+    flex-flow: column wrap;
+    margin-top: 22px;
+    max-height: 170px;
+}
+
+.list_type_inWork {
+    composes: list_type_complete;
+    color: #F2F2F3;
+}
+
+.container {
+    width: 100%;
+    margin-left: 40px;
+}

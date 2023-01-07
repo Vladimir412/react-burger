@@ -1,5 +1,5 @@
 import React from "react";
-import { compose, createStore, applyMiddleware } from "redux";
+import { compose, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
@@ -9,6 +9,9 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducers";
 import thunk from "redux-thunk";
+import { socketMiddleware } from "./services/middlewares/socketMiddleware";
+import { wsActionTypes } from "./services/actions/wsActionTypes";
+import { wsActionMyTypes } from "./services/actions/wsActionMyTypes";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -16,12 +19,12 @@ const composeEnhancers =
     : compose;
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(socketMiddleware(wsActionTypes), socketMiddleware(wsActionMyTypes)),
   enhancer,
 });
 

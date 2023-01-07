@@ -1,9 +1,9 @@
 .container {
     display: flex;
     flex-flow: row nowrap;
-    width: 1280px;
+    width: 100%;
+    max-width: 1280px;
     margin: auto;
-    margin-top: 120px;
     justify-content: flex-start;
 }
 
@@ -11,6 +11,8 @@
     list-style: none;
     padding: 0;
     padding-top: 2px;
+    margin-top: 137px;
+
 }
 
 .listItem__item {
@@ -45,4 +47,29 @@
 .buttonExit:hover {
     cursor: pointer;
     
+}
+
+.orderConatiner {
+    width: 900px;
+    overflow-y: auto;
+    max-height: 800px;
+    margin-top: 22px;
+    margin-left: 48px;
+}
+
+.orderConatiner::-webkit-scrollbar {
+    width: 7px;
+}
+
+.orderConatiner::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.orderConatiner::-webkit-scrollbar-track {
+    background-color: #2F2F37;
+}
+
+.orderConatiner__list {
+    width: 100%;
+    max-width: 796px;
 }

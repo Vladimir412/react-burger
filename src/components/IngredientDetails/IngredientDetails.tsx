@@ -1,15 +1,15 @@
 import ingredientDetailsStyles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useAppSelector } from "../../utils/hooks";
+import { useParams } from "react-router-dom";
 import { FC } from "react";
-import { TIngredientDetailsWithOut, TIngredient } from "../../utils/types";
+import {
+  TIngredientDetailsWithOut,
+} from "../../utils/types/types";
 
-const IngredientDetails: FC<{withoutModal?: string}> = ({
-  withoutModal
+const IngredientDetails: FC<{ withoutModal?: string }> = ({
+  withoutModal,
 }: TIngredientDetailsWithOut) => {
-  const history = useHistory();
-  const { ingredients } = useSelector((state: any) => state.ingredientReducers);
+  const { ingredients } = useAppSelector((store) => store.ingredientReducers);
   const { ingredientId } = useParams<{ ingredientId: string }>();
 
   const stylesConainer = withoutModal
@@ -17,8 +17,11 @@ const IngredientDetails: FC<{withoutModal?: string}> = ({
     : ingredientDetailsStyles.container;
 
   if (ingredients && ingredients.length > 0) {
-    const { calories, carbohydrates, image_large, name, proteins, fat } =
-      ingredients.find((i: TIngredient) => i._id === ingredientId);
+    let calories, carbohydrates, image_large, name, proteins, fat;
+    const result = ingredients.find((i) => i._id === ingredientId);
+    if (result !== undefined) {
+      ({calories, carbohydrates, image_large, name, proteins, fat} = result);
+    }
     return (
       <div className={stylesConainer}>
         {withoutModal && (
@@ -74,9 +77,5 @@ const IngredientDetails: FC<{withoutModal?: string}> = ({
     return <p style={{ color: "white" }}>Waiting...</p>;
   }
 };
-
-// IngredientDetails.propTypes = {
-//   withoutModal: PropTypes.string,
-// };
 
 export default IngredientDetails;
