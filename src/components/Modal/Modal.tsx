@@ -5,18 +5,8 @@ import modaleStyles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { buttonEscape, modalRoot } from "../../utils/constans";
 import { TModal } from "../../utils/types/types";
-import { useLocation, useParams } from "react-router-dom";
-import { useAppSelector } from "../../utils/hooks";
-import { addZero } from "../../utils/utils";
 
 const Modal: FC<TModal> = ({ closeModal, title, children, stateHeader }) => {
-  // const location = useLocation();
-  // const { orders } = useAppSelector((store) => store.wsReducer);
-  // const { myOrders } = useAppSelector((store) => store.wsReducerMy);
-  // const { id } = useParams<{ id: string }>();
-  // const order = location.pathname.includes("/profile/orders/")
-  //   ? myOrders.find((i) => i._id === id)
-  //   : orders.find((i) => i._id === id);
 
   //закрытие попапа на кнопку Esc
   useEffect(() => {
