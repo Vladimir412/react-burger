@@ -1,0 +1,73 @@
+.container_type_feed {
+    width: 100%;
+    max-width: 540px;
+    min-height: 214px;
+    background: #1C1C21;
+    border-radius: 40px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-bottom: 16px;
+}
+
+.container_type_order {
+    composes: container_type_feed;
+    max-width: 800px;
+    min-height: 250px;
+}
+
+.container__order {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+.time {
+    width: max-content;
+    
+}
+
+.container__title {
+    width: 100%;
+    margin-top: 25px;
+}
+
+.status {
+    margin-top: 6px;
+}
+
+.status_type_done {
+    composes: status;
+    color: #00CCCC;
+}
+
+.status_type_other {
+    composes: status;
+    color: #F2F2F3;
+}
+
+.images {
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+    width: 400px;
+    height: 64px;
+    padding: 0;
+    list-style: none;
+}
+
+.container__info {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+.price {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}

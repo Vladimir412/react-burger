@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 605px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.image {
+    width: 64px;
+    height: 64px;
+}
+
+.title {
+    width: 100%;
+    max-width: 320px;
+    min-height: 24px;
+}
+
+.price {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.quantity {
+    width: max-content
+}

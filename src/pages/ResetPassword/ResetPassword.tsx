@@ -1,5 +1,5 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { resetPasswordUser } from "../../services/actions/auth";
 import resetPasswordStyles from "./ResetPassword.module.css";
@@ -7,14 +7,18 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TLocation, TResetPassword } from '../../utils/types'
+import { TLocation, TResetPassword } from "../../utils/types/types";
+
 /* @ts-ignore */
 const ResetPassword: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location: TLocation = useLocation();
-  const [inputs, setInputs] = useState<TResetPassword>({ password: "", token: "" });
-  const { isLogged } = useSelector((state: any) => state.authReducer);
+  const [inputs, setInputs] = useState<TResetPassword>({
+    password: "",
+    token: "",
+  });
+  const { isLogged } = useAppSelector((store) => store.authReducer);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -65,10 +69,7 @@ const ResetPassword: FC = () => {
             />
           </div>
           <div className={resetPasswordStyles.buttonSubmit}>
-            <Button
-              size="medium"
-              disabled={disabledButton}
-            >
+            <Button size="medium" disabled={disabledButton}>
               Сохранить
             </Button>
           </div>

@@ -3,26 +3,26 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import itemBurgerConstructorStyles from "./ItemBurgerConstructor.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../utils/hooks";
 import { removeIngredientInConstructor } from "../../services/actions/actions";
 import { useDrag, useDrop, DropTargetMonitor, XYCoord } from "react-dnd";
 import { useRef } from "react";
-import { FC } from 'react'
-import { IItemBurgerConstructor, TIngredientDetails } from '../../utils/types'
+import { FC } from "react";
+import { IItemBurgerConstructor } from "../../utils/types/types";
 
 const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
   const { dragId, moveItem, index } = props;
 
-  const { ingredientsInConstructor } = useSelector(
-    (state: any) => state.ingredientReducers
+  const { ingredientsInConstructor } = useAppSelector(
+    (store) => store.ingredientReducers
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLLIElement | null>(null);
   const [, dropRef] = useDrop({
     accept: "item",
-    hover: (item: {index: number}, monitor: DropTargetMonitor) => {      
+    hover: (item: { index: number }, monitor: DropTargetMonitor) => {
       if (!ref.current) {
         return;
       }
@@ -34,7 +34,7 @@ const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();      
+      const clientOffset = monitor.getClientOffset();
       const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -56,9 +56,11 @@ const ItemBurgerConstructor: FC<IItemBurgerConstructor> = (props) => {
   });
 
   const handleDelete = (): void => {
-    let item = ingredientsInConstructor.filter((i: TIngredientDetails) => {
+    let item = ingredientsInConstructor.filter((i) => {
       return i.dragId !== props.dragId;
     });
+    console.log(item);
+
     /* @ts-ignore */
     dispatch(removeIngredientInConstructor(item));
   };

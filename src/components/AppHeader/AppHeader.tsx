@@ -23,12 +23,19 @@ const AppHeader = () => {
               <p className="text text_type_main-default ml-2">Конструктор</p>
             </li>
           </NavLink>
+          <NavLink
+            to="/feed"
+            exact
+            className={`${headerStyles.navLink} text text_color_inactive`}
+            activeClassName={headerStyles.navLink_type_active}
+          >
           <li className={`${headerStyles.item}`}>
             <ListIcon type="primary" />
-            <p className="text text_type_main-default text_color_inactive ml-2">
+            <p className="text text_type_main-default ml-2">
               Лента заказов
             </p>
           </li>
+          </NavLink>
         </ul>
         <div className={headerStyles.logo__container}>
           <Logo />

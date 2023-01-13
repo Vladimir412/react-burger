@@ -1,25 +1,34 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
-import { TRegister } from './types'
+import {
+  TRegister,
+  TLogin,
+  TResponseRegisterAndLogin,
+  TRecoveryPasswordAndResetPasswordAndLogout,
+  TUpdateToken,
+  TGetAndUpdateInfoUser,
+} from "./types/types";
 
-export const signUp = (email: string, password: string, name: string) => {
+export const signUp = ({ email, password, name }: TRegister) => {
   return fetch(`${baseUrl}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password, name }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TResponseRegisterAndLogin>(res));
 };
 
-export const signIn = (email: string, password: string) => {
+export const signIn = ({ email, password }: TLogin) => {
+  console.log(email, password);
+
   return fetch(`${baseUrl}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TResponseRegisterAndLogin>(res));
 };
 
 export const recoveryPassword = (email: string) => {
@@ -29,7 +38,9 @@ export const recoveryPassword = (email: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email }),
-  }).then(checkResponse);
+  }).then((res) =>
+    checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res)
+  );
 };
 
 export const resetPassword = (password: string, token: string) => {
@@ -39,7 +50,9 @@ export const resetPassword = (password: string, token: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, token }),
-  }).then(checkResponse);
+  }).then((res) =>
+    checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res)
+  );
 };
 
 export const logOut = (refreshToken: string) => {
@@ -49,7 +62,9 @@ export const logOut = (refreshToken: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ token: refreshToken }),
-  }).then(checkResponse);
+  }).then((res) =>
+    checkResponse<TRecoveryPasswordAndResetPasswordAndLogout>(res)
+  );
 };
 
 export const getInfoUser = (accessToken: string) => {
@@ -58,10 +73,15 @@ export const getInfoUser = (accessToken: string) => {
       "Content-Type": "application/json",
       authorization: accessToken,
     },
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TGetAndUpdateInfoUser>(res));
 };
 
-export const updateInfoUser = ({ name, email, password, accessToken }: TRegister & {accessToken: string}) => {
+export const updateInfoUser = ({
+  name,
+  email,
+  password,
+  accessToken,
+}: TRegister & { accessToken: string }) => {
   return fetch(`${baseUrl}/auth/user`, {
     method: "PATCH",
     headers: {
@@ -69,7 +89,7 @@ export const updateInfoUser = ({ name, email, password, accessToken }: TRegister
       authorization: accessToken,
     },
     body: JSON.stringify({ name, email, password }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TGetAndUpdateInfoUser>(res));
 };
 
 export const updateToken = () => {
@@ -78,6 +98,6 @@ export const updateToken = () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({token: localStorage.getItem('refreshToken')}),
-  }).then(checkResponse);
+    body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+  }).then((res) => checkResponse<TUpdateToken>(res));
 };

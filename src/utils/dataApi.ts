@@ -1,14 +1,22 @@
 import { baseUrl } from "./constans";
 import { checkResponse } from "./utils";
-import { TIngredientDetails } from './types'
+import {
+  TIngredientDetails,
+  TIngredient,
+  TResponseGetData,
+  TResponseSentDataIngredients,
+} from "./types/types";
 
 export const getData = () => {
-  return fetch(`${baseUrl}/ingredients`)
-    .then(checkResponse)
-    .then((res) => res.data);
+  return fetch(`${baseUrl}/ingredients`).then((res) =>
+    checkResponse<TResponseGetData<TIngredient>>(res)
+  );
 };
 
-export const sentDataIngredients = (arr: Array<TIngredientDetails>, accessToken: string) => {
+export const sentDataIngredients = (
+  arr: Array<TIngredientDetails>,
+  accessToken: string
+) => {
   return fetch(`${baseUrl}/orders`, {
     method: "POST",
     headers: {
@@ -18,6 +26,5 @@ export const sentDataIngredients = (arr: Array<TIngredientDetails>, accessToken:
     body: JSON.stringify({
       ingredients: arr,
     }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TResponseSentDataIngredients>(res));
 };
-

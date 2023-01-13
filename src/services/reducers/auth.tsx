@@ -6,7 +6,6 @@ import {
   loginUserItemRequest,
   loginUserItemSuccess,
   loginUserItemFailed,
-  loginUserItemRedirect,
   resetPasswordUserItemRequest,
   resetPasswordUserItemSuccess,
   resetPasswordUserItemFailed,
@@ -18,9 +17,16 @@ import {
   upadateUserItemSuccess,
   upadateUserItemFailed,
 } from "../actions/auth";
-import { updateTokenUser } from '../actions/userInfo'
+import { updateTokenUser } from "../actions/userInfo";
 
-const authInitialState = {
+type TAuthInitialState = {
+  isLoading: boolean;
+  isError: boolean;
+  accessToken: string;
+  isLogged: boolean;
+};
+
+const authInitialState: TAuthInitialState = {
   isLoading: false,
   isError: false,
   accessToken: "",
@@ -28,35 +34,35 @@ const authInitialState = {
 };
 
 export default createReducer(authInitialState, {
-  [registerUserItemSuccess]: (state, action) => {
+  [registerUserItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
       accessToken: action.payload.accessToken,
     };
   },
-  [registerUserItemRequest]: (state) => {
+  [registerUserItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [registerUserItemFailed]: (state) => {
+  [registerUserItemFailed.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [loginUserItemRequest]: (state) => {
+  [loginUserItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [loginUserItemSuccess]: (state, action) => {
+  [loginUserItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -64,47 +70,47 @@ export default createReducer(authInitialState, {
       accessToken: action.payload.accessToken,
     };
   },
-  [loginUserItemFailed]: (state) => {
+  [loginUserItemFailed.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [resetPasswordUserItemRequest]: (state, action) => {
+  [resetPasswordUserItemRequest.type]: (state, action) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [resetPasswordUserItemSuccess]: (state) => {
+  [resetPasswordUserItemSuccess.type]: (state) => {
     return {
       ...state,
       isLoading: false,
     };
   },
-  [resetPasswordUserItemFailed]: (state) => {
+  [resetPasswordUserItemFailed.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [forgotPassworUser]: (state, action) => {
+  [forgotPassworUser.type]: (state, action) => {
     return {
       ...state,
       accessToken: action.token,
     };
   },
-  [logOutItemRequest]: (state) => {
+  [logOutItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [logOutItemSuccess]: (state) => {
+  [logOutItemSuccess.type]: (state) => {
     return {
       isLoading: false,
       isError: false,
@@ -112,39 +118,39 @@ export default createReducer(authInitialState, {
       accessToken: "",
     };
   },
-  [logOutItemFailed]: (state) => {
+  [logOutItemFailed.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [upadateUserItemRequest]: (state) => {
+  [upadateUserItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
       isError: false,
     };
   },
-  [upadateUserItemSuccess]: (state, action) => {
+  [upadateUserItemSuccess.type]: (state, action) => {
     return {
       ...state,
       isLoading: false,
       accessToken: action.payload.accessToken,
     };
   },
-  [upadateUserItemFailed]: (state) => {
+  [upadateUserItemFailed.type]: (state) => {
     return {
       ...state,
       isLoading: false,
       isError: true,
     };
   },
-  [updateTokenUser]: (state, action) => {
+  [updateTokenUser.type]: (state, action) => {
     return {
       ...state,
-      accessToken: action.payload.accessToken
-    }
+      accessToken: action.payload.accessToken,
+    };
   },
   default: (state) => state,
 });
