@@ -20,7 +20,6 @@ import { Location } from "history";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { wsUrl } from "../../utils/constans";
 import Preloader from "../Preloader/Preloader";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const OrderInformation: FC<{
   withoutModal?: string;
