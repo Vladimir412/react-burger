@@ -1,16 +1,18 @@
-import reducer from './wsReducerMy'
-import * as types from '../actions/wsActionMyTypes';
+import reducer from './wsReducer'
+import * as types from '../actions/wsActionTypes'
 import {
     returnActionAndPayload
-} from '../../utils/utils';
+} from '../../utils/utils'
 
-describe('wsReduserMy reducer', () => {
+describe('wsReduser reducer', () => {
+
     it('should return the initial state', () => {
         expect(reducer(undefined, {})).toEqual({
             wsConnected: false,
-            myOrders: [],
+            orders: [],
             total: 0,
             totalToday: 0,
+            numberOrder: "",
         })
     })
 
@@ -18,64 +20,67 @@ describe('wsReduserMy reducer', () => {
 
         const beforeState = {
             wsConnected: false,
-            myOrders: [],
+            orders: [],
             total: 0,
             totalToday: 0,
+            numberOrder: "",
         }
 
         const action = returnActionAndPayload(types.wsConnectSuccess)
 
         expect(reducer(beforeState, action)).toEqual({
             ...beforeState,
-            error: undefined,
             wsConnected: true,
+            error: undefined,
         })
     })
 
     it('should get data', () => {
 
-        const stateBefore = {
+        const beforeState = {
             wsConnected: true,
-            myOrders: [],
+            orders: [],
             total: 0,
             totalToday: 0,
+            numberOrder: "",
         }
 
         const payload = {
             orders: [1, 2, 3],
-            total: 1,
-            totalToday: 2,
+            total: 645,
+            totalToday: 51,
         }
 
         const action = returnActionAndPayload(types.wsGetData, payload)
 
-        expect(reducer(stateBefore, action)).toEqual({
-            ...stateBefore,
-            myOrders: [...action.payload.orders],
+        expect(reducer(beforeState, action)).toEqual({
+            ...beforeState,
+            error: undefined,
+            orders: action.payload.orders,
             total: action.payload.total,
             totalToday: action.payload.totalToday,
-            error: undefined
         })
     })
 
     it('should error connection', () => {
+
         const beforeState = {
             wsConnected: true,
-            myOrders: [],
+            orders: [],
             total: 0,
             totalToday: 0,
+            numberOrder: "",
         }
 
         const action = {
             type: types.wsConnectError.type,
             payload: "error"
         }
+
         expect(reducer(beforeState, action)).toEqual({
+            ...beforeState,
+            error: action.payload,
             wsConnected: false,
-            myOrders: [],
-            total: 0,
-            totalToday: 0,
-            error: action.payload
         })
     })
 
@@ -83,17 +88,18 @@ describe('wsReduserMy reducer', () => {
 
         const beforeState = {
             wsConnected: true,
-            myOrders: [1, 2, 3],
-            total: 33,
-            totalToday: 2,
+            orders: [1, 2, 3],
+            total: 645,
+            totalToday: 51,
+            numberOrder: "",
         }
 
         const action = returnActionAndPayload(types.wsConnectClosed)
 
         expect(reducer(beforeState, action)).toEqual({
             ...beforeState,
+            error: undefined,
             wsConnected: false,
-            error: undefined
         })
     })
 })

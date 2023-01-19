@@ -131,7 +131,7 @@ const BurgerConstructor: FC = () => {
   return (
     <section>
       <ul className={burgerConstructor.container}>
-        <div className={burgerConstructor.containerOutside} ref={dropBunRef}>
+        <div id="top-bun" className={burgerConstructor.containerOutside} ref={dropBunRef}>
           {itemBunTop}
         </div>
         <ListItemBurgerConstructor />

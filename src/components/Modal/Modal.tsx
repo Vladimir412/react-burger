@@ -7,7 +7,6 @@ import { buttonEscape, modalRoot } from "../../utils/constans";
 import { TModal } from "../../utils/types/types";
 
 const Modal: FC<TModal> = ({ closeModal, title, children, stateHeader }) => {
-
   //закрытие попапа на кнопку Esc
   useEffect(() => {
     const closeOnEscape = (e: KeyboardEvent) => {
@@ -42,15 +41,17 @@ const Modal: FC<TModal> = ({ closeModal, title, children, stateHeader }) => {
       <div className={typeContainer}>
         {stateHeader && (
           <header className={typeHeader}>
-            <h1 className={`text text_type_main-large ${modaleStyles.title}`}>{title}</h1>
+            <h1 className={`text text_type_main-large ${modaleStyles.title}`}>
+              {title}
+            </h1>
             <button onClick={onCloseModal} className={modaleStyles.closeButton}>
               <CloseIcon type={"secondary"} />
             </button>
           </header>
         )}
-            <button onClick={onCloseModal} className={modaleStyles.closeButton}>
-              <CloseIcon type={"secondary"} />
-            </button>
+        {!stateHeader && (<button onClick={onCloseModal} type="button" className={modaleStyles.closeButton}>
+          <CloseIcon type={"secondary"} />
+        </button>)}
         {children}
       </div>
     </>,

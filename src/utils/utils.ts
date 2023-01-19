@@ -72,3 +72,17 @@ export const identityStatus = (status: string) => {
     return "Создан";
   }
 };
+
+
+export const returnActionAndPayload = (action: { type: string }, payload: any) => {
+  if (payload) {
+    return {
+      type: action,
+      payload: payload,
+    }
+  } else {
+    return {
+      type: action,
+    }
+  }
+}

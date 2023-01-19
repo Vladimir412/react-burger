@@ -17,7 +17,6 @@ import {
   upadateUserItemSuccess,
   upadateUserItemFailed,
 } from "../actions/auth";
-import { updateTokenUser } from "../actions/userInfo";
 
 type TAuthInitialState = {
   isLoading: boolean;
@@ -77,7 +76,7 @@ export default createReducer(authInitialState, {
       isError: true,
     };
   },
-  [resetPasswordUserItemRequest.type]: (state, action) => {
+  [resetPasswordUserItemRequest.type]: (state) => {
     return {
       ...state,
       isLoading: true,
@@ -144,12 +143,6 @@ export default createReducer(authInitialState, {
       ...state,
       isLoading: false,
       isError: true,
-    };
-  },
-  [updateTokenUser.type]: (state, action) => {
-    return {
-      ...state,
-      accessToken: action.payload.accessToken,
     };
   },
   default: (state) => state,
