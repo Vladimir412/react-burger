@@ -19,10 +19,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    // "types": ["cypress"]
   },
   "include": [
     "src",
-    // "**/*.ts"
+    "cypress/e2e/constructor.spec.js"
   ],
 }

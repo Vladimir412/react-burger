@@ -44,12 +44,12 @@ const Modal: FC<TModal> = ({ closeModal, title, children, stateHeader }) => {
             <h1 className={`text text_type_main-large ${modaleStyles.title}`}>
               {title}
             </h1>
-            <button onClick={onCloseModal} className={modaleStyles.closeButton}>
+            <button name="close-modal" onClick={onCloseModal} className={modaleStyles.closeButton}>
               <CloseIcon type={"secondary"} />
             </button>
           </header>
         )}
-        {!stateHeader && (<button onClick={onCloseModal} type="button" className={modaleStyles.closeButton}>
+        {!stateHeader && (<button onClick={onCloseModal} name="close-modal" className={modaleStyles.closeButton}>
           <CloseIcon type={"secondary"} />
         </button>)}
         {children}
