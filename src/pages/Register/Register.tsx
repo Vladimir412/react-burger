@@ -68,7 +68,7 @@ const Register: FC = () => {
           />
         </div>
         <div className={registerStyles.buttonSubmit}>
-          <Button size="large" htmlType={"button"}>
+          <Button size="large" htmlType={"submit"}>
             Зарегистрироваться
           </Button>
         </div>

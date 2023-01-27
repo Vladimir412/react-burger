@@ -63,7 +63,7 @@ const Login: FC = () => {
           />
         </div>
         <div className={loginStyles.buttonSubmit}>
-          <Button size="large" disabled={disabledButton} htmlType={"button"}>
+          <Button size="large" disabled={disabledButton} htmlType={"submit"}>
             Войти
           </Button>
         </div>
