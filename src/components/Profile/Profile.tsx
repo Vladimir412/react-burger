@@ -163,7 +163,12 @@ const Profile: FC = () => {
           >
             Отмена
           </button>
-          <Button type="primary" size="small" disabled={disabledButton}>
+          <Button
+            type="primary"
+            size="small"
+            disabled={disabledButton}
+            htmlType={"button"}
+          >
             {isLoading ? "Сохранение..." : "Сохранить"}
           </Button>
         </div>

@@ -69,7 +69,7 @@ const ResetPassword: FC = () => {
             />
           </div>
           <div className={resetPasswordStyles.buttonSubmit}>
-            <Button size="medium" disabled={disabledButton}>
+            <Button size="medium" disabled={disabledButton} htmlType={"button"}>
               Сохранить
             </Button>
           </div>
