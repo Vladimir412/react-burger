@@ -1,7 +1,7 @@
 # Проект Stellar Burger
 
 ## Посмотреть проект
-Для просмотра проекта перейдите по [ссылке](https://react-burger-1nz6otrfx-vladimir412.vercel.app/)
+Для просмотра проекта перейдите по [ссылке](https://react-burger-livid.vercel.app/)
 
 ## О Проекте
 
