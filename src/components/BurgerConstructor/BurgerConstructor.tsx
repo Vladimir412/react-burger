@@ -15,13 +15,14 @@ import { v4 as uuidv4 } from "uuid";
 import ListItemBurgerConstructor from "../ListItemBurgerConstructor/ListItemBurgerConstructor";
 
 const BurgerConstructor: FC = () => {
-  
   const { ingredientsInConstructor, isLoading } = useAppSelector(
     (state) => state.ingredientReducers
   );
-  const { isLogged, accessToken } = useAppSelector((store) => store.authReducer);
+  const { isLogged, accessToken } = useAppSelector(
+    (store) => store.authReducer
+  );
   const history = useHistory();
-  const location = useLocation<string>()
+  const location = useLocation<string>();
   const dispatch = useAppDispatch();
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -31,13 +32,16 @@ const BurgerConstructor: FC = () => {
       handleDrop(data);
     },
   });
-  
+
   const handleDrop = (data: TIngredientDetails): void => {
     if (ingredientsInConstructor && ingredientsInConstructor.length > 0) {
       {/* @ts-ignore */}
-      dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },]));
+      dispatch(addIngredientInConstructor([...ingredientsInConstructor,{ ...data, dragId: uuidv4() },])
+      );
     } else {
-      {/* @ts-ignore */}
+      {
+        /* @ts-ignore */
+      }
       dispatch(addIngredientInConstructor([{ ...data, dragId: uuidv4() }]));
     }
   };
@@ -92,7 +96,7 @@ const BurgerConstructor: FC = () => {
   useEffect(() => {
     let total = 0;
     ingredientsInConstructor &&
-      ingredientsInConstructor.forEach((item) => {        
+      ingredientsInConstructor.forEach((item) => {
         total += item.price;
       });
     if (itemBun && itemBun.length > 0) total += itemBun[0].price;
@@ -109,8 +113,11 @@ const BurgerConstructor: FC = () => {
   }, [itemBun]);
 
   const openModalOrder = (orderId: string): void => {
-    history.push({pathname: `/orders/${orderId}`, state: { background: location },})
-  }
+    history.push({
+      pathname: `/orders/${orderId}`,
+      state: { background: location },
+    });
+  };
 
   const handleSentData = (): void => {
     if (!isLogged) {
@@ -131,7 +138,11 @@ const BurgerConstructor: FC = () => {
   return (
     <section>
       <ul className={burgerConstructor.container}>
-        <div className={burgerConstructor.containerOutside} ref={dropBunRef}>
+        <div
+          id="top-bun"
+          className={burgerConstructor.containerOutside}
+          ref={dropBunRef}
+        >
           {itemBunTop}
         </div>
         <ListItemBurgerConstructor />
@@ -149,6 +160,7 @@ const BurgerConstructor: FC = () => {
           size="large"
           onClick={handleSentData}
           disabled={stateButton}
+          htmlType={"button"}
         >
           {isLoading ? "Оформляем заказ..." : "Оформить заказ"}
         </Button>

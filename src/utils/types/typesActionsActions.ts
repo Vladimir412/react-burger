@@ -1,5 +1,5 @@
 import {
-  getIngredientsForConstructor,
+  // getIngredientsForConstructor,
   addIngredientInConstructor,
   removeIngredientInConstructor,
   getIngredientsItemRequest,
@@ -11,9 +11,9 @@ import {
 } from "../../services/actions/actions";
 import { TIngredient, TIngredientDetails, TGetAndUpdateOrders } from "./types";
 
-type TGetIngredientsForConstructor = {
-  type: typeof getIngredientsForConstructor;
-};
+// type TGetIngredientsForConstructor = {
+//   type: typeof getIngredientsForConstructor;
+// };
 
 type TAddIngredientInConstructor = {
   type: typeof addIngredientInConstructor;
@@ -51,7 +51,7 @@ type TGetAndUpdateNumberOrderItemError = {
 };
 
 export type TActionsActions =
-  | TGetIngredientsForConstructor
+  // | TGetIngredientsForConstructor
   | TAddIngredientInConstructor
   | TRemoveIngredientInConstructor
   | TGetIngredientsItemRequest

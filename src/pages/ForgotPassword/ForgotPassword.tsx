@@ -53,7 +53,7 @@ const ForgotPassword: FC = () => {
           />
         </div>
         <div className={forgotPasswordStyles.buttonSubmit}>
-          <Button size="medium" disabled={disabledButton}>
+          <Button size="medium" disabled={disabledButton} htmlType={"submit"}>
             Восстановить
           </Button>
         </div>

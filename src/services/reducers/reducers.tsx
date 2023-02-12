@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
-  getIngredientsForConstructor,
+  // getIngredientsForConstructor,
   addIngredientInConstructor,
   removeIngredientInConstructor,
   getIngredientsItemRequest,
@@ -9,10 +9,6 @@ import {
   getAndUpdateNumberOrderItemRequest,
   getAndUpdateNumberOrderItemSuccess,
   getAndUpdateNumberOrderItemError,
-  modalOrderItemOpen,
-  modalOrderItemClosed,
-  modalIngredientItemOpen,
-  modalIngredientItemClosed,
 } from "../actions/actions";
 import {
   TIngredient,
@@ -26,7 +22,6 @@ type TInitialState = {
   order: TGetAndUpdateOrders;
   isLoading: boolean;
   isError: boolean;
-  isModalOrder: boolean;
 };
 
 const initialState: TInitialState = {
@@ -54,13 +49,12 @@ const initialState: TInitialState = {
   },
   isLoading: false,
   isError: false,
-  isModalOrder: false,
 };
 
 export default createReducer(initialState, {
-  [getIngredientsForConstructor.type]: (state, action) => {
-    state.ingredientsInConstructor = action.payload;
-  },
+  // [getIngredientsForConstructor.type]: (state, action) => {
+  //   state.ingredientsInConstructor = action.payload;
+  // },
   [addIngredientInConstructor.type]: (state, action) => {
     state.ingredientsInConstructor = action.payload;
   },
@@ -107,30 +101,6 @@ export default createReducer(initialState, {
       ...state,
       isLoading: false,
       isError: true,
-    };
-  },
-  [modalOrderItemOpen.type]: (state, action) => {
-    return {
-      ...state,
-      isModalOrder: action.payload,
-    };
-  },
-  [modalOrderItemClosed.type]: (state, action) => {
-    return {
-      ...state,
-      isModalOrder: action.payload,
-    };
-  },
-  [modalIngredientItemOpen.type]: (state, action) => {
-    return {
-      ...state,
-      isModalIngredient: action.payload,
-    };
-  },
-  [modalIngredientItemClosed.type]: (state, action) => {
-    return {
-      ...state,
-      isModalIngredient: action.payload,
     };
   },
   default: (state) => state,

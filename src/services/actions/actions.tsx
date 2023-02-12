@@ -7,9 +7,9 @@ import {
   TGetAndUpdateOrders,
 } from "../../utils/types/types";
 
-export const getIngredientsForConstructor = createAction(
-  "GET_INGREDIENTS_FOR_CONSTRUCTOR"
-);
+// export const getIngredientsForConstructor = createAction(
+//   "GET_INGREDIENTS_FOR_CONSTRUCTOR"
+// );
 export const addIngredientInConstructor = createAction<
   Array<TIngredientDetails>,
   "ADD_INGREDIENT_IN_CONSTRUCTOR"
@@ -40,16 +40,6 @@ export const getAndUpdateNumberOrderItemError = createAction(
   "GET_AND_UPDATE_NUMBER_ORDER_ERROR"
 );
 
-export const modalOrderItemOpen = createAction("MODAL_ORDER_ITEM_OPEN");
-export const modalOrderItemClosed = createAction("MODAL_ORDER_ITEM_CLOSED");
-
-export const modalIngredientItemOpen = createAction(
-  "MODAL_INGREDIENT_ITEM_OPEN"
-);
-export const modalIngredientItemClosed = createAction(
-  "MODAL_INGREDIENT_ITEM_CLOSED"
-);
-
 export const getDataIngredients = () => {
   return function (dispatch: AppDispatch) {
     dispatch(getIngredientsItemRequest());
@@ -77,6 +67,8 @@ export const sentDataOrder = (
     sentDataIngredients(order, accessToken)
       .then((data) => {
         if (data) {
+          console.log(data);
+          
           dispatch(getAndUpdateNumberOrderItemSuccess(data));
           openModalOrder(data.order.number);
         } else {

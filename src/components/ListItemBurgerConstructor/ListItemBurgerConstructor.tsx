@@ -69,6 +69,7 @@ const ListItemBurgerConstructor: FC = () => {
     <div
       className={listItemBurgerConstructorStyles.containerInside}
       ref={dropIngredientRef}
+      id="main-ingredient"
     >
       {cards}
     </div>
